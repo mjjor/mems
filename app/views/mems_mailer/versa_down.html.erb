@@ -1,0 +1,19 @@
+<% 
+   if    @trans_code == 'VRS' then @requestor = ' Versa Table ' 
+   elsif @trans_code == 'OPA' then @requestor = ' Offline Panel Assembly '
+   elsif @trans_code == 'NCN' then @requestor = ' Nucon Rollformer '
+   elsif @trans_code == 'RLF' then @requestor = ' Roll Former ' 
+   else @requestor = ' Not sure who asked ' 
+   end 
+%>                
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+       <h2><%= @requestor %>operator has requested your assistance</h2>
+    <p>
+  </body>
+</html>

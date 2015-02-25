@@ -1,0 +1,17 @@
+<% @page_title = "Wall Panel Tracking" %>
+<% @previous_controller = 'wallpanel_assembly' %>
+<% @previous_action = 'index' %>
+<% @page_module = "production" %>
+
+<div class="panel tracking new">
+  <h2>Scan Panel</h2>
+
+  <%= form_for(:versa_table, :url => {:action => 'create'}) do |f| %>
+
+    <%= render(:partial => "scan_panel", :locals => {:f => f}) %>
+
+    <div class="form-buttons">
+      <%= submit_tag("Create Subject") %>
+    </div>
+
+  <% end %>

@@ -1,0 +1,29 @@
+<% @page_title = 'Roll Former QA Check' %>
+<% @previous_controller = 'rollform_production' %>
+<% @previous_action = 'index' %>
+<% @page_module = 'qa' %>
+<% @page_sub_module = 'rollform_qa' %>
+<% @page_access = 'rollform_qa_edit' %>
+
+<h4> Select Workorder, Profile and Piece Mark </h4> 
+<hr />
+ <%= form_for :member, url: {action: "new"}, html: {method: "get"} do |f| %>
+<table align=center summary="Profile QA Check" style = "background-color: #F5F5F5">
+<tr>
+  <td style = "background-color: #F5F5F5"><%= f.label(:pwo_header_id, "Work Order:")%></td>
+    <td>
+  <%= f.select :header_id, options_for_select(@pwo.collect { |workord| [workord.pwo_worderno, workord.id] }, 1), {} , { id: 'headers_select' } %>
+</td>  
+ <td style = "background-color: #F5F5F5"><%= f.label(:item_number, "Profile:") %></td>
+    <td>
+  <%= f.select :member_id, options_for_select(@profiles.collect { |pwo_lines| [pwo_lines.item_number, pwo_lines.id] } ,0), {}, { id: 'profiles_select' } %>
+ </td>
+  <td style = "background-color: #F5F5F5"><%= f.label(:piecemark,"Piecemark:")%></td>
+    <td> 
+  <%= f.select :pcemark_id, options_for_select(@pcemarks.collect { |pce_marks| [pce_marks.piecemark, pce_marks.id] } ,0), {}, { id: 'pcemarks_select' } %>
+  </td>
+</table>  
+<br />
+<br />
+  <%= f.submit "QA Check Form" %>
+  <% end %>

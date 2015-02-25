@@ -1,0 +1,25 @@
+<% provide @page_title => @project_name %>
+<% provide @previous_controller => "media" %>
+<% provide @previous_action => "index" %>
+<% provide @page_module => "media" %>
+<% provide @page_sub_module => "show" %>
+
+ <table width="80%" align="center"> 
+  <tr>
+    <td width="25%" align="center"> 
+      <%= link_to image_tag("Home-icon_30.png"), :controller => "mems_login", :action => "index", :method => :get%>
+    </td>
+    <td width ="25%" align="center">
+      <%= link_to image_tag("previous_menu_30.png"), :controller => "media", :action => "index", :method => :get%>
+    </td>
+    <td width="25%" align="center">
+      <%= link_to image_tag("logout_30.png"), :controller => "mems_login", :action => "logout", :method => :get%>
+    </td>  
+  </tr>
+</table>
+<hr>
+<h3><center><%= @media_name %></center></h3> 
+<hr>
+<%= video_tag @media_name, :size => "800x600", :controls => true, :loop => true, :autobuffer => true, :autoplay => true %>
+<hr>
+

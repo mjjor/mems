@@ -1,0 +1,31 @@
+<% @page_module = 'production' %>
+<% @page_sub_module = 'wallpanel' %>
+<% case @trans_code 
+      when "VRS" then @page_access = 'versa' 
+      when "OPA" then @page_access = 'offline_panel'
+      when "NCN" then @page_access = 'nucon' 
+   end %>
+
+<%= error_messages_for(@versatable) %>
+
+<table align=center > 
+  	<tr>
+    <th><%= f.label(:panellabel, "Panel Label") %></th>
+    <td><%= f.text_field(:panellabel) %> </td>
+        <%= f.hidden_field :trans_code, :value => @trans_code %>
+        <%= f.hidden_field :users_id, :value => session[:user_id] %>
+  </tr>
+</table>
+<!--
+<script type="text/javascript">
+window.onload = function() {
+  document.getElementById('wallpanel_tracking_panellabel').focus();
+}
+</script>
+{:tabindex => '1'}
+-->
+<script type="text/javascript">
+function setFocus(){
+document.getElementById("wallpanel_tracking_panellabel").focus();
+}
+</script>

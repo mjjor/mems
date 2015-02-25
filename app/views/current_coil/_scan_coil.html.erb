@@ -1,0 +1,39 @@
+<% @page_module = 'production' %>
+<% @page_sub_module = 'truss_coil_change' %>
+<% case @trans_code 
+      when "VRS" then @page_access = 'versa' 
+      when "OPA" then @page_access = 'offline_panel'
+      when "NCN" then @page_access = 'scan_truss' 
+   end %>
+
+<%= error_messages_for(@current_coil) %>
+
+<table align=center > 
+  	<tr>
+    <th><%= f.label(:lot, "Coil Label") %></th>
+    <td><%= f.text_field(:lot) %> </td>
+  </tr>
+  <tr>
+    <th><%= f.label(:coil_complete, "Return Previous to Inventory")%></th>
+    <td><%= f.check_box(:coil_complete)%></td>  
+  </tr>
+  <tr>
+  <th><%= f.label(:smartcard_reading, "Smart Card Reading") %></th>
+    <td><%= f.text_field(:smartcard_reading) %> </td>     
+        <%= f.hidden_field :station, :value => 3 %>
+  </tr>
+</table>
+
+<!--
+<script type="text/javascript">
+window.onload = function() {
+  document.getElementById('wallpanel_tracking_panellabel').focus();
+}
+</script>
+{:tabindex => '1'}
+-->
+<script type="text/javascript">
+function setFocus(){
+document.getElementById("truss_coil_change_coillabel").focus();
+}
+</script>

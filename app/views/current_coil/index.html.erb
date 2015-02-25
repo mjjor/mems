@@ -1,0 +1,40 @@
+<% @page_title = 'Truss Roll Former Coil Change' %>
+<% @previous_controller = 'truss_roll_forming' %>
+<% @previous_action = 'index' %>
+<% @page_module = 'production' %>
+<% @page_sub_module = 'truss_coil_change' %>
+<% @page_access = 'coil_change' %>
+
+
+
+<!--
+<script type="text/javascript">
+window.onload = function() {
+  document.getElementById('wallpanel_tracking_panellabel').focus();
+}
+</script>
+-->
+
+<div class="current_coil_new">
+  <h2>Coil ID</h2>
+  <%= form_for(@coil, :url => {:action => 'edit'}) do |f| %> 
+    
+    <%= render(:partial => "scan_coil", :locals => {:f => f}) %>
+    
+    <br>
+
+    <div class="form-buttons">
+      <%= submit_tag("Load Coil") %>
+    </div>
+
+    <div align="right" class="form-buttons">
+    <%= 
+ #  if @trans_code == 'NCN' then
+       link_to image_tag('send_message_120.png'), :controller => 'wallpanel_tracking', :action => 'send_ncn_notification'    
+        #tag(:br)
+        #link_to "Offline Assembly Stoppage", :controller => 'wallpanel_tracking', :action => 'send_opa_notification'
+    %>
+</div>
+<% end %>
+</div>
+

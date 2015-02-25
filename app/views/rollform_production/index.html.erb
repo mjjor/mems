@@ -1,0 +1,21 @@
+<% @page_title = "Roll Forming Production Menu" %>
+<% @previous_controller = 'production' %>
+<% @previous_action = 'index' %>
+<% @page_module = "production" %>
+<% @page_sub_module = "rollform" %>
+
+<%= link_to 'NuCon Truss Production', {:controller => 'truss_roll_forming', :action => 'index', :trans_code => 'NCN', :workstation => 3}  %>
+<br />
+<br />
+<%= link_to "Profile Quality Check Sheet", :controller => 'rollformer_qa_check', :action => 'index', :trans_code => "RLF", :workstation => 1 %>
+
+
+<!--
+<center>
+<h1> Coming Soon </h1>
+<hr>
+<%= image_tag('roll-forming_1_120.png')  %>
+<br/>
+<hr>
+</center>
+-->

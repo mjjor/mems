@@ -1,0 +1,3 @@
+class PwoPieceMarks < PwoLines
+
+end

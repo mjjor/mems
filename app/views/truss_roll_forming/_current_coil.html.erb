@@ -1,0 +1,44 @@
+<% @page_module = 'production' %>
+<% @page_sub_module = 'truss_rollformer' %>
+<% case @trans_code 
+      when "VRS" then @page_access = 'versa' 
+      when "OPA" then @page_access = 'offline_panel'
+      when "NCN" then @page_access = 'scan_truss' 
+   end %> 
+
+<%= error_messages_for(@current_coil) %>
+
+<table width = '25%' align=center style = "background-color: #FFFFFF", border = 1 >
+  <tr>
+      <th width = '33%' style = "background-color: #F5F5F5", align = center>Current Coil</th>
+      <th width = '33%' style = "background-color: #F5F5F5", align = center>Remaining Footage</th>
+      <th width = '33%' style = "background-color: #F5F5F5", align = center>Change Coil</th>
+  <tr> 
+  <tr>
+      <th width = '33%' style = "background-color: #F5F5F5", align = center>
+        <%= @lot.to_s %>
+      </th> 
+      <th width = '33%' style = "background-color: #F5F5F5", align = center>
+        <%= number_with_delimiter(@coilcurrqty) %>
+      </th>
+      <td width = '33%'style = "background-color: #F5F5F5", align = center> 
+        <%= link_to image_tag('change_60.png'), :controller => 'current_coil', :action => 'index' %>
+      </td> 
+
+ </tr>         
+</table>
+
+
+<!--
+<script type="text/javascript">
+window.onload = function() {
+  document.getElementById('wallpanel_tracking_panellabel').focus();
+}
+</script>
+{:tabindex => '1'}
+-->
+<script type="text/javascript">
+function setFocus(){
+document.getElementById("current_coil_current_coil").focus();
+}
+</script>

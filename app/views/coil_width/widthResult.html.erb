@@ -1,0 +1,28 @@
+<% @page_title = "Coil Width Calculator" %>
+<title> Coil Width Calculator </title>
+<div class="sections new">
+<!--
+	<table align="center">
+	<tr>	
+		<td wwht ><%= image_tag('magest_BlkWht_60x60_Icon.png') %></td>
+		<td><h3> Coil Width Calculator </h3></td>
+	</tr>
+</table>
+<hr />
+-->
+<table bgcolor = "#DCDCDC" align="center">
+	<tr>
+		<td width = '120' bgcolor = "#ffffff">&nbsp;</td>	
+  		<td width = '160' bgcolor = "#ffffff"><h3>Profile Dimensions</h3></td>
+	</tr>
+	</table>
+</div>
+
+<%= render(:partial => 'widthcalcformvalues') %>
+
+<hr>
+<hr>
+
+
+<%= render(:partial => 'widthcalcresults') %>
+

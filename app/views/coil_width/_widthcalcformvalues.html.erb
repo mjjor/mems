@@ -1,0 +1,18 @@
+<table bgcolor = "#ffffff" summary = "Width Calc Fields" align="center">
+	<tr >
+		<td width = '120' bgcolor = '#DCDCDC'>Thickness: </td>
+		<td width = '165' bgcolor = '#DCDCDC'><center><%= number_with_precision((params[:results][0].to_f), precision: 4) %></center></td>
+	</tr>
+	<tr>
+		<td width = '120' bgcolor = '#DCDCDC'>Web:       </td>
+		<td width = '165' bgcolor = '#DCDCDC'><center><%= number_with_precision((params[:results][1].to_f), precision: 4)  %></center></td>
+	</tr>
+	<tr>
+		<td width = '120' bgcolor = '#DCDCDC'>Leg/Flange:       </td>
+		<td width = '165' bgcolor = '#DCDCDC'><center><%= number_with_precision((params[:results][2].to_f), precision: 4) %></center</td>
+	</tr>
+	<tr>
+		<td width = '120' bgcolor = '#DCDCDC'>Return:    </td>
+		<td width = '165' bgcolor = '#DCDCDC'><center><%= number_with_precision((params[:results][3].to_f), precision: 4)  %></center></td>
+	</tr>
+</table>

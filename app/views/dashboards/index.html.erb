@@ -1,0 +1,93 @@
+<% @page_title = "Wall Panel Assembly Dashboard" %>
+<% @previous_controller = 'mems_login' %>
+<% @previous_action = 'index' %>
+<% @page_module = "dashboard" %>
+<% @page_sub_module = "wall_panel_dash" %>
+
+
+<META HTTP-EQUIV="refresh" CONTENT="1800">
+
+<script>
+  var Chartkick = {"language": "en"};
+</script>
+
+<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+
+<h1><centre>Previous 7 Days</center></h1>
+<hr>
+<br>
+<table align = 'center' width = '95%' = "background-color: #FFFFFF", border = 1 >
+  <tr>
+  <td width = '33%', align = 'center', style = "background-color: #eee">
+	<h3><center>Footage<br></h3><h6>&nbsp;(Total and Daily Avg exclude current day)<br></h6><h4>Total =&nbsp;<%= number_with_delimiter(@wtdfootage) %>&nbsp; Feet<br>Daily Avg = <%= number_with_delimiter(@avgwtdfootage) %>&nbsp; Feet</h4></center></h4>
+</td>
+<td width = '33%', align = 'center', style = "background-color: #eee">
+  <div>
+  <h3><center>Poundage <br></h3><h6>&nbsp;(Total and Daily Avg exclude current day)<br></h6><h4>Total = &nbsp;<%= number_with_delimiter(@wtdpoundage) %>&nbsp; Pounds<br>Daily Avg = <%= number_with_delimiter(@avgwtdpoundage) %>&nbsp; Pounds</center></h4>  
+  </td>
+<td width = '33%', align = 'center' , style = "background-color: #eee">
+  <h3><center>Units<br></h3><h6>&nbsp;(Total and Daily Avg exclude current day)<br></h6><h4>Total = &nbsp;<%= number_with_delimiter(@wtdpanelcount)%>&nbsp; Panels <br>Daily Avg = <%= number_with_delimiter(@avgwtdpanelcount)%>&nbsp; Panels</center></h4>
+</td>  
+</tr>
+<tr>
+<td width = '33%' align = 'center'>
+ <%= column_chart Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id`").group_by_day("`wallpanel_trackings`.`updated_at`", last: 8, format: "%d/%m").reverse_order.sum(:length), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+<!--
+  {vAxis: {title: "Day"}, hAxis: {title:  "Footage"}, 
+  <%= bar_chart Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < CURDATE()").group_by_day("`wallpanel_trackings`.`updated_at`").sum(:length), library: {backgroundColor: "#eee"}  %>
+-->  
+</td>
+<td width = '33%' align = 'center'>
+  <%= column_chart Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` ").group_by_day("`wallpanel_trackings`.`updated_at`", last: 8, format: "%d/%m").reverse_order.sum(:weight), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Pounds"}, discrete: true} %>
+<!--
+  AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < CURDATE()
+-->
+
+</td>
+<td width = '33%' align = 'center'>
+    <%= column_chart WallpanelTracking.group_by_day("`updated_at`", last: 8, format: "%d/%m").reverse_order.count, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Panels"}, discrete: true} %>
+    <!--
+    where("DATE(`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND DATE(`updated_at`) < CURDATE()")
+  -->
+ </td> 
+</tr>
+</table>
+<br />
+<hr>
+ <h1>Previous 30 Days</h1>
+ <hr>
+<br />
+<table align = 'center' width = '95%' = "background-color: #FFFFFF", border = 1 >
+<tr>
+  <td width = '33%', align = 'center', style = "background-color: #eee">
+    <h3><center>Footage<br></h3><h6>&nbsp;(Total and Daily Avg exclude current day)<br></h6><h4>Total = &nbsp; <%= number_with_delimiter(@mtdfootage)%> &nbsp; Feet<br>Daily Avg = <%= number_with_delimiter(@avgmtdfootage)%> &nbsp; Feet</h4>
+</td>
+<td width = '33%', align = 'center', style = "background-color: #eee">
+  <h3>Poundage<br></h3><h6>&nbsp;(Total and Daily Avg exclude current day)<br></h6><h4>Total = &nbsp;<%= number_with_delimiter(@mtdpoundage) %>&nbsp;Pounds<br>Daily Avg = <%= number_with_delimiter(@avgmtdpoundage) %>&nbsp;Pounds</h4>
+</td>
+<td width = '33%', align = 'center' , style = "background-color: #eee">
+<h3>Units<br></h3><h6>&nbsp;(Total and Daily Avg exclude current day)<br></h6><h4>Total = &nbsp; <%= number_with_delimiter(@mtdpanelcount) %>&nbsp;Panels<br>Daily Avg = <%= number_with_delimiter(@avgtmdpanelcount) %>  &nbsp; Panels</h4>
+</td>  
+</tr>
+<tr>
+  <td width = '33%' align = 'center'>
+<%= column_chart Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id`").group_by_day("`wallpanel_trackings`.`updated_at`", last: 31, format: "%d/%m").reverse_order.sum(:length), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},  discrete: true}  %>
+<!--
+AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < CURDATE()"
+  -->
+</td>
+<td width = '33%', align = 'center'>
+ <%= column_chart Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` ").group_by_day("`wallpanel_trackings`.`updated_at`", last: 31, format: "%d/%m").reverse_order.sum(:weight), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Pounds"},  discrete: true}%>
+ <!--
+AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < CURDATE()
+-->
+</td>
+<td width = '33%' align = 'center'>
+  <%= column_chart WallpanelTracking.group_by_day("`updated_at`", last: 31, format: "%d/%m").reverse_order.count, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Panels"}, discrete: true}%>
+  <!--
+.where("DATE(`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND DATE(`updated_at`) < CURDATE()")
+-->
+</td>
+</tr>
+</table>
+<hr>

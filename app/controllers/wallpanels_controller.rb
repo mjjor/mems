@@ -1,0 +1,3 @@
+class WallpanelsController < ApplicationController
+
+end

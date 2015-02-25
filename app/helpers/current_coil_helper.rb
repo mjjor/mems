@@ -1,0 +1,2 @@
+module CurrentCoilHelper
+end

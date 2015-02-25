@@ -1,0 +1,45 @@
+<% @page_title = 'Wall Panel Tracking' %>
+<% @previous_controller = 'wallpanel_production' %>
+<% @previous_action = 'index' %>
+<% @page_module = 'production' %>
+<% @page_sub_module = 'wallpanel' %>
+<% @page_access = 'panel_tracking' %>
+
+
+
+<!--
+<script type="text/javascript">
+window.onload = function() {
+  document.getElementById('wallpanel_tracking_panellabel').focus();
+}
+</script>
+-->
+
+<div class="panel tracking new">
+  <h2>Scan Panel</h2>
+  <%= form_for(@panel, :url => {:action => 'create'}) do |f| %>
+    
+    <%= render(:partial => "scan_panel", :locals => {:f => f}) %>
+    
+    <br>
+
+    <div class="form-buttons">
+      <%= submit_tag("Submit Panel") %>
+    </div>
+
+    <div align="right" class="form-buttons">
+    <%= 
+    if @trans_code == 'VRS' then 
+        link_to image_tag('send_message_120.png'), :controller => 'wallpanel_tracking', :action => 'send_vrs_notification'
+        #tag(:br)
+        #link_to "Versa Stoppage", :controller => 'wallpanel_tracking', :action => 'send_vrs_notification'    
+    elsif @trans_code == 'OPA' then
+        link_to image_tag('send_message_120.png'), :controller => 'wallpanel_tracking', :action => 'send_opa_notification'
+    elsif @trans_code == 'NCN' then
+        link_to image_tag('send_message_120.png'), :controller => 'wallpanel_tracking', :action => 'send_ncn_notification'    
+        #tag(:br)
+        #link_to "Offline Assembly Stoppage", :controller => 'wallpanel_tracking', :action => 'send_opa_notification'
+    end %>
+  </div>
+<% end %>
+</div>

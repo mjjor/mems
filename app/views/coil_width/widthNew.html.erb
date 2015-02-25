@@ -1,0 +1,48 @@
+<% @page_title = "Coil Width Calculator" %>
+
+<!--
+<table align="center">
+	<tr>	
+		<td><%= image_tag('magest_BlkWht_60x60_Icon.png') %></td>
+  		<th><h3>Coil Width Calculator</h3></th>
+	</tr>
+</table>
+<hr>
+<br />
+-->
+<!--
+<table bgcolor = "#D9D9D9" align="center">	
+-->	
+<table bgcolor = "#DCDCDC" align="center">	
+	<tr>	
+		<td width = "120" bgcolor = "#ffffff">&nbsp;</td>
+  		<th width = "165" bgcolor = "#ffffff"><h4>Profile Dimensions</h4></th>
+	</tr>
+</table>
+
+<%= form_tag('widthCalc') do |c| %>
+
+<%= render(:partial => 'widthinputsform', :locals => {:c => c}) %>
+
+<br />
+
+<table width = "285" align="center">
+	<tr>
+	<!--	<td width = "160">	-->
+			<td width="120">
+			<div>
+				&nbsp;
+			<!--	<%= link_to(image_tag("backtohome2-emboss.png"), {controller: "mems", action: "index", method: :get}) %>
+			-->
+			</div>
+		</td>
+	<!--	<td width = "100"> -->
+			<td width="165">
+			<div class = "button" >
+      			<%= submit_tag("Calculate") %>
+			</div>
+		</td>
+		</tr>
+		</table>	
+<hr>
+<% end %>

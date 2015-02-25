@@ -1,0 +1,2 @@
+module WallPanelAssemblyHelper
+end

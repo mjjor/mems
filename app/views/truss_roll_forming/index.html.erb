@@ -1,0 +1,45 @@
+<% @page_title = 'Truss Roll Forming' %>
+<% @previous_controller = 'rollform_production' %>
+<% @previous_action = 'index' %>
+<% @page_module = 'production' %>
+<% @page_sub_module = 'truss_rollformer' %>
+<% @page_access = 'truss_scan' %>
+
+
+
+<!--
+<script type="text/javascript">
+window.onload = function() {
+  document.getElementById('wallpanel_tracking_panellabel').focus();
+}
+</script>
+-->
+
+<div class="truss tracking new">
+  <h2>Truss ID</h2>
+  <%= form_for(@truss, :url => {:action => 'create'}) do |f| %>
+    
+    <%= render(:partial => "scan_truss", :locals => {:f => f}) %>
+    
+    <br>
+
+    <div class="form-buttons">
+      <%= submit_tag("Submit Truss") %>
+    </div>
+
+    <div align="right" class="form-buttons">
+    <%= 
+ #  if @trans_code == 'NCN' then
+       link_to image_tag('send_message_120.png'), :controller => 'wallpanel_tracking', :action => 'send_ncn_notification'    
+        #tag(:br)
+        #link_to "Offline Assembly Stoppage", :controller => 'wallpanel_tracking', :action => 'send_opa_notification'
+    %>
+    <br />
+    <br />
+    <hr>
+
+     <%= render(:partial => "current_coil", :locals => {:f => f}) %>
+
+     <hr>
+<% end %>
+

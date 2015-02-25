@@ -1,0 +1,49 @@
+<html>
+<%= favicon_link_tag 'magest16x16icon.png', rel: 'shortcut icon', type: 'image/png' %>
+
+    <title>MEMS | <%= @page_title %></title>
+    <%= stylesheet_link_tag('application', :media => 'all') %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body onload="setFocus();">
+<!--
+    <hr>
+<table width = "100%">
+<tr>
+<th>
+<div>
+   <%= link_to image_tag("tmgl_logo-4.png"), "http://magest.com", :target => "_blank" %>
+</div>
+</th>
+</tr>
+</table>
+<br />
+-->
+<hr>
+<div id = "header">
+<table align="center">
+  <tr>
+    <td><%= image_tag('magest_60x60_Icon.png') %></td>
+   <th> <h1>&emsp; <%= @page_title %></h1></th>
+   </tr>
+ </table>
+ <hr>
+</div>
+    <div id="main">
+      <% if !flash[:notice].blank? %>
+        <div class="notice">
+          <%= flash[:notice] %>
+          <hr>
+        </div>
+      <% end %>
+      <div id="content">
+        <%= yield %>
+      </div>
+    </div>
+    <div id="footer">
+      <h6>Logged in as: <%= session[:username] %></h6>
+      <p id="copyright">&copy; The MAGEST GROUP Ltd. / 2014 / Michael Jordan</p>
+    </div>
+  </body>
+</html>

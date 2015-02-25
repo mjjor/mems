@@ -1,0 +1,80 @@
+<% @page_title = "Main Menu" %>
+
+<%= @prev_module %>
+
+<br />
+  <table width="80%" align="center">
+    <td width="33%"; align="center">
+    <%= link_to image_tag("AP_60.png"), :controller => "accounts_payable", :action => "index", :method => :get%>
+    </td>
+    <td width="33%"; align="center">
+    <%= link_to image_tag("AR_60.png"), :controller => "accounts_receivable", :action => "index", :method => :get%>
+    </td>
+    <td width="33%"; align="center">
+    <%= link_to image_tag("GL_60.png"), :controller => "general_ledger", :action => "index", :method => :get%>
+    </td>
+  </tr>
+    <td width="33%" align="center"><h5>Accounts Payable</h4></td>
+    <td width="33%" align="center"><h5>Accounts Receivable</h4></td>
+    <td width="33%" align="center"><h5>General Ledger</h4></td>
+   </tr>
+ </table>
+   <hr>
+  <table width="80%" align="center">
+   <tr>   
+    <td width="33%"; align="center">
+    <%= link_to image_tag("OE_60.png"), :controller => "order_entry", :action => "index", :method => :get%>
+    </td>
+    <td width="33%"; align="center">
+    <%= link_to image_tag("PO_60.png"), :controller => "procurement", :action => "index", :method => :get%>
+    </td>
+    <td width="33%"; align="center">
+    <%= link_to image_tag("Production_60.png"), :controller => "production", :action => "index", :method => :get%>
+    </td>
+  <tr>
+    <td width="33%" align="center"><h5>Sales</h4></td>
+    <td width="33%" align="center"><h5>Procurement</h4></td>
+    <td width="33%" align="center"><h5>Production</h4></td>
+  </tr>    
+  </table>
+  <hr>
+  <table width="80%" align="center">
+    <tr>
+      <td width="33%"; align="center">
+      <%= link_to image_tag("video_icon60.png"), :controller => "media", :action => "index", :class => "button"  %> 
+      </td>
+       <td width="33%"; align="center">
+        <%= link_to image_tag("pm_60.png"), :controller => "project_management", :action => "index", :method => :get%>
+      </td>
+      <td width="33%"; align="center">
+      <%= link_to image_tag("dashboard2_60.png"), :controller => "dashboards", :action => "index", :method => :get %>  
+    </td>
+    </tr>
+    <tr>
+      <td width="33%" align="center"><h5>Site Media</h4></td>
+      <td width="33%" align="center"><h5>Projects</h4></td>
+      <td width="33%" align="center"><h5>Dashboards</h5></td>
+    </tr>
+  </table>
+  <hr>
+  <table width="80%" align="center">
+    <tr>
+      <td width="33%", align="center">
+      <%= link_to image_tag("Admin_60.png"), :controller => "admin", :action => "index", :method => :get%>
+      </td>
+      <td width="33%", align="center">
+      &nbsp;
+    </td>
+       <td width="33%", align="center">
+       <%= link_to image_tag("logout_60.png"), :controller => "mems_login", :action => "logout", :method => :get%> 
+      </td>
+      
+    </tr>
+<tr>
+     <td width="33%", align="center"><h5>Admin</h4></td>
+     <td width="33%", align="center"><h5>&nbsp;</h4></td>
+     <td width="33%", align="center"><h5>Logout</h5></td>
+</tr>
+  </table>
+</div>
+<hr>

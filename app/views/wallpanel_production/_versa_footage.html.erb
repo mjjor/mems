@@ -1,0 +1,105 @@
+
+<META HTTP-EQUIV="refresh" CONTENT="1800">
+
+<hr>
+<br />
+<table align=center style = "background-color: #FFFFFF", border = 1 >
+	<tr>
+		  <th width = '20%' style = "background-color: #F5F5F5", align = center>&nbsp;</th>
+		  <th width = '20%' style = "background-color: #F5F5F5", align = center>Current<br />Day</th>
+		  <th width = '20%' style = "background-color: #F5F5F5", align = center>Previous<br />Day</th>   
+		  <th width = '20%' style = "background-color: #F5F5F5", align = center>Previous<br />7 Days</th>
+		  <th width = '20%' style = "background-color: #F5F5F5", align = center>Previous<br />30 Days</th>
+	</tr>
+	<tr>
+      <th width = '20%' style = "background-color: #F5F5F5", align = center>Linear Footage</th>
+      <td width = '20%', align = center><%= number_with_delimiter(@dayfootage) %></td> 
+		  <td width = '20%', align = center><%= number_with_delimiter(@prevdayfootage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@wtdfootage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@mtdfootage) %></td>
+  	</tr>
+  	<tr>
+      <th width = '20%' style = "background-color: #F5F5F5", align = center>Square Footage</th>
+      <td width = '20%', align = center><%= number_with_delimiter(@daysqfootage) %></td> 
+		  <td width = '20%', align = center><%= number_with_delimiter(@prevdaysqfootage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@wtdsqfootage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@mtdsqfootage) %></td>
+  	</tr>
+  	<tr>
+      <th width = '20%' style = "background-color: #F5F5F5", align = center>Poundage</th>
+      <td width = '20%', align = center><%= number_with_delimiter(@daypoundage) %></td> 
+		  <td width = '20%', align = center><%= number_with_delimiter(@prevdaypoundage) %></td>
+      <td width = '20%', align = center><%= number_with_delimiter(@wtdpoundage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@mtdpoundage) %></td>
+  	</tr>
+  	<tr>
+      <th width = '20%' style = "background-color: #F5F5F5", align = center>Panel Count</th>
+      <td width = '20%', align = center><%= number_with_delimiter(@daypanelcount) %></td> 
+		  <td width = '20%', align = center><%= number_with_delimiter(@prevdaypanelcount) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@wtdpanelcount) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@mtdpanelcount) %></td>
+  	</tr>
+  	<tr>
+      <th width = '20%' style = "background-color: #F5F5F5", align = center>Production Days</th>
+      <td width = '20%', align = center> -- </td> 
+		  <td width = '20%', align = center> -- </td>
+		  <td width = '20%', align = center><%= @wtddays %></td>
+		  <td width = '20%', align = center><%= @mtddays %></td>
+  	</tr>
+  	<tr>
+  		<td colspan= '5', style="background-color: #F5F5F5;", align=middle><h2>Daily Averages</h2> 
+  	</tr>		
+  	<tr>
+      <th width = '20%' style = "background-color: #F5F5F5", align = center>Footage</th> 
+		  <td width = '20%', align = center> -- </td>
+		  <td width = '20%', align = center> -- </td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@avgwtdfootage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@avgmtdfootage) %></td>
+  	</tr>
+  	<tr>
+      <th width = '20%' style = "background-color: #F5F5F5", align = center>Square Footage</th> 
+		  <td width = '20%', align = center> -- </td>
+		  <td width = '20%', align = center> -- </td>
+      <td width = '20%', align = center><%= number_with_delimiter(@avgwtdsqfootage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@avgmtdsqfootage) %></td>
+  	</tr>
+  	<tr>
+      <th width = '20%' style = "background-color: #F5F5F5", align = center>Poundage</th> 
+		  <td width = '20%', align = center> -- </td>
+		  <td width = '20%', align = center> -- </td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@avgwtdpoundage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@avgmtdpoundage) %></td>
+  	</tr>
+  	<tr>
+      <th width = '20%' style = "background-color: #F5F5F5", align = center>Panel Count</th> 
+		  <td width = '20%', align = center> -- </td>
+		  <td width = '20%', align = center> -- </td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@avgwtdpanelcount) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@avgtmdpanelcount) %></td>
+  	</tr>
+  	<tr>
+  		<td colspan= '5' style="background-color: #F5F5F5", style="vertical-align: bottom;", align = center><h2>Panel Averages</h2> 
+  	</tr>		
+  	<tr>
+      <th width = '20%' style = "background-color: #F5F5F5", align = center>Footage</th> 
+		  <td width = '20%', align = center><%= number_with_delimiter(@dayavgpanelfootage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@prevdayavgfootage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@avgwtdpanelfootage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@avgmtdpanelfootage) %></td>
+  	</tr>
+  	<tr>
+      <th width = '20%' style = "background-color: #F5F5F5", align = center>Square Footage</th><td width = '20%', align = center><%= number_with_delimiter(@dayavgpanelsqfootage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@prevdayavgpanelsqfootage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@avgwtdpanelsqfootage) %></td>
+      <td width = '20%', align = center><%= number_with_delimiter(@avgmtdpanelsqfootage) %></td>
+  	</tr>
+  	<tr>
+      <th width = '20%' style = "background-color: #F5F5F5", align = center>Poundage</th> 
+	    <td width = '20%', align = center><%= number_with_delimiter(@dayavgpanelpoundage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@prevdayavgpanelpoundage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@avgwtdpanelpoundage) %></td>
+		  <td width = '20%', align = center><%= number_with_delimiter(@avgmtdpanelpoundage) %></td>
+  	</tr>
+  </table>
+  <br />
+  <hr>

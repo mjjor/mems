@@ -1,0 +1,24 @@
+<% @page_title = "Wall Panel Production Menu" %>
+<% @previous_controller = 'production' %>
+<% @previous_action = 'index' %>
+<% @page_module = "production" %>
+<% @page_sub_module = "wallpanel" %>
+
+<% daysfeet = :todaysfootage %>
+<% weeksfeet = :weeksfootage %>
+<% monthsfeet = :monthsfootage %>
+
+<br />
+<%= link_to 'Versa Table', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'VRS'} %>
+<br />
+<br />
+<%= link_to 'OffLine Panel Production', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'OPA'} %>
+<br />
+<br />
+<!--
+<%= link_to 'NuCon Truss Production', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'NCN'} %>
+<br />
+<br />
+-->
+<%= render(partial: "versa_footage" ) %>
+

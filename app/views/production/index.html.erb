@@ -1,0 +1,32 @@
+<% @page_title = "Production Main Menu" %>
+<% @previous_controller = 'mems_login' %>
+<% @previous_action = 'index' %>
+<% @page_module = "production" %>
+
+<br />
+<table width="80%" align="center">
+	<tr>
+		<td width="33%" align="center">
+			<%= link_to image_tag("magest_60x60_Icon.png"), :controller => 'wallpanel_production', :action => 'index', :method => :get%>
+		</td>
+	    <td width="33%" align="center">
+	    	<%= link_to image_tag("mmsl_logo_60.png"), :controller => 'pod_production', :action => 'index', :method => :get%>
+	    </td>
+	    <td width="33%" align="center">
+	    	<%= link_to image_tag("magest_BlkWht_60x60_Icon.png"), :controller => 'rollform_production', :action => 'index', :method => :get%>
+	    </td>
+	</tr>
+    <tr>
+    	<td width="33%" align="center">
+    		<%= link_to("Wall Panel Assembly", :controller => 'wallpanel_production', :action => 'index', :method => :get) %>
+    	</td>
+    	<td width="33%" align="center">
+     		<%= link_to("Pod Assembly", :controller => 'pod_production', :action => 'index', :method => :get) %>
+ 		</td>
+ 		<td width="33%" align="center">
+    		<%= link_to("Roll Forming", :controller => 'rollform_production', :action => 'index', :method => :get) %>
+	    </td>	
+ 	</tr>
+</table>
+<br />
+<hr>

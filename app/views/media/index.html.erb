@@ -1,0 +1,24 @@
+<% @page_title = "Job Site Media" %>
+<% @previous_controller = 'mems_login' %>
+<% @previous_action = 'index' %>
+<% @page_module = "media" %>
+<% @page_sub_module = "index" %>
+
+ <table width="80%" align="center"> 
+  <tr>
+    <td width="25%" align="center"> 
+      <%= link_to image_tag("Home-icon_30.png"), :controller => "mems_login", :action => "index", :method => :get%>
+    </td>
+    <td width ="25%" align="center">
+      <%= link_to image_tag("previous_menu_30.png"), :controller => @previous_controller, :action => @previous_action, :method => :get%>
+    </td>
+    <td width="25%" align="center">
+      <%= link_to image_tag("logout_30.png"), :controller => "mems_login", :action => "logout", :method => :get%>
+    </td>  
+  </tr>
+</table>
+<hr>
+
+<center><%= link_to image_tag(@project_poster), 
+      {:controller => 'media', :action => 'show'} %>
+      <br><h2><%= @project_name %></h2></center>

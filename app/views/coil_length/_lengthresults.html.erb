@@ -1,0 +1,49 @@
+<table bgcolor = "#DCDCDC" summary = "Length Calc Results" align="center">
+	<tr>
+		<th width = '160' bgcolor = "#ffffff" ><center><h3><b>Coil Specifications</b></h3></center></th>
+		<td width = '160' bgcolor = "#ffffff"><center><%= image_tag('coilUnravel1.jpg', size: "100x60", alt: "Coil Length") %></center></td>
+	</tr>
+	</table>
+<table bgcolor = "#FFFFFF" summary = "Length Calc Results" align="center">	
+	<tr>
+		<td bgcolor = "#DCDCDC" width = '160'>Length (Feet):</td>
+		<td bgcolor = "#DCDCDC" width = '160'><center><%= number_with_precision((params[:results][4].to_f), precision: 4) %></center></td>
+		</tr>
+	
+		<td bgcolor = "#DCDCDC" width = '160'>Weight (Lbs.):</td>
+		<td bgcolor = "#DCDCDC" width = '160'><center><%= number_with_precision((params[:results][6].to_f), precision: 4) %></center></td>
+		</tr>
+	<tr>
+		<td bgcolor = "#DCDCDC" width = '160'>Pounds Per Foot:</td>
+		<td bgcolor = "#D9D9D9" width = '160'><center><%= number_with_precision((params[:results][5].to_f), precision: 4) %></center></td>
+	</tr>
+	<tr>	
+	<tr>
+		<td bgcolor = "#DCDCDC" width = '160'>Square Footage:</td>
+		<td bgcolor = "#DCDCDC" width = '160'><center><%= number_with_precision((params[:results][7].to_f), precision: 4)%></center></td>
+	</tr>
+	<tr>
+		<td bgcolor = '#DCDCDC' width = '160'>Coil Gauge:  </td>
+		<td bgcolor = "#DCDCDC" width = '160'><center><%= params[:results][8] %></center></td>
+	</tr>
+	<tr>
+		<td bgcolor = '#DCDCDC' width = '160'>Coil Mils:  </td>
+		<td bgcolor = "#DCDCDC" width = '160'><center><%= params[:results][9] %></center></td>
+	</tr>
+	</table>
+	<br />
+	<table align="center">
+    <tr>
+    <!-- <td bgcolor = "#D9D9D9" width = '160'> -->
+    	<td>
+    	<div>
+		<!--	<%= link_to(image_tag("backtohome2-emboss.png"), {controller: "mems", action: "index", method: :get}) %>
+		-->
+		</div>
+    </td>
+    <th bgcolor = "#F5F5F5" width = '160'>
+    	<%= button_to "New Coil", "lengthNew", :method => :get %>
+    </th>
+    </tr>
+</table>
+<hr />

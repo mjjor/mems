@@ -1,0 +1,91 @@
+<% @page_title = 'Roll Former QA Check' %>
+<% @previous_controller = 'rollformer_qa_check' %>
+<% @previous_action = 'index' %>
+<% @trans_code = 'RLF' %>
+<% @page_module = 'qa' %>
+<% @page_sub_module = 'rollform_qa' %>
+<% @page_access = 'rollform_qa_edit' %>
+<% @formid = params[:newid] %>
+<% @workstation = 1 %>
+<% @company = 'MMPL' %>
+<% @warehouse = 10 %>
+
+<table align=center summary="Profile QA Check" style = "background-color: #F5F5F5">
+  <tr>
+  	<td rowspan = '5' align = 'left', style = "background-color: #F5F5F5">O<br>P<br>E<br>R<br>A<br>T<br>O<br>R</td>
+  	<td rowspan = '5'><%= image_tag ("KnockoutImg.png") %></td>
+  	<td rowspan = '5' align = 'right' style = "background-color: #F5F5F5">D<br>R<br>I<br>V<br>E</td>
+  	<td rowspan = '5' width = "2" style = "background-color: #F5F5F5"></td>
+  	<td style = "background-color: #F5F5F5"><%= f.label(:item_number, "Profile:") %></td>
+    <td><%= params[:itemnum] %></td>
+    <td>&nbsp;</td><td>&nbsp;</td>
+    <td style = "background-color: #F5F5F5"><%= f.label(:piecemark,"Piecemark:")%></td>
+    <td><%= params[:pmark] %></td>   
+  </tr>
+  <tr>
+    <td style = "background-color: #F5F5F5"><%= f.label(:coilid, "Coil ID:") %></td>
+    <td><%= f.text_field(:coilid) %></td>
+    <td>&nbsp;</td><td>&nbsp;</td>
+    <td style = "background-color: #F5F5F5"><%= f.label(:thickness, "Coil Thickness:") %></td>
+    <td><%= f.text_field(:thickness) %></td>
+  </tr>  
+  <tr>
+    <td style = "background-color: #F5F5F5"><%= f.label(:hole_center_width_A, "Dimension A:") %></td>
+    <td><%= f.text_field(:hole_center_width_A,) %></td>
+    <td>&nbsp;</td><td>&nbsp;</td>
+    <td style = "background-color: #F5F5F5"><%= f.label(:hole_center_width_B, "Dimension B:") %></td>
+    <td><%= f.text_field(:hole_center_width_B,) %></td> 
+  </tr>
+  <tr>
+  	<td style = "background-color: #F5F5F5"><%= f.label(:flange_C, "Dimension C:") %></td>
+  	<td ><%= f.text_field(:flange_C) %></td>
+    <td>&nbsp;</td><td>&nbsp;</td>
+  	<td style = "background-color: #F5F5F5"><%= f.label(:web_D, "Dimension D:") %></td>
+  	<td><%= f.text_field(:web_D) %></td>
+  </tr>
+  <tr>
+    <td style = "background-color: #F5F5F5"><%= f.label(:flange_E, "Dimension E:") %></td>
+    <td><%= f.text_field(:flange_E) %></td>
+    <td>&nbsp;</td><td>&nbsp;</td>
+  	<td style = "background-color: #F5F5F5"><%= f.label(:return_F, "Return:") %></td>
+  	<td><%= f.text_field(:return_F) %></td>
+  </tr>
+  <tr>
+    <td style = "background-color: #F5F5F5">&nbsp;</td>
+    <td><%= image_tag("StudCrossSection.png") %> </td>
+    <td style = "background-color: #F5F5F5">&nbsp;</td> 
+    <td style = "background-color: #F5F5F5">&nbsp;</td> 
+    <td style = "background-color: #F5F5F5"><%= f.label(:required_length, "Required Length:") %></td>
+    <td><%= params[:reqlength] %></td> 
+    <td>&nbsp;</td><td>&nbsp;</td>
+  	<td style = "background-color: #F5F5F5"><%= f.label(:actual_length, "Actual Length:") %></td>
+  	<td><%= f.text_field(:actual_length) %></td>
+  </tr>	
+  <tr>
+  <td style = "background-color: #F5F5F5">&nbsp;</td>
+  <td style = "background-color: #F5F5F5">&nbsp;</td> 
+  <td style = "background-color: #F5F5F5">&nbsp;</td>
+  <td style = "background-color: #F5F5F5">&nbsp;</td> 
+  <td style = "background-color: #F5F5F5">Visual Checks:</td>
+  <td style = "background-color: #F5F5F5">Bowing, Twisting, Knotching<br>Bending, Crushing, Other</td>
+  <td>&nbsp;</td><td>&nbsp;</td>
+  <td style = "background-color: #F5F5F5"><%= f.label(:piececount, "Piece Count:")%></td>
+  <td> <%= f.text_field(:piececount) %></td> 
+</tr>
+<tr>
+  <td style = "background-color: #F5F5F5">&nbsp;</td>
+  <td style = "background-color: #F5F5F5">&nbsp;</td> 
+  <td style = "background-color: #F5F5F5">&nbsp;</td>
+  <td style = "background-color: #F5F5F5">&nbsp;</td> 
+  <td style = "background-color: #F5F5F5"><%= f.label(:meets_visual, "Meets Visual Spec:")%></td>
+  <td><%= f.check_box(:meets_visual)%></td> 
+  <td>&nbsp;</td><td>&nbsp;</td>
+  <td style = "background-color: #F5F5F5"><%= f.label(:user_notes, "Notes:") %></td>
+  <td><%= f.text_area(:user_notes)%></td>
+  <%= f.hidden_field :trans_code, :value => @trans_code %>
+  <%= f.hidden_field :formid, :value => @formid %>
+  <%= f.hidden_field :company, :value => @company %>
+  <%= f.hidden_field :workstation, :value => @workstation %>
+  <%= f.hidden_field :warehouse, :value => @warehouse %>
+</tr>
+</table>
