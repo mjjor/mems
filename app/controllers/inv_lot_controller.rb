@@ -13,7 +13,7 @@ class InvLotController < ApplicationController
 
 
 def lot_params
-    params.require(:inv_lots.permit(:lot, :item_masters_id, :users_id)
+    params.require(:inv_lots).permit(:lot, :item_masters_id, :users_id)
 end
 
 def confirm_page_access

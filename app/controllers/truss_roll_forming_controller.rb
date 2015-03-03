@@ -102,6 +102,10 @@ class TrussRollFormingController < ApplicationController
         redirect_to(:action => 'index', :trans_code => @truss.trans_code, :workstation => 3)
       end
 	end
+
+  def show
+     @scannedtoday = Trusses.where("(trusses.status != 'open' AND trusses.status != ' ')").joins("INNER JOIN `truss_trackings` ON `trusses`.`id` = `truss_trackings`.`trusses_id` AND DATE(truss_trackings.updated_at) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").lastupdate
+  end
  
 #  def coil_change
 #    @invcoil = InvLot.where(lot: lot_params[:lot]).limit(1).pluck(:id).pluck(:curr_qty)

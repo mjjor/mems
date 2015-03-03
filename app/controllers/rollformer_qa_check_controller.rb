@@ -10,7 +10,7 @@ class RollformerQaCheckController < ApplicationController
   respond_to :json
 
   def index
-    @pwo = PwoHeaders.select(:pwo_worderno, :id).where(:pwo_status => [1,2]).wosorted
+    @pwo = PwoHeaders.select(:pwo_worderno, :id).where(:status => [1,2]).wosorted
     @profiles = PwoLines.where("pwo_headers_id = ?", PwoHeaders.first.id).group(:item_number).itmsorted
     @pcemarks = PwoLines.where("pwo_headers_id = ?", PwoHeaders.first.id).group(:piecemark).pmsorted
   end
@@ -19,14 +19,16 @@ class RollformerQaCheckController < ApplicationController
      @newrollformqa = RollformerQaChecks.new
   	 @pwolinelength = PwoLines.where(:id => params[:member][:pcemark_id]).pluck(:length).join(" ")
      @pwolinepmark  = PwoLines.where(:id => params[:member][:pcemark_id]).pluck(:piecemark).join(" ")
+     @pwolineitemnum = PwoLines.where(:id => params[:member][:pcemark_id]).pluck(:item_number).join(" ")
      @newrollformqa.pwo_headers_id = params[:member][:header_id]
      @newrollformqa.pwo_lines_id = params[:member][:pcemark_id]
-     @newrollformqa.item_number = params[:member][:member_id]
+     @newrollformqa.item_number =  params[:member][:member_id] #@pwolineitemnum
      @newrollformqa.piecemark = @pwolinepmark
      @newrollformqa.required_length = @pwolinelength 
      @newrollformqa.save
      if @newrollformqa.save
-        redirect_to(:action => 'show', :newid => @newrollformqa.id, :itemnum => params[:member][:member_id], 
+        @itemnum = PwoLines.select(:item_number).find(params[:member][:pcemark_id])
+        redirect_to(:action => 'show', :newid => @newrollformqa.id, :itemnum => params[:member][:member_id] , 
                                        :reqlength => @pwolinelength, :pmark => @pwolinepmark)
      # @pwo = PwoHeader.select(:id, :pwo_worderno).where(:pwo_status => [1,2]).wosorted
      end
@@ -96,7 +98,7 @@ def confirm_page_access
 def profile_qa_params
    params.require(:rollformer_qa_checks).permit(:pwo_order_id, :item_number, :piecemark, :hole_center_width_A, :hole_center_width_B,
                                                :flange_C, :web_D, :flange_E, :return_F, :actual_length, :meets_visual, :user_notes,
-                                               :coilid, :header_id, :member_id, :pcemark_id, :requested_length) 
+                                               :coilid, :header_id, :member_id, :pcemark_id, :requested_length, :item_number) 
 end
 
 end

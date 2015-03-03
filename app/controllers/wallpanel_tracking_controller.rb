@@ -38,34 +38,53 @@ class WallpanelTrackingController < ApplicationController
       end
 	end
 
+  def show
+     @scannedtoday = Wallpanels.where("(wallpanels.status != 'open' AND wallpanels.status != ' ')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(wallpanel_trackings.updated_at) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").lastupdate
+  end
+
   def send_vrs_notification
-    MemsMailer.versa_down('mjordan@magest.com', 'VRS').deliver 
-       # ,gmoore@magest.com,rkirk@magest.com').deliver 
+    if Rails.env.development?
+    MemsMailer.versa_down('mjordan@magest.com', 'VRS').deliver
+    end 
+    if Rails.env.production?
+    MemsMailer.versa_down('mjordan@magest.com,gmoore@magest.com,rkirk@magest.com', 'VRS').deliver
+    end  
     flash[:notice] = "Request Sent!"
     redirect_to(:action => 'new', :trans_code => 'VRS')
   end
 
   def send_opa_notification
-    MemsMailer.versa_down('mjordan@magest.com', 'OPA').deliver 
-       # ,gmoore@magest.com,rkirk@magest.com').deliver 
+    if Rails.env.development?
+    MemsMailer.versa_down('mjordan@magest.com', 'OPA').deliver
+    end 
+    if Rails.env.production?
+    MemsMailer.versa_down('gmoore@magest.com,rkirk@magest.com', 'OPA').deliver
+    end
     flash[:notice] = "Request Sent!"
     redirect_to(:action => 'new', :trans_code => 'OPA')
   end  
    
 def send_ncn_notification
-  MemsMailer.versa_down('mjordan@magest.com', 'NCN').deliver 
-       # ,gmoore@magest.com,rkirk@magest.com').deliver 
+    if Rails.env.development?
+    MemsMailer.versa_down('mjordan@magest.com', 'NCN').deliver
+    end 
+    if Rails.env.production?
+    MemsMailer.versa_down('gmoore@magest.com,rkirk@magest.com', 'NCN').deliver
+    end
     flash[:notice] = "Request Sent!"
     redirect_to(:controller => 'truss_roll_forming',:action => 'index', :trans_code => 'NCN', :workstation => 3)
   end
 
 def send_rlf_notification
-  MemsMailer.versa_down('mjordan@magest.com', 'RLF').deliver 
-       # ,gmoore@magest.com,rkirk@magest.com').deliver 
+    if Rails.env.development?
+    MemsMailer.versa_down('mjordan@magest.com', 'RLF').deliver
+    end 
+    if Rails.env.production?
+    MemsMailer.versa_down('gmoore@magest.com,rkirk@magest.com', 'RLF').deliver
+    end
     flash[:notice] = "Request Sent!"
     redirect_to(:controller => 'rollformer_qa_check', :action => 'index' , :trans_code => 'RLF', :workstation => 1)
   end
-
 
 private
 

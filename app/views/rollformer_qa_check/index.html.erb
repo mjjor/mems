@@ -16,7 +16,7 @@
 </td>  
  <td style = "background-color: #F5F5F5"><%= f.label(:item_number, "Profile:") %></td>
     <td>
-  <%= f.select :member_id, options_for_select(@profiles.collect { |pwo_lines| [pwo_lines.item_number, pwo_lines.id] } ,0), {}, { id: 'profiles_select' } %>
+  <%= f.select :member_id, options_for_select(@profiles.collect { |pwo_lines| [pwo_lines.item_number] } ,0), {}, { id: 'profiles_select' } %>
  </td>
   <td style = "background-color: #F5F5F5"><%= f.label(:piecemark,"Piecemark:")%></td>
     <td> 

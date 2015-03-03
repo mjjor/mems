@@ -18,28 +18,27 @@ window.onload = function() {
 <div class="panel tracking new">
   <h2>Scan Panel</h2>
   <%= form_for(@panel, :url => {:action => 'create'}) do |f| %>
-    
     <%= render(:partial => "scan_panel", :locals => {:f => f}) %>
-    
     <br>
-
     <div class="form-buttons">
       <%= submit_tag("Submit Panel") %>
     </div>
 
-    <div align="right" class="form-buttons">
+  <table width="100%">
+   <tr>
+    <td width="50%" align="left">
+        <%= link_to  image_tag('button_Scanned_Panels.png'), :action => 'show', :method => 'get', :transcode => @trans_code %>
+    </td>
+    <td width="50%" align="right">
     <%= 
     if @trans_code == 'VRS' then 
-        link_to image_tag('send_message_120.png'), :controller => 'wallpanel_tracking', :action => 'send_vrs_notification'
-        #tag(:br)
-        #link_to "Versa Stoppage", :controller => 'wallpanel_tracking', :action => 'send_vrs_notification'    
+        link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_vrs_notification'
     elsif @trans_code == 'OPA' then
-        link_to image_tag('send_message_120.png'), :controller => 'wallpanel_tracking', :action => 'send_opa_notification'
+        link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_opa_notification'
     elsif @trans_code == 'NCN' then
-        link_to image_tag('send_message_120.png'), :controller => 'wallpanel_tracking', :action => 'send_ncn_notification'    
-        #tag(:br)
-        #link_to "Offline Assembly Stoppage", :controller => 'wallpanel_tracking', :action => 'send_opa_notification'
-    end %>
-  </div>
+        link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_ncn_notification'end %>
+  </td>
+ </tr> 
 <% end %>
+</table>
 </div>

@@ -1,0 +1,42 @@
+<% @page_title = 'Wall Panel Tracking' %>
+<% @previous_controller = 'rollform_production' %>
+<% @previous_action = 'index' %>
+<% @page_module = 'production' %>
+<% @page_sub_module = 'truss_rollformer' %>
+<% @page_access = 'truss_tracking' %>
+
+<h2 align = 'center'> Scanned Trusses Last 7 Days </h2> 
+
+<table id="scanned_trusses" class="display" width="90%" align="center">
+<thead>
+	<tr>
+		<th width = '8%'> Truss ID   </th>
+		<th width = '15%'> Truss Label </th>
+		<th width = '8%'> Span      </th>
+		<th width = '8%'> Footage      </th>
+		<th width = '8%'> Weight      </th>
+		<th width = '8%'> Ply      </th> 
+		<th width = '8%'> X of Y      </th>  
+		<th width = '15%'> Updated     </th>
+		<th width = '13%'> Bundle Id      </th>
+		<th width = '15%'> Trans Code  </th> 
+	</tr>	
+</thead>
+<tbody>
+	<% @scannedtoday.each do |truss| %>
+	
+	<tr>
+		<td align = 'center'><%= truss.trussid %></td>
+		<td align = 'center'><%= truss.trusslabel %></td>
+		<td align = 'center'><%= truss.length %></td>
+		<td align = 'center'><%= truss.footage %></td>
+		<td align = 'center'><%= truss.weight %></td>
+		<td align = 'center'><%= truss.ply %></td>
+		<td align = 'center'><%= truss.xofy %></td>
+		<td align = 'center'><%= localize(truss.updated_at, :format => :long) %></td>
+		<td align = 'center'><%= truss.bundle_id %></td>
+		<td align = 'center'><%= truss.status%></td>
+	</tr>
+	<% end %>
+</tbody>	
+	</table>	

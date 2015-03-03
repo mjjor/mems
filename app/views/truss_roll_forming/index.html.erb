@@ -26,19 +26,22 @@ window.onload = function() {
     <div class="form-buttons">
       <%= submit_tag("Submit Truss") %>
     </div>
-
-    <div align="right" class="form-buttons">
-    <%= 
- #  if @trans_code == 'NCN' then
-       link_to image_tag('send_message_120.png'), :controller => 'wallpanel_tracking', :action => 'send_ncn_notification'    
-        #tag(:br)
-        #link_to "Offline Assembly Stoppage", :controller => 'wallpanel_tracking', :action => 'send_opa_notification'
-    %>
     <br />
-    <br />
-    <hr>
-
+    <hr />
      <%= render(:partial => "current_coil", :locals => {:f => f}) %>
+    <hr />
+
+      <table width="100%">
+    <tr>
+      <td width="50%" align="left">
+        <%= link_to  image_tag('button_Scanned_Trusses.png'), :action => 'show', :method => 'get', :transcode => @trans_code %>
+      </td>
+      <td width="50%" align="right">
+       <%= 
+         link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_ncn_notification'   %>
+      </td>
+    </tr>
+   </table>    
 
      <hr>
 <% end %>

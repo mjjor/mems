@@ -1,6 +1,6 @@
 class PwoLines < ActiveRecord::Base
  
-belongs_to :pwo_header
+belongs_to :pwo_headers
 
 # acts_as_list :scope => :item
 # acts_as_list :scope => :piece_mark

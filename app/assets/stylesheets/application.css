@@ -10,9 +10,18 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
  *= require_self
+ *= require jquery-ui/core
+ *= require jquery-ui/theme
+ *= require jquery-ui/draggable
+ *= require jquery-ui/resizable
+ *= require jquery-ui/selectable
+ *= require jquery-ui/sortable
+ *= require dataTables/jquery.dataTables
+ *= require dataTables/src/demo_table_jui.css.scss
+ *= require_tree .
  */
+
 /*
 .body{
 	background-color: 121E31;
@@ -61,6 +70,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+
 body {
     /* background: #121E31; */ 
     /* background: #D9D9D9; */ /* grey */

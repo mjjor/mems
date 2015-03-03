@@ -46,6 +46,10 @@ gem 'groupdate'
 
 gem 'chartkick'
 
+gem 'jquery-ui-rails'
+
+gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 

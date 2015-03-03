@@ -1,0 +1,38 @@
+<% @page_title = 'Wall Panel Tracking' %>
+<% @previous_controller = 'wallpanel_production' %>
+<% @previous_action = 'index' %>
+<% @page_module = 'production' %>
+<% @page_sub_module = 'wallpanel' %>
+<% @page_access = 'panel_tracking' %>
+<% @transcode %>
+
+<h2 align = 'center'> Scanned Panels Last 7 Days </h2> 
+
+<table id="scanned_panels" class="display" width="65%" align="center">
+<thead>
+	<tr>
+		<th width = '13%'> Wall Mark   </th>
+		<th width = '13%'> Panel Label </th>
+		<th width = '13%'> Length      </th>
+		<th width = '13%'> Height      </th>
+		<th width = '13%'> Weight      </th>   
+		<th width = '25%'> Updated     </th>
+		<th width = '10%'> Trans Code  </th> 
+	</tr>	
+</thead>
+<tbody>
+	<% @scannedtoday.each do |panel| %>
+	
+	<tr>
+		<td align = 'center'><%= panel.panelnumber %></td>
+		<td align = 'center'><%= panel.panellabel %></td>
+		<td align = 'center'><%= panel.length %></td>
+		<td align = 'center'><%= panel.height %></td>
+		<td align = 'center'><%= panel.weight %></td>
+		<td align = 'center'><%= localize(panel.updated_at, :format => :long) %></td>
+		<td align = 'center'><%= panel.status%></td>
+	</tr>
+	<% end %>
+</tbody>	
+	</table>	
+

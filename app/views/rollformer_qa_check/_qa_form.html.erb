@@ -12,10 +12,10 @@
 
 <table align=center summary="Profile QA Check" style = "background-color: #F5F5F5">
   <tr>
-  	<td rowspan = '5' align = 'left', style = "background-color: #F5F5F5">O<br>P<br>E<br>R<br>A<br>T<br>O<br>R</td>
-  	<td rowspan = '5'><%= image_tag ("KnockoutImg.png") %></td>
-  	<td rowspan = '5' align = 'right' style = "background-color: #F5F5F5">D<br>R<br>I<br>V<br>E</td>
-  	<td rowspan = '5' width = "2" style = "background-color: #F5F5F5"></td>
+  	<td rowspan = '6' align = 'left', style = "background-color: #F5F5F5">O<br>P<br>E<br>R<br>A<br>T<br>O<br>R</td>
+  	<td rowspan = '6'><%= image_tag ("KnockoutImg.png") %></td>
+  	<td rowspan = '6' align = 'right' style = "background-color: #F5F5F5">D<br>R<br>I<br>V<br>E</td>
+  	<td rowspan = '6' width = "2" style = "background-color: #F5F5F5"></td>
   	<td style = "background-color: #F5F5F5"><%= f.label(:item_number, "Profile:") %></td>
     <td><%= params[:itemnum] %></td>
     <td>&nbsp;</td><td>&nbsp;</td>
@@ -47,8 +47,15 @@
     <td style = "background-color: #F5F5F5"><%= f.label(:flange_E, "Dimension E:") %></td>
     <td><%= f.text_field(:flange_E) %></td>
     <td>&nbsp;</td><td>&nbsp;</td>
-  	<td style = "background-color: #F5F5F5"><%= f.label(:return_F, "Return:") %></td>
-  	<td><%= f.text_field(:return_F) %></td>
+    <td>&nbsp;</td><td>&nbsp;</td>
+    <td>&nbsp;</td><td>&nbsp;</td>
+ </tr>
+  <tr>  
+  	<td style = "background-color: #F5F5F5"><%= f.label(:return_O, "Return_O:") %></td>
+  	<td><%= f.text_field(:return_O) %></td>
+    <td>&nbsp;</td><td>&nbsp;</td>
+    <td style = "background-color: #F5F5F5"><%= f.label(:return_D, "Return_D:") %></td>
+    <td><%= f.text_field(:return_D) %></td
   </tr>
   <tr>
     <td style = "background-color: #F5F5F5">&nbsp;</td>
