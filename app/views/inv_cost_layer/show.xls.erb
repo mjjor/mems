@@ -1,0 +1,26 @@
+<h2><center>Lots For </center></h2> <br /><h4><center> Item Number: <%= @itemnumber %> <br /> Lot: <%= @lotnumber %></center></h2>
+
+<table id="invcosts" class="display" width="80%" align="center">
+	<tr>
+		<th > Lot  </th>
+		<th > Current Qty  </th>
+		<th > Original Qty </th>
+		<th > Unit Cost </th>
+		<th> Current Value </th>
+		<th> UOM </th> 
+		<th > Date Received </th>
+		<th > Active </th>
+	</tr>	
+	<% @invlayers.each do |invlayer| %>
+	<tr>
+		<td align = 'center'><%= invlayer.lotserial %></td>
+		<td align = 'center'><%= invlayer.curr_qty %></td>
+		<td align = 'center'><%= invlayer.orig_qty %></td>
+		<td align = 'center'><%= invlayer.curr_cost %></td>
+		<td align = 'center'><%= (invlayer.curr_cost * invlayer.curr_qty) %></td>
+		<td align = 'center'><%= invlayer.uom %></td>
+		<td align = 'center'><%= localize(invlayer.created_at, :format => :long) %></td>
+		<td align = 'center'><%= invlayer.active %></td>
+	</tr>
+	<% end %>
+	</table>	

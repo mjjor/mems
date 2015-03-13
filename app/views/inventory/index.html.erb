@@ -1,0 +1,53 @@
+<% @page_title = "Inventory Main Menu" %>
+<% @previous_controller = 'mems_login' %>
+<% @previous_action = 'index' %>
+<% @page_module = "inventory" %>
+
+<br />
+<table width="80%" align="center">
+	<tr>
+		<td width="33%" align="center">
+			<%= image_tag("magest_60x60_Icon.png") %> <br> MBSL </td>
+	    <td width="33%" align="center">
+	    	<%= image_tag("mmsl_logo_60.png") %> <br /> MMSL </td>
+	    <td width="33%" align="center">
+	    	<%= image_tag("magest_BlkWht_60x60_Icon.png") %> <br> MMPL </td>
+	</tr>
+    <tr>
+    	<td width="33%" align="center">
+    		
+    	</td>
+    	<td width="33%" align="center">
+     		
+ 		</td>
+ 		<td width="33%" align="center">
+    		
+	    </td>
+	 </tr>
+	    <tr>
+    	<td width="33%" align="center">
+    		
+    	</td>
+    	<td width="33%" align="center">
+     		
+ 		</td>
+ 		<td width="33%" align="center">
+    	<br />
+    		<%= link_to("Inventory Dashboard", :controller => 'inventory', :action => 'dashboard', :method => :get, company: 'MMPL') %> 
+	    </td>
+	 </tr>
+	     <tr>
+    	<td width="33%" align="center">
+    		
+    	</td>
+    	<td width="33%" align="center">
+     		
+ 		</td>
+ 		<td width="33%" align="center">
+ 			<br />
+    		<%= link_to("Inventory Details", :controller => 'inv_balance', :action => 'view', :method => :get, company: 'MMPL') %>
+	    </td>
+	 </tr> 
+</table>
+<br />
+<hr>

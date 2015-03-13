@@ -12,7 +12,7 @@ $ ->
         console.log("Dynamic header select OK!")
 
 $ ->
-  $(document).on 'change', '#profiles_select', (evt) ->
+  $(document).on 'click', '#profiles_select', (evt) ->
     $.ajax 'rollformer_qa_check/update_piecemarks',
       type: 'GET'
       dataType: 'script'

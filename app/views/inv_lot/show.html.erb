@@ -1,0 +1,69 @@
+<% @page_title = 'Inventory Balance Details' %>
+<% @previous_controller = 'inventory' %>
+<% if params[:procure] %>
+<% @previous_action = 'dashboard' %>
+<% else %>
+<% @previous_action = 'show' %>
+<% end %>
+<% @page_module = '' %>
+<% @page_access = 'invbal_details' %>
+
+<table width="80%" align="center">
+<tr>
+<td width="20%" align="left">
+</td>
+<td width="60%" align="center">
+<h2 align='center'>Lots for: &nbsp; <%= @itemnumber %> </h2>
+</td>
+<td width="20%" align="right">
+<%= link_to image_tag('excel-30.png'), controller: "inv_lot", action: "show", format: 'xls', item_number: @itemnumber,item_masters_id: @itemmastersid, procure: params[:procure], company: params[:company] %>
+</td>
+</tr>
+<tr>
+<td width="20%" align="left">
+</td>
+<td width="60%" align="center">
+<% if params[:procure] %>
+<h5 align='center'>Click Lot Number to View Cost Layer</h5>
+<% else %> &nbsp;
+<% end %>
+</td>
+<td width="20%" align="right">
+</td>
+</tr>
+</table>
+
+<table id="invlots" class="display" width="80%" align="center">
+<thead>
+	<tr>
+		<th > Lot  </th>
+		<th > Bin  </th>
+		<th > Current Qty  </th>
+		<th > Original Qty </th>
+		<th > Good Usage   </th>
+		<th > Scrap Usage  </th>
+		<th > On Hold </th>   
+		<th > Active </th>
+		<th > Date Received </th>
+	</tr>	
+</thead>
+<tbody>
+	<% @invlots.each do |invlot| %>
+	<tr>
+		<% if params[:procure] %>
+		<td align = 'center'><%= link_to(invlot.lot , controller: "inv_cost_layer", action: "show", lot: invlot.lot, item_number: @itemnumber, procure: @procure, company: @company) %></td>
+		<% else %>
+		<td align = 'center'><%= invlot.lot %></td>
+		<% end %>
+		<td align = 'center'><%= invlot.bin %></td>
+		<td align = 'center'><%= number_with_precision(invlot.curr_qty, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= number_with_precision(invlot.orig_qty, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= number_with_precision(invlot.good_usage, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= number_with_precision(invlot.scrap_usage, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= invlot.qa_hold %></td>
+		<td align = 'center'><%= invlot.active %></td>
+		<td align = 'center'><%= localize(invlot.created_at, :format => :long) %></td>
+	</tr>
+	<% end %>
+</tbody>	
+	</table>	

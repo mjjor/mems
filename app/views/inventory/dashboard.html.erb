@@ -1,0 +1,104 @@
+<% @page_title = 'Inventory' %>
+<% @previous_controller = 'inventory' %>
+<% @previous_action = 'index' %>
+<% @page_module = 'dashboard' %>
+<% @page_access = 'coil' %>
+
+<script>
+  var Chartkick = {"language": "en"};
+</script>
+
+<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache"><META HTTP-EQUIV="Expires" CONTENT="-1">
+
+<h1><centre>Inventory</center></h1>
+<hr />
+<h2 align='center'>Coil Inventory Summary by Gauge</h2> 
+<hr>
+<br>
+<table align = 'center' width = '95%' = "background-color: #FFFFFF", border = 1 >
+  <tr>
+<td width = '33%', align = 'center' , style = 'background-color: #eee;'>
+  <h3><center>Footage by Gauge<br></h3><h4>Total Footage =&nbsp;<%= number_with_precision(@gaugefootage, :precision => 2, :delimiter => ",") %> Feet</h4> 
+</td>  
+<td width = '33%', align = 'center', style = "background-color: #eee">
+  <h3><center>Poundage by Gauge <br></h3><h4>Total Poundage = &nbsp;<%= number_with_precision(@gaugeweight, :precision => 2, :delimiter => ",") %> Pounds</h4> 
+  </td>
+<td width = '33%', align = 'center', style = "background-color: #eee">
+  <h3><center>Value By Gauge<br></h3><h4>Total Value =&nbsp;<%= number_to_currency(@gaugevalue) %></h4>
+</td>  
+</tr>
+<tr>
+<td width = '33%' align = 'center'>
+    <%= bar_chart InvBalances.joins("INNER JOIN `item_coils` ON `inv_balances`.`item_masters_id` = `item_coils`.`item_masters_id`").group("`item_coils`.`gauge`").sum("`inv_balances`.`onhand`"),
+        colors: ["lightsteelblue", "#eee"],
+        library: { backgroundColor: "#6495ED;", 
+                   hAxis: {title: "Footage"}, 
+                   vAxis: {title: "Guage"}, 
+                   discrete: true} %>
+</td> 
+<td width = '33%' align = 'center'>
+    <%= bar_chart InvBalances.joins("INNER JOIN `item_coils` ON `inv_balances`.`item_masters_id` = `item_coils`.`item_masters_id`").group("`item_coils`.`gauge`").sum("(`inv_balances`.`onhand` * `item_coils`.`lbsperfoot`)"), 
+        colors: ["lightsteelblue", "#eee"],
+        library: { backgroundColor: "#6495ED;", 
+                  hAxis: {title: "Pounds" }, 
+                  vAxis: {title: "Gauge"}, 
+                  discrete: true} %>
+</td>
+<td width = '33%' align = 'center'>
+    <%= bar_chart InvCostLayers.joins("INNER JOIN `item_coils` ON `inv_cost_layers`.`item_masters_id` = `item_coils`.`item_masters_id`").where("`inv_cost_layers`.`active` = ? ", 1 ).group("`item_coils`.`gauge`").sum("`inv_cost_layers`.`curr_cost` * `inv_cost_layers`.`curr_qty`"), colors: ["lightsteelblue", "#eee"], library: {backgroundColor: '#6495ED;', 
+             hAxis: {title: 'Dollars' }, 
+             vAxis: {title: 'Gauge'}, 
+             discrete: true} %>
+</td>
+</tr>
+</table>
+<br />
+
+
+<table width="85%" align="center">
+<tr>
+<td width='20%' align='left'>
+</td>
+<td width='60%' align='center'> 
+<h5 align='center'>Click Item Number to View Lots</h5>
+</td>
+<td width='20%' align='right'>
+<%= link_to image_tag('excel-30.png'), controller: 'inventory', action: 'dashboard', format: 'xls', procure: params[:procure], gauge: params[:gauge] %>
+</td>
+</tr>
+</table>
+<br />
+<table id="invtots" class="display" width="85%" align="center">
+<thead>
+  <tr>
+    <th> Gauge     </th>
+    <th> On Hand Footage  </th>
+    <th> On Hand Poundage  </th>
+    <th> On Hand Value  </th>
+    <th> QA Hold Footage  </th>
+    <th> QA Hold Poundage  </th>
+    <th> QA Hold Value  </th>
+    <th> On Order Footage </th>
+    <th> Allocated Footage</th>   
+    <th> Available Footage</th>
+  </tr> 
+</thead>
+<tbody>
+  <% @invtots.each do |invtot| %>
+  <tr>
+    <td align = 'center'><%= link_to(invtot.gauge, controller: "inv_balance", action: "view", gauge: invtot.gauge, procure: true, company: "MMPL") %></td>
+    <td align = 'center'><%= number_with_precision(invtot.ohFT, :precision => 2, :delimiter => ",") %></td>
+    <td align = 'center'><%= number_with_precision(invtot.ohLBS, :precision => 2, :delimiter => ",") %></td>
+    <td align = 'center'><%= number_to_currency(invtot.ohVal) %></td>
+    <td align = 'center'><%= number_with_precision(invtot.qaFT, :precision => 2, :delimiter => ",") %></td>
+    <td align = 'center'><%= number_with_precision(invtot.qaLBS, :precision => 2, :delimiter => ",") %></td>
+    <td align = 'center'><%= number_to_currency(invtot.qaVal) %></td>
+    <td align = 'center'><%= number_with_precision(invtot.ooFT, :precision => 2, :delimiter => ",") %></td>
+    <td align = 'center'><%= number_with_precision(invtot.alFT, :precision => 2, :delimiter => ",") %></td>
+    <td align = 'center'><%= number_with_precision(invtot.avFT, :precision => 2, :delimiter => ",") %></td>
+  </tr>
+  <% end %>
+</tbody>  
+  </table>

@@ -65,6 +65,8 @@ class WallpanelProductionController < ApplicationController
         @avgmtdpanelfootage = (Float(@mtdfootage)/@mtdpanelcount).round(2)
         @avgmtdpanelpoundage =  (Float(@mtdpoundage)/@mtdpanelcount).round(2)
         @avgmtdpanelsqfootage = (Float(@mtdsqfootage)/@mtdpanelcount).round(2)
+
+        @exportKeys = Wallpanels.select(:exportkey).distinct
   end
 
  def confirm_page_access

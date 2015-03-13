@@ -54,6 +54,8 @@
             image_tag('PO_60.png')                   
       when "production"
            image_tag('Production_60.png')
+      when "inventory"
+           image_tag('inventory_Icon_60.png')      
       else
            image_tag('magest_60x60_Icon.png')
       end %>
@@ -94,6 +96,7 @@
     </div>
     <div id="footer">
       <h6>Logged in as: <%= session[:username] %></h6>
+      <%= link_to image_tag('tmgl_logo-4.png'), 'http://magest.com', :target => '_blank'  %>
       <p id="copyright">&copy; The MAGEST GROUP Ltd. / 2014 / Michael Jordan</p>
     </div>
   </body>

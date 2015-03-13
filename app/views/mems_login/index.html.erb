@@ -41,18 +41,18 @@
   <table width="80%" align="center">
     <tr>
       <td width="33%"; align="center">
-      <%= link_to image_tag("video_icon60.png"), :controller => "media", :action => "index", :class => "button"  %> 
-      </td>
-       <td width="33%"; align="center">
         <%= link_to image_tag("pm_60.png"), :controller => "project_management", :action => "index", :method => :get%>
       </td>
+       <td width="33%"; align="center">
+        <%= link_to image_tag("inventory_Icon_60.png"), :controller => "inventory", :action => "index", :class => "button"  %> 
+      </td>
       <td width="33%"; align="center">
-      <%= link_to image_tag("dashboard2_60.png"), :controller => "dashboards", :action => "index", :method => :get %>  
+        <%= link_to image_tag("dashboard2_60.png"), :controller => "dashboards", :action => "index", :method => :get %>  
     </td>
     </tr>
     <tr>
-      <td width="33%" align="center"><h5>Site Media</h4></td>
       <td width="33%" align="center"><h5>Projects</h4></td>
+      <td width="33%" align="center"><h5>Inventory</h4></td>
       <td width="33%" align="center"><h5>Dashboards</h5></td>
     </tr>
   </table>
@@ -60,10 +60,10 @@
   <table width="80%" align="center">
     <tr>
       <td width="33%", align="center">
-      <%= link_to image_tag("Admin_60.png"), :controller => "admin", :action => "index", :method => :get%>
+       <%= link_to image_tag("video_icon60.png"), :controller => "media", :action => "index", :class => "button"  %> 
       </td>
       <td width="33%", align="center">
-      &nbsp;
+      <%= link_to image_tag("Admin_60.png"), :controller => "admin", :action => "index", :method => :get%>
     </td>
        <td width="33%", align="center">
        <%= link_to image_tag("logout_60.png"), :controller => "mems_login", :action => "logout", :method => :get%> 
@@ -71,8 +71,8 @@
       
     </tr>
 <tr>
+     <td width="33%", align="center"><h5>Site Media</h4></td>
      <td width="33%", align="center"><h5>Admin</h4></td>
-     <td width="33%", align="center"><h5>&nbsp;</h4></td>
      <td width="33%", align="center"><h5>Logout</h5></td>
 </tr>
   </table>

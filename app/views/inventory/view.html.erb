@@ -1,0 +1,36 @@
+<% @page_title = 'Inventory' %>
+<% @previous_controller = 'inventory' %>
+<% @previous_action = 'index' %>
+<% @page_module = 'invbals' %>
+<% @page_access = 'summary' %>
+
+<h2 align='center'>Item Balances</h2> 
+<br />
+<h5 align='center'>Click Item Number to View Lots</h5>
+
+<table id="invbals" class="display" width="65%" align="center">
+<thead>
+	<tr>
+		<th width = '13%'> Item   </th>
+		<th width = '13%'> On Hand </th>
+		<th width = '13%'> QA Hold      </th>
+		<th width = '13%'> On Order      </th>
+		<th width = '13%'> Allocated      </th>   
+		<th width = '25%'> Available   </th>
+	</tr>	
+</thead>
+<tbody>
+	<% @invbal.each do |invbal| %>
+	
+	<tr>
+		<%= hidden_field :itemnumber, value: invbal.item_number %>
+		<td align = 'center'><%= link_to(invbal.item_number, controller: "inv_lot", action: "show", item_masters_id: invbal.item_masters_id, item_number: invbal.item_number, company: "MMPL") %></td>
+		<td align = 'center'><%= invbal.onhand %></td>
+		<td align = 'center'><%= invbal.qa_hold_qty %></td>
+		<td align = 'center'><%= invbal.onorder %></td>
+		<td align = 'center'><%= invbal.allocated %></td>
+		<td align = 'center'><%= invbal.available %></td>
+	</tr>
+	<% end %>
+</tbody>	
+	</table>	

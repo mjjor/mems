@@ -13,74 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20140909161040) do
 
-  create_table " n", force: true do |t|
-    t.string   "type",                     limit: 1
-    t.string   "reason",                   limit: 3
-    t.string   "date",                     limit: 10
-    t.string   "time",                     limit: 8
-    t.integer  "minutes",                                                       default: 0,   null: false
-    t.string   "production_date",          limit: 10
-    t.string   "shift",                    limit: 1
-    t.integer  "machine",                                                       default: 0,   null: false
-    t.string   "order_number",             limit: 20
-    t.string   "material",                 limit: 20
-    t.string   "product_code",             limit: 20
-    t.string   "customer_name",            limit: 30
-    t.string   "work_order_nbr",           limit: 18
-    t.string   "order_type",               limit: 1
-    t.integer  "bundle",                                                        default: 0,   null: false
-    t.integer  "quantity",                                                      default: 0,   null: false
-    t.decimal  "item_length",                          precision: 10, scale: 3, default: 0.0, null: false
-    t.string   "part_option",              limit: 1
-    t.string   "part_number",              limit: 30
-    t.string   "pattern",                  limit: 3
-    t.decimal  "total_length",                         precision: 14, scale: 3, default: 0.0, null: false
-    t.decimal  "footage",                              precision: 14, scale: 3, default: 0.0, null: false
-    t.decimal  "hole_offset",                          precision: 8,  scale: 3, default: 0.0, null: false
-    t.integer  "hole_count",                                                    default: 0,   null: false
-    t.string   "inv_coil",                 limit: 16
-    t.string   "coil_material",            limit: 20
-    t.decimal  "coil_width",                           precision: 6,  scale: 3, default: 0.0, null: false
-    t.decimal  "lbs_per_foot",                         precision: 7,  scale: 3, default: 0.0, null: false
-    t.decimal  "cost_per_lbs",                         precision: 7,  scale: 2, default: 0.0, null: false
-    t.string   "heat_number",              limit: 20
-    t.string   "code_type",                limit: 1
-    t.integer  "code_value",                                                    default: 0,   null: false
-    t.string   "code_description",         limit: 30
-    t.string   "code_exempt",              limit: 1
-    t.string   "machine_status",           limit: 1
-    t.decimal  "duration",                             precision: 8,  scale: 2, default: 0.0, null: false
-    t.decimal  "runtime",                              precision: 8,  scale: 2, default: 0.0, null: false
-    t.decimal  "downtime",                             precision: 8,  scale: 2, default: 0.0, null: false
-    t.decimal  "exempt_time",                          precision: 8,  scale: 2, default: 0.0, null: false
-    t.decimal  "good_footage",                         precision: 11, scale: 3, default: 0.0, null: false
-    t.decimal  "scrap_footage",                        precision: 14, scale: 3, default: 0.0, null: false
-    t.decimal  "exempt_scrap",                         precision: 14, scale: 3, default: 0.0, null: false
-    t.decimal  "reclaimed",                            precision: 14, scale: 3, default: 0.0, null: false
-    t.decimal  "actual_speed",                         precision: 8,  scale: 3, default: 0.0, null: false
-    t.decimal  "target_speed",                         precision: 8,  scale: 3, default: 0.0, null: false
-    t.integer  "employee_id",                                                   default: 0,   null: false
-    t.string   "employee_name",            limit: 30
-    t.string   "item_id",                  limit: 22
-    t.integer  "list_id",                                                       default: 0,   null: false
-    t.string   "list_text",                limit: 40
-    t.string   "plant_name",               limit: 30
-    t.string   "list_valid",               limit: 100
-    t.integer  "code_responsibility_type",                                      default: 0,   null: false
-    t.integer  "unknown",                                                                     null: false
-    t.string   "bundle_code",              limit: 15
-    t.datetime "created_at",                                                                  null: false
-    t.datetime "updated_at"
-    t.string   "processed",                limit: 1,                            default: "n", null: false
-    t.string   "importfile",               limit: 100
-  end
-
-  add_index " n", ["material"], name: "material", using: :btree
-  add_index " n", ["order_number"], name: "order_number", using: :btree
-  add_index " n", ["product_code"], name: "profile", using: :btree
-  add_index " n", ["production_date"], name: "production_date", using: :btree
-  add_index " n", ["work_order_nbr"], name: "workorder_number", using: :btree
-
   create_table "allocations", force: true do |t|
     t.string   "company",         limit: 5
     t.integer  "item_masters_id"
@@ -676,6 +608,7 @@ ActiveRecord::Schema.define(version: 20140909161040) do
 
   create_table "phase_masters", force: true do |t|
     t.integer   "project_masters_id"
+    t.string    "phase",                     limit: 20
     t.string    "description",               limit: 25
     t.string    "status",                    limit: 25
     t.date      "estimated_production_date"
@@ -856,7 +789,7 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.integer  "phase_masters_id"
     t.integer  "sales_orders_id"
     t.string   "sales_order_number",    limit: 30
-    t.integer  "pwo_status"
+    t.integer  "status"
     t.date     "date_released"
     t.date     "date_scheduled"
     t.date     "date_started"
@@ -911,19 +844,19 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.integer  "users_id"
     t.decimal  "req_qty",                        precision: 12, scale: 4, default: 0.0
     t.decimal  "actual_qty",                     precision: 12, scale: 4, default: 0.0
-    t.boolean  "is_lot",                                                  default: false
-    t.boolean  "is_serial",                                               default: false
+    t.boolean  "lot_control",                                             default: false
+    t.boolean  "serialized",                                              default: false
     t.text     "notes"
     t.text     "user_notes"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "pwo_line_status"
+    t.integer  "status"
     t.string   "item_number",         limit: 30
     t.decimal  "length",                         precision: 12, scale: 4
     t.string   "piecemark",           limit: 25
   end
 
-  add_index "pwo_lines", ["item_masters_id", "pwo_line_status"], name: "item_status", using: :btree
+  add_index "pwo_lines", ["item_masters_id", "status"], name: "item_status", using: :btree
   add_index "pwo_lines", ["item_masters_id"], name: "itemid", using: :btree
   add_index "pwo_lines", ["order_lines_id"], name: "orderlineid", using: :btree
   add_index "pwo_lines", ["parent_pwo_lines_id"], name: "parent_pwo_line", using: :btree
@@ -950,7 +883,8 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.decimal  "flange_C",                          precision: 12, scale: 4
     t.decimal  "web_D",                             precision: 12, scale: 4
     t.decimal  "flange_E",                          precision: 12, scale: 4
-    t.decimal  "return_F",                          precision: 12, scale: 4
+    t.decimal  "return_O",                          precision: 12, scale: 4
+    t.decimal  "return_D",                          precision: 12, scale: 4
     t.decimal  "flare",                             precision: 12, scale: 4
     t.decimal  "overbend",                          precision: 12, scale: 4
     t.decimal  "crown",                             precision: 12, scale: 4
@@ -1190,11 +1124,11 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.string   "company"
     t.string   "workstation"
     t.integer  "prod_lineid"
-    t.decimal  "prod_sequence",             precision: 10, scale: 0
-    t.decimal  "min_security",              precision: 10, scale: 0
+    t.decimal  "prod_sequence",  precision: 10, scale: 0
+    t.decimal  "min_security",   precision: 10, scale: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "machine_number", limit: 10
+    t.integer  "machine_number"
   end
 
   add_index "workstations", ["workstation", "prod_sequence"], name: "workstation_sequence", using: :btree

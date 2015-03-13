@@ -50,12 +50,15 @@ gem 'jquery-ui-rails'
 
 gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 
+gem 'will-paginate-i18n'
+
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
 # group :assets do
 #  gem 'coffee-rails'
 # end
+
 
 group :development do
 gem 'capistrano', '~> 3.2.0'

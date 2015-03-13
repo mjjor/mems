@@ -1,0 +1,28 @@
+<h2><center>Lots For <%= @itemnumber %></center></h2>
+
+<table border ="1">
+  <tr>
+    <th > Lot  </th>
+    <th > Bin  </th>
+    <th > Current Qty  </th>
+    <th > Original Qty </th>
+    <th > Good Usage   </th>
+    <th > Scrap Usage  </th>
+    <th > On Hold </th>   
+    <th > Active </th>
+    <th > Date Received </th>
+  </tr> 
+  <% @invlots.each do |invlot| %>
+  <tr>
+    <td><%= invlot.lot %></td>
+    <td><%= invlot.bin %></td>
+    <td><%= invlot.curr_qty %></td>
+    <td><%= invlot.orig_qty %></td>
+    <td><%= invlot.good_usage %></td>
+    <td><%= invlot.scrap_usage %></td>
+    <td><%= invlot.qa_hold %></td>
+    <td><%= invlot.active %></td>
+    <td><%= invlot.created_at %></td>
+  </tr>
+  <% end %>
+  </table>  

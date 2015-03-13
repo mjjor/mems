@@ -1,6 +1,18 @@
 Rails.application.routes.draw do
   
-  # get 'inv_lot/index'
+ # get 'inv_balance_details/index'
+
+ # get 'inv_balance_details/show'
+
+ # get 'inv_cost_layer/index'
+
+ # get 'inventory/index'
+
+ # get 'item_master/index'
+
+ # get 'inv_balance/index'
+ #  get 'inv_balances/'
+ # get 'inv_lot/view'
 
   # get 'current_coil/index'
 
