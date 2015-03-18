@@ -49,7 +49,14 @@ def edit
     @rollformqa.flange_C = params[:qaform][:flange_C].split.map {|r| Rational(r) }.inject(:+).to_f
     @rollformqa.web_D = params[:qaform][:web_D].split.map {|r| Rational(r) }.inject(:+).to_f
     @rollformqa.flange_E = params[:qaform][:flange_E].split.map {|r| Rational(r) }.inject(:+).to_f
-    @rollformqa.return_F = params[:qaform][:return_F].split.map {|r| Rational(r) }.inject(:+).to_f
+    if !params[:qaform][:return_O] == ""
+    @rollformqa.return_O = params[:qaform][:return_O].split.map {|r| Rational(r) }.inject(:+).to_f
+    else @rollformqa.return_O == "0.00".to_f
+    end
+    if !params[:qaform][:return_D] == ""
+    @rollformqa.return_D = params[:qaform][:return_D].split.map {|r| Rational(r) }.inject(:+).to_f
+    else @rollformqa.return_D == "0.00".to_f
+    end
     @rollformqa.actual_length = params[:qaform][:actual_length].split.map {|r| Rational(r) }.inject(:+).to_f
     @rollformqa.meets_visual = params[:qaform][:meets_visual]
     @rollformqa.thickness = params[:qaform][:thickness].split.map {|r| Rational(r) }.inject(:+).to_f
