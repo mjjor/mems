@@ -2,6 +2,8 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
+//= require dataTables/extras/dataTables.tableTools
 //= require jquery-ui
-
+//= require jquery.purr
+//= require best_in_place
 //= require_tree .

@@ -32,23 +32,12 @@
 <tr>
 <td width = '33%' align = 'center'>
  <%= column_chart Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id`").group_by_day("`wallpanel_trackings`.`updated_at`", last: 8, format: "%d/%m").reverse_order.sum(:length), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
-<!--
-  {vAxis: {title: "Day"}, hAxis: {title:  "Footage"}, 
-  <%= bar_chart Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < CURDATE()").group_by_day("`wallpanel_trackings`.`updated_at`").sum(:length), library: {backgroundColor: "#eee"}  %>
--->  
 </td>
 <td width = '33%' align = 'center'>
   <%= column_chart Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` ").group_by_day("`wallpanel_trackings`.`updated_at`", last: 8, format: "%d/%m").reverse_order.sum(:weight), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Pounds"}, discrete: true} %>
-<!--
-  AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < CURDATE()
--->
-
 </td>
 <td width = '33%' align = 'center'>
     <%= column_chart WallpanelTracking.group_by_day("`updated_at`", last: 8, format: "%d/%m").reverse_order.count, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Panels"}, discrete: true} %>
-    <!--
-    where("DATE(`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND DATE(`updated_at`) < CURDATE()")
-  -->
  </td> 
 </tr>
 </table>
@@ -72,21 +61,12 @@
 <tr>
   <td width = '33%' align = 'center'>
 <%= column_chart Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id`").group_by_day("`wallpanel_trackings`.`updated_at`", last: 31, format: "%d/%m").reverse_order.sum(:length), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},  discrete: true}  %>
-<!--
-AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < CURDATE()"
-  -->
 </td>
 <td width = '33%', align = 'center'>
  <%= column_chart Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` ").group_by_day("`wallpanel_trackings`.`updated_at`", last: 31, format: "%d/%m").reverse_order.sum(:weight), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Pounds"},  discrete: true}%>
- <!--
-AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < CURDATE()
--->
 </td>
 <td width = '33%' align = 'center'>
   <%= column_chart WallpanelTracking.group_by_day("`updated_at`", last: 31, format: "%d/%m").reverse_order.count, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Panels"}, discrete: true}%>
-  <!--
-.where("DATE(`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND DATE(`updated_at`) < CURDATE()")
--->
 </td>
 </tr>
 </table>

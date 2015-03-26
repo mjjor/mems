@@ -76,6 +76,9 @@ class InventoryController < ApplicationController
       end
   end 	
 
+  def show
+  end
+
 private
 def confirm_page_access
       found_page_access = UserSecurity.where(:userid => session[:user_id], 

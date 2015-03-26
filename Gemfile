@@ -52,6 +52,10 @@ gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 
 gem 'will-paginate-i18n'
 
+gem 'pdfkit'
+
+gem 'best_in_place'
+
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 

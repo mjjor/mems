@@ -33,7 +33,6 @@ class DashboardsController < ApplicationController
         @prevdaypanelcount = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(`updated_at`) = (SELECT DATE(`wpt`.`updated_at`) FROM `wallpanel_trackings` wpt WHERE DATE(`wpt`.`updated_at`) < CURDATE() ORDER BY `wpt`.`updated_at` DESC LIMIT 1)"]).count("DATE(`updated_at`)")
         @prevdayavgfootage = (Float(@prevdayfootage)/@prevdaypanelcount).round(2)
         @prevdayavgpanelpoundage = (Float(@prevdaypoundage)/@prevdaypanelcount).round(2)
-        # Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DAYOFMONTH(`wallpanel_trackings`.`updated_at`) = DAYOFMONTH(CURRENT_DATE())  AND MONTH(`wallpanel_trackings`.`updated_at`) = MONTH(CURRENT_DATE())").average(:length).to_f.round(2)
         @prevdayavgpanelsqfootage = (Float(@prevdaysqfootage)/@prevdaypanelcount).round(2)
         
         

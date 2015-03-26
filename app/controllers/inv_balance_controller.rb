@@ -12,7 +12,7 @@ class InvBalanceController < ApplicationController
   def index
   end
 
-  def view
+  def show
   	 @company = params[:company]
   	 @procure = params[:procure]
   	if params[:procure]
@@ -134,9 +134,10 @@ respond_to do |format|
 		format.html
 		format.xls
 	end
-	 # {send_data @invtable.to_csv(col_sep: "\t")} 
-  	
-#	@invbal = InvBalances.includes(:item_masters).where(:company => "MMPL")
+	end
+
+	def update
+
 	end
 
 private

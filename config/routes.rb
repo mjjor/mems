@@ -1,45 +1,35 @@
 Rails.application.routes.draw do
   
- # get 'inv_balance_details/index'
+  get 'phase_master/index'
 
- # get 'inv_balance_details/show'
+  get 'phase_master/show'
 
- # get 'inv_cost_layer/index'
+  get 'phase_master/edit'
 
- # get 'inventory/index'
+  get 'phase_master/update'
 
- # get 'item_master/index'
+  get 'project_master/index'
 
- # get 'inv_balance/index'
- #  get 'inv_balances/'
- # get 'inv_lot/view'
+  get 'project_master/show'
 
-  # get 'current_coil/index'
+  get 'project_master/edit'
 
-  # get 'truss_roll_forming/index'
+  get 'project_master/update'
 
-  #  resources :pwo_headers do
-  #  resources :pwo_lines
-  # end
+  get 'pwo_header/index'
 
-# get 'rollformer_qa_check/update_profiles', :as => 'update_profiles'
-# get 'rollformer_qa_check/update_pcemarks', :as => 'update_pcemarks'
+  get 'pwo_header/show'
+
+  get 'pwo_header/edit'
+
+  get 'pwo_header/update'
 
 root to: "mems#index"
   
-get 'rollformer_qa_check/update_profiles', as: 'update_profiles'
-get 'rollformer_qa_check/update_pcemarks', as: 'update_pcemarks'
+# get 'rollformer_qa_check/update_profiles', as: 'update_profiles'
+# get 'rollformer_qa_check/update_pcemarks', as: 'update_pcemarks'
   
 match ':controller(/:action(/:id))', :via => [:get, :post]
-
-# resources :rollformer_qa_check do
-#  collection do
-#    get "update_profiles"
-#    get "update_pcemarks"
-#    get "profile_select"
-#    get "pcemark_select"
-#  end
-# end
 
 # get "rollformer_qa_check/:workords/item" => "application#update_profiles", :as => "profiles", :format => :json
 

@@ -2,9 +2,12 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
-	$('#invtots').dataTable( {
+	$('#invtots').dataTable {
 		"order": [[ 0, "asc" ]],
 		"paging_type": "full_numbers"
-	});
+	};
 	sPaginationType: 'full_numbers'
 	bJQueryUI: true
+
+jQuery ->
+	$(".best_in_place").best_in_place();
