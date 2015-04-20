@@ -9,11 +9,7 @@
 <%= error_messages_for(@current_coil) %>
 
 <table align=center > 
-  	<tr>
-    <th><%= f.label(:lot, "Coil Label") %></th>
-    <td><%= f.text_field(:lot) %> </td>
-  </tr>
-  <tr>
+    <tr>
     <th><%= f.label(:coil_complete, "Return Previous to Inventory")%></th>
     <td><%= f.check_box(:coil_complete)%></td>  
   </tr>
@@ -21,6 +17,10 @@
   <th><%= f.label(:smartcard_reading, "Smart Card Reading") %></th>
     <td><%= f.text_field(:smartcard_reading) %> </td>     
         <%= f.hidden_field :station, :value => 3 %>
+  </tr>
+  	<tr>
+    <th><%= f.label(:lot, "Coil Label") %></th>
+    <td><%= f.text_field(:lot) %> </td>
   </tr>
 </table>
 

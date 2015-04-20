@@ -21,7 +21,7 @@ window.onload = function() {
     <%= render(:partial => "scan_panel", :locals => {:f => f}) %>
     <br>
     <div class="form-buttons">
-      <%= submit_tag("Submit Panel") %>
+      <%= submit_tag("Submit Panel") %> 
     </div>
 
   <table width="100%">
@@ -36,7 +36,10 @@ window.onload = function() {
     elsif @trans_code == 'OPA' then
         link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_opa_notification'
     elsif @trans_code == 'NCN' then
-        link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_ncn_notification'end %>
+        link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_ncn_notification'
+    elsif @trans_code == 'STH' then
+        link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_sth_notification'
+        end %>
   </td>
  </tr> 
 <% end %>

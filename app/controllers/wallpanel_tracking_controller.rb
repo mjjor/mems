@@ -33,13 +33,14 @@ class WallpanelTrackingController < ApplicationController
          flash[:notice] = "Panel record created successfully!"
          redirect_to(:action => 'new', :trans_code => @panel.trans_code)
       else
-         flash[:notice] = "PANEL NOT PROCESSED"
-        render('new', :trans_code => @panel.trans_code)
+         flash[:notice] = "*** LAST PANEL SCANNED NOT PROCESSED ***"
+        @trans_code = @panel.trans_code 
+        render('new')
       end
 	end
 
   def show
-     @scannedtoday = Wallpanels.where("(wallpanels.status != 'open' AND wallpanels.status != ' ')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(wallpanel_trackings.updated_at) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").lastupdate
+     @scannedtoday = Wallpanels.where("(wallpanels.status != 'open' AND wallpanels.status != ' ') AND `wallpanel_trackings`.`trans_code` = ?", params[:transcode]).joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(wallpanel_trackings.updated_at) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) ").lastupdate
   end
 
   def send_vrs_notification
@@ -84,6 +85,17 @@ def send_rlf_notification
     end
     flash[:notice] = "Request Sent!"
     redirect_to(:controller => 'rollformer_qa_check', :action => 'index' , :trans_code => 'RLF', :workstation => 1)
+  end
+
+  def send_sth_notification
+    if Rails.env.development?
+    MemsMailer.versa_down('mjordan@magest.com', 'STH').deliver
+    end 
+    if Rails.env.production?
+    MemsMailer.versa_down('gmoore@magest.com,rkirk@magest.com', 'STH').deliver
+    end
+    flash[:notice] = "Request Sent!"
+    redirect_to(:action => 'new', :trans_code => 'STH')
   end
 
 private

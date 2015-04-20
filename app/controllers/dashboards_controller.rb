@@ -7,10 +7,10 @@ class DashboardsController < ApplicationController
   before_action :confirm_page_access
 
   def index
-    @dayfootage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) = DATE(CURRENT_DATE())").sum(:length).to_f.round(2)
-        @daypoundage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) = DATE(CURRENT_DATE())").sum(:weight).to_f.round(2)
-        @daysqfootage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) = DATE(CURRENT_DATE())").sum(:areagross).to_f.round(2)
-        @daypanelcount = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(updated_at) = CURDATE()"]).count("DATE(`updated_at`)")
+    @dayfootage = Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) = DATE(CURRENT_DATE())").sum(:length).to_f.round(2)
+        @daypoundage = Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) = DATE(CURRENT_DATE())").sum(:weight).to_f.round(2)
+        @daysqfootage = Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) = DATE(CURRENT_DATE())").sum(:areagross).to_f.round(2)
+        @daypanelcount = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(updated_at) = CURDATE()"]).count("DATE(`updated_at`) AND (`wallpanel_trackings`.`trans_code` = 'VRS' OR `wallpanel_trackings`.`trans_code` = 'OPA')")
     
     if  @dayfootage > 0 then
         @dayavgpanelfootage = (Float(@dayfootage)/@daypanelcount).round(2)
@@ -27,21 +27,21 @@ class DashboardsController < ApplicationController
     else @dayavgpanelpoundage = 0
     end
 
-        @prevdayfootage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) = (SELECT DATE(`wpt`.`updated_at`) FROM `wallpanel_trackings` wpt WHERE DATE(`wpt`.`updated_at`) < CURDATE() ORDER BY `wpt`.`updated_at` DESC LIMIT 1)").sum(:length).to_f.round(2)
-        @prevdaypoundage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND  DATE(`wallpanel_trackings`.`updated_at`) = (SELECT DATE(`wpt`.`updated_at`) FROM `wallpanel_trackings` wpt WHERE DATE(`wpt`.`updated_at`) < CURDATE() ORDER BY `wpt`.`updated_at` DESC LIMIT 1)").sum(:weight).to_f.round(2)
-        @prevdaysqfootage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND  DATE(`wallpanel_trackings`.`updated_at`) = (SELECT DATE(`wpt`.`updated_at`) FROM `wallpanel_trackings` wpt WHERE DATE(`wpt`.`updated_at`) < CURDATE() ORDER BY `wpt`.`updated_at` DESC LIMIT 1)").sum(:areagross).to_f.round(2)
-        @prevdaypanelcount = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(`updated_at`) = (SELECT DATE(`wpt`.`updated_at`) FROM `wallpanel_trackings` wpt WHERE DATE(`wpt`.`updated_at`) < CURDATE() ORDER BY `wpt`.`updated_at` DESC LIMIT 1)"]).count("DATE(`updated_at`)")
+        @prevdayfootage = Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) = (SELECT DATE(`wpt`.`updated_at`) FROM `wallpanel_trackings` wpt WHERE DATE(`wpt`.`updated_at`) < CURDATE() ORDER BY `wpt`.`updated_at` DESC LIMIT 1)").sum(:length).to_f.round(2)
+        @prevdaypoundage = Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND  DATE(`wallpanel_trackings`.`updated_at`) = (SELECT DATE(`wpt`.`updated_at`) FROM `wallpanel_trackings` wpt WHERE DATE(`wpt`.`updated_at`) < CURDATE() ORDER BY `wpt`.`updated_at` DESC LIMIT 1)").sum(:weight).to_f.round(2)
+        @prevdaysqfootage = Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND  DATE(`wallpanel_trackings`.`updated_at`) = (SELECT DATE(`wpt`.`updated_at`) FROM `wallpanel_trackings` wpt WHERE DATE(`wpt`.`updated_at`) < CURDATE() ORDER BY `wpt`.`updated_at` DESC LIMIT 1)").sum(:areagross).to_f.round(2)
+        @prevdaypanelcount = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(`updated_at`) = (SELECT DATE(`wpt`.`updated_at`) FROM `wallpanel_trackings` wpt WHERE DATE(`wpt`.`updated_at`) < CURDATE() AND (`wallpanel_trackings`.`trans_code` = 'VRS' OR `wallpanel_trackings`.`trans_code` = 'OPA') ORDER BY `wpt`.`updated_at` DESC LIMIT 1)"]).count("DATE(`updated_at`)")
         @prevdayavgfootage = (Float(@prevdayfootage)/@prevdaypanelcount).round(2)
         @prevdayavgpanelpoundage = (Float(@prevdaypoundage)/@prevdaypanelcount).round(2)
         @prevdayavgpanelsqfootage = (Float(@prevdaysqfootage)/@prevdaypanelcount).round(2)
         
         
-        @wtdfootage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < DATE(CURRENT_DATE())").sum(:length).to_f.round(2)
-        @wtdpoundage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < DATE(CURRENT_DATE())").sum(:weight).to_f.round(2)
-        @wtdsqfootage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < DATE(CURRENT_DATE())").sum(:areagross).to_f.round(2)
-        @wtdpanelcount = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND DATE(updated_at) < CURDATE()"]).count("DATE(`updated_at`)")
+        @wtdfootage = Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < DATE(CURRENT_DATE())").sum(:length).to_f.round(2)
+        @wtdpoundage = Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < DATE(CURRENT_DATE())").sum(:weight).to_f.round(2)
+        @wtdsqfootage = Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < DATE(CURRENT_DATE())").sum(:areagross).to_f.round(2)
+        @wtdpanelcount = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND DATE(updated_at) < CURDATE() AND (`wallpanel_trackings`.`trans_code` = 'VRS' OR `wallpanel_trackings`.`trans_code` = 'OPA')"]).count("DATE(`updated_at`)")
         
-        @wtddays = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND DATE(updated_at) < CURDATE()"]).distinct.count("DATE(`updated_at`)")
+        @wtddays = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND DATE(updated_at) < CURDATE() AND (`wallpanel_trackings`.`trans_code` = 'VRS' OR `wallpanel_trackings`.`trans_code` = 'OPA')"]).distinct.count("DATE(`updated_at`)")
     
         @avgwtdfootage = (Float(@wtdfootage)/@wtddays).round(2)
         @avgwtdpoundage = (Float(@wtdpoundage)/@wtddays).round(2)
@@ -51,12 +51,12 @@ class DashboardsController < ApplicationController
         @avgwtdpanelpoundage = (Float(@wtdpoundage)/@wtdpanelcount).round(2)
         @avgwtdpanelsqfootage = (Float(@wtdsqfootage)/@wtdpanelcount).round(2)
         
-        @mtdfootage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < DATE(CURRENT_DATE())").sum(:length).to_f.round(2)
-        @mtdpoundage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < DATE(CURRENT_DATE())").sum(:weight).to_f.round(2)
-        @mtdsqfootage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < DATE(CURRENT_DATE())").sum(:areagross).to_f.round(2)
-        @mtdpanelcount = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND DATE(updated_at) < CURDATE()"]).count("DATE(`updated_at`)")
+        @mtdfootage = Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < DATE(CURRENT_DATE())").sum(:length).to_f.round(2)
+        @mtdpoundage = Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < DATE(CURRENT_DATE())").sum(:weight).to_f.round(2)
+        @mtdsqfootage = Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND DATE(`wallpanel_trackings`.`updated_at`) < DATE(CURRENT_DATE())").sum(:areagross).to_f.round(2)
+        @mtdpanelcount = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND DATE(updated_at) < CURDATE() AND (`wallpanel_trackings`.`trans_code` = 'VRS' OR `wallpanel_trackings`.`trans_code` = 'OPA')"]).count("DATE(`updated_at`)")
 
-        @mtddays = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND DATE(updated_at) < CURDATE()"]).distinct.count("DATE(`updated_at`)")
+        @mtddays = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(`updated_at`) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND DATE(updated_at) < CURDATE() AND (`wallpanel_trackings`.`trans_code` = 'VRS' OR `wallpanel_trackings`.`trans_code` = 'OPA')"]).distinct.count("DATE(`updated_at`)")
     
         @avgmtdfootage = (Float(@mtdfootage)/@mtddays).round(2)
         @avgmtdpoundage = (Float(@mtdpoundage)/@mtddays).round(2)

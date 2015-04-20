@@ -9,16 +9,31 @@
 <% monthsfeet = :monthsfootage %>
 
 <br />
-<%= link_to 'Versa Table', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'VRS'} %>
+<table width = "50%" align = "center">
+<tr>
+	<td width = "50%" >
+		<%= link_to 'Sheathing Preparation Production', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'STH'} %>
+    </td>		
+   <td width = "50%" align = "center">
+	<%= link_to 'Versa Table', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'VRS'} %>
+   </td>
+</tr>
+<tr>
+	<td width = "50%" align = "center">
+	 &nbsp;
+	</td>
+	<td width = "50%" align = "center">
+		&nbsp;
+	</td>
+</tr>
+<tr>
+	<td width = "50%" align = "center">
+	</td>
+	<td width = "50%" align = "center">
+	<%= link_to 'OffLine Panel Production', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'OPA'} %>
+    </td>
+</tr>
+</table>
 <br />
-<br />
-<%= link_to 'OffLine Panel Production', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'OPA'} %>
-<br />
-<br />
-<!--
-<%= link_to 'NuCon Truss Production', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'NCN'} %>
-<br />
-<br />
--->
 <%= render(partial: "versa_footage" ) %>
 

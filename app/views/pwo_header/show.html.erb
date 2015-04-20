@@ -3,3 +3,43 @@
 <% @previous_action = 'index' %>
 <% @page_module = "pwo_headers" %>
 
+<table id="invbals" class="display" width="85%" align="center">
+<thead>
+	<tr>
+		<th>      </th>
+		<th> On Hand Footage  </th>
+		<th> On Hand Poundage  </th>
+		<%if params[:procure] %>
+		<th> On Hand Value  </th>
+		<% end %>
+		<th> QA Hold Footage  </th>
+		<th> QA Hold Poundage  </th>
+		<%if params[:procure] %>
+		<th> QA Hold Value  </th>
+		<% end %>
+		<th> On Order Footage </th>
+		<th> Allocated Footage</th>   
+		<th> Available Footage</th>
+	</tr>	
+</thead>
+<tbody>
+	<% @invtable.each do |invbal| %>
+	<tr>
+		<td align = 'center'><%= link_to(invbal.item_number, controller: "inv_lot", action: "show", item_masters_id: invbal.item_masters_id, item_number: invbal.item_number, company: @company, procure: @procure) %></td>
+		<td align = 'center'><%= number_with_precision(invbal.ohFT, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= number_with_precision(invbal.ohLBS, :precision => 2, :delimiter => ",") %></td>
+	    <%if params[:procure] %>
+		<td align = 'center'><%= number_to_currency(invbal.ohVal) %></td>
+		<% end %>
+		<td align = 'center'><%= number_with_precision(invbal.qaFT, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= number_with_precision(invbal.qaLBS, :precision => 2, :delimiter => ",") %></td>
+		<%if params[:procure] %>
+		<td align = 'center'><%= number_to_currency(invbal.qaVal) %></td>
+		<% end %>
+		<td align = 'center'><%= number_with_precision(invbal.ooFT, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= number_with_precision(invbal.alFT, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= number_with_precision(invbal.avFT, :precision => 2, :delimiter => ",") %></td>
+	</tr>
+	<% end %>
+</tbody>	
+	</table>	

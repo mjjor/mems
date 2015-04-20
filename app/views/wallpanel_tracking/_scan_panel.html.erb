@@ -3,7 +3,8 @@
 <% case @trans_code 
       when "VRS" then @page_access = 'versa' 
       when "OPA" then @page_access = 'offline_panel'
-      when "NCN" then @page_access = 'nucon' 
+      when "NCN" then @page_access = 'nucon'
+      when "STH" then @page_access = 'sheathing' 
    end %>
 
 <%= error_messages_for(@versatable) %>

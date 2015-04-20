@@ -6,5 +6,6 @@ def self.to_csv(options = {})
 		all.each do |invtot|
 		csv << invtot.attributes.values_at(*column_names)
     end
+end	
 end
 end
