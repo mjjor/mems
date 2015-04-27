@@ -1,0 +1,35 @@
+<% @page_title = "Fractional Dimension Addition" %>
+
+<table bgcolor = "#DCDCDC" align="center">	
+	<tr>	
+		<th width = "150" bgcolor = "#ffffff">ADDS the Dimensions</td>
+  		<th width = "185" bgcolor = "#ffffff"><h4>Enter Dimensions</h4></th>
+	</tr>
+</table>
+
+<%= form_tag('calcFract') do |c| %>
+
+<%= render(:partial => 'enterValues', :locals => {:c => c}) %>
+
+<br />
+
+<table width = "335" align="center">
+	<tr>
+	<!--	<td width = "160">	-->
+			<td width="150">
+			<div>
+				&nbsp;
+			<!--	<%= link_to(image_tag("backtohome2-emboss.png"), {controller: "mems", action: "index", method: :get}) %>
+			-->
+			</div>
+		</td>
+	<!--	<td width = "100"> -->
+			<td width="185">
+			<div class = "button" >
+      			<%= submit_tag("Calculate") %>
+			</div>
+		</td>
+		</tr>
+		</table>	
+<hr>
+<% end %>

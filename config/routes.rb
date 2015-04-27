@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  get 'calc_fractions/index'
+
+  get 'calc_fractions/show'
+
   get 'phase_master/index'
 
   get 'phase_master/show'
