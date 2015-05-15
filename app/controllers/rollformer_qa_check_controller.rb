@@ -8,7 +8,7 @@ class RollformerQaCheckController < ApplicationController
   respond_to :json
 
   def index
-    @pwo = PwoHeaders.select(:pwo_worderno, :id).where(:status => [1,2]).wosorted
+    @pwo = PwoHeaders.select(:pwo_worderno, :id).where(:status => [1,2], :workstations_id => 1).wosorted
     @profiles = PwoLines.where("pwo_headers_id = ?", PwoHeaders.first.id).group(:item_number).itmsorted
     @pcemarks = PwoLines.where("pwo_headers_id = ?", PwoHeaders.first.id).group(:piecemark).pmsorted
   end

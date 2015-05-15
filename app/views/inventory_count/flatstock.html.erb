@@ -1,0 +1,71 @@
+<% @page_title = "Inventory Count" %>
+<% @previous_controller = 'inventory' %>
+<% @previous_action = 'index' %>
+<% @page_module = "inventory_count" %>
+<% @company = params[:company] %>
+<br />
+
+ 
+<h2 align='center'> <%= case @itemcateg when 'SHS' then "Sheet Steel Count Sheet"
+                                        when 'MSC' then 'Miscellaneous Count Sheet'
+                                        when 'STH' then 'Sheathing Count Sheet' end %>    
+</h2>
+<hr />
+ <%= form_for :sheet, url: {action: "flatstock_update"}, html: {method: "get"} do |f| %>
+<table align=center summary="Profile QA Check" style = "background-color: #F5F5F5">
+<tr>
+  	<td style = "background-color: #F5F5F5"><%= f.label(:item_description, "Part:")%></td>
+    <td>
+ 	<%= f.select :sheetpart, options_for_select(@fstock.collect { |sheet| [sheet.item_description, sheet.item_number] }, 1), {} , { id: 'part_select' } %>
+	</td>  
+<tr>
+	<td style = "background-color: #F5F5F5">
+		<%= 
+        case @count_cycle
+        when 1 then f.label(:count_1_qty, "Number of Sheets:") 
+        when 2 then f.label(:count_2_qty, "Number of Sheets:") 
+        when 3 then f.label(:count_3_qty, "Number of Sheets:") 	
+        end	%>
+    </td>
+    <td>
+    	<%= 
+		case @count_cycle 
+    	when 1 then f.number_field(:count_1_qty) 
+    	when 2 then f.number_field(:count_2_qty) 
+    	when 3 then f.number_field(:count_3_qty) 
+    	end %>
+        <%= f.hidden_field(:company, :value => @company) %>  
+        <%= f.hidden_field(:count_cycle, :value => @count_cycle) %>
+        <%= f.hidden_field(:itemcateg, :value => @itemcateg) %>
+    </td> 
+</tr>	
+</table>
+<br />
+ <%= f.submit "Update Quantity" %>
+<% end %>
+
+<hr />
+
+<table id="flatstockCS" class="display" width="85%" align="center">
+<thead>
+  <tr>
+    <th> Item     </th>
+    <th> Description  </th>
+    <th> Counted Qty  </th>
+    </tr> 
+</thead>
+<tbody>
+  <% @fstock.each do |sheet| %>
+  <tr>
+    <td align = 'center'><%= sheet.item_number %></td>
+    <td align = 'center'><%= sheet.item_description %></td>
+    <td align = 'center'><%= case @count_cycle 
+    	                     when 1 then sheet.count_1_quantity 
+    	                     when 2 then sheet.count_2_quantity 
+    	                     when 3 then sheet.count_3_quantity 
+    	                     end %>
+    </td>
+    </tr>
+  <% end %>
+</tbody>  
+  </table>

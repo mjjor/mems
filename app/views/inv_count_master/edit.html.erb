@@ -1,0 +1,20 @@
+<% @page_title = "Inventory Count Management" %>
+<% @previous_controller = 'admin' %>
+<% @previous_action = 'index' %>
+<% @page_module = "admin" %>
+<% @page_sub_module = "count_edit" %>
+
+<div class="count_master">
+  <h2>Inventory Count Master</h2>
+  <%= form_for(:countmaster, :url => {:action => 'update'}) do |f| %>
+</div>
+    
+    <%= render(:partial => "inv_count_form.html.erb", :locals => {:f => f}) %>
+    
+    <br>
+
+    <div class="form-buttons">
+      <%= submit_tag("Submit Count") %>
+    </div>
+<% end %>
+

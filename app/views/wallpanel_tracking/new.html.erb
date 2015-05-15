@@ -23,9 +23,11 @@ window.onload = function() {
   <h2>Scan Panel</h2>
  </td>
 <td width = "33%" align = "right">
- <%= if @trans_code == 'STH' then
-         link_to image_tag('calculator40.png'), :controller => 'wallpanel_tracking', :action => 'send_sth_notification'
-       end %> 
+  <%= if @trans_code == 'STH' then
+        link_to( { :controller => "calc_fractions", :action => "index", :method => :get }, :target => '_blank') do 
+        image_tag("calculator40.png") 
+        end 
+  end %>
 </td>  
 </tr>
 </table>
@@ -41,10 +43,15 @@ window.onload = function() {
   <table width="100%">
    <tr>
     <td width="33%" align="left">
-        <%= link_to image_tag('button_Scanned_Panels.png'), :action => 'show', :method => 'get', :target => "_blank",:transcode => @trans_code %>
+       <%= link_to( {:action => 'show', :method => 'get', :scanned => 'notscanned', :transcode => @trans_code}, :target => '_blank') do 
+        image_tag('button_Scanned_Panels.png') 
+        end  %>
+        
     </td>
     <td width="33%" align="center">
-       
+     <%= link_to( {:action => 'show', :method => 'get',  :scanned => 'scanned', :transcode => @trans_code}, :target => '_blank') do 
+          image_tag('panelsNotScanned.png') 
+        end %>
     </td>
     <td width="33%" align="right">
     <%= 

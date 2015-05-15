@@ -1,0 +1,42 @@
+<% @page_title = "Administration Menu" %>
+<% @previous_controller = 'admin' %>
+<% @previous_action = 'index' %>
+<% @page_module = "admin" %>
+<% @page_sub_module = "view_count" %>
+
+<table id="viewCount" class="display" width="85%" align="center">
+<thead>
+  <tr>
+    <th> Item              </th>
+    <th> Description       </th>
+    <th> Lot/Serial        </th>
+    <th> Item Class        </th>
+    <th> Opening Balance   </th>
+    <th> Count 1 Qty       </th>
+    <th> Count 1 Inv Units </th>
+    <th> Count 1 Variance  </th>
+    <th> Count 2 Qty       </th>
+    <th> Count 2 Inv Units </th>
+    <th> Count 2 Variance  </th>
+    <th> Last Count        </th>
+    </tr> 
+</thead>
+<tbody>
+  <% @count.each do |count| %>
+  <tr>
+    <td align = 'center'><%= count.item_number %></td>
+    <td align = 'center'><%= count.item_description %></td>
+    <td align = 'center'><%= count.lotserial %></td>
+    <td align = 'center'><%= count.item_class %></td>
+    <td align = 'center'><%= number_with_precision(count.opening_balance, :precision => 2, :delimiter => ",") %></td>
+    <td align = 'center'><%= number_with_precision(count.count_1_quantity, :precision => 2, :delimiter => ",") %></td>
+    <td align = 'center'><%= number_with_precision(count.count_1_inv_qty, :precision => 2, :delimiter => ",") %></td>
+    <td align = 'center'><%= number_with_precision(count.count_1_variance, :precision => 2, :delimiter => ",")  %></td>
+    <td align = 'center'><%= number_with_precision(count.count_2_quantity, :precision => 2, :delimiter => ",") %></td>
+   	<td align = 'center'><%= number_with_precision(count.count_2_inv_qty, :precision => 2, :delimiter => ",")  %></td>
+    <td align = 'center'><%= number_with_precision(count.count_2_variance, :precision => 2, :delimiter => ",")  %></td>
+    <td align = 'center'><%= localize(count.updated_at, :format => :long) %></td>
+  </tr>
+  <% end %>
+</tbody>  
+  </table>

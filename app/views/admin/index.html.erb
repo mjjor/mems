@@ -4,12 +4,59 @@
 <% @page_module = "admin" %>
 <% @page_sub_module = "admin_menu" %>
 
-<br>
+<br />
+<table width="80%" align="center">
+	<tr>
+		<td width="33%" align="center">
+
+	    <td width="33%" align="center">
+
+	    <td width="33%" align="center">
+
+	</tr>
+    <tr>
+    	<td width="33%" align="center">
+    		
+    	</td>
+    	<td width="33%" align="center">
+     		
+ 		</td>
+ 		<td width="33%" align="center">
+    		
+	    </td>
+	 </tr>
+	    <tr>
+    	<td width="33%" align="center">
+    	</td>
+    	<td width="33%" align="center">
+     		
+ 		</td>
+ 		<td width="33%" align="center">
+	    </td>
+	 </tr>
+	     <tr>
+    	<td width="33%" align="center">
+    		
+    	</td>
+    	<td width="33%" align="center">
+     		<br />
+            <%= link_to("Inventory Count Management", :controller => 'inv_count_master', :action => 'view', :method => :get) %>
+ 		</td>
+ 		<td width="33%" align="center">
+	    
+        </td>
+	 </tr> 
+     <tr>
+        <td width="33%" align="center">
+           
+        </td>
+        <td width="33%" align="center">
+            <br />
+            <%= link_to("Inventory Count Review", :controller => 'inventory_count', :action => 'view_count', :method => :get) %> 
+        </td>
+        <td width="33%" align="center">
+        </td>
+     </tr> 
+</table>
+<br />
 <hr>
-<center>
-<h1> Coming Soon </h1>
-<hr>
-<%= image_tag('UnderConstructionPAGE.png')  %>
-<br/>
-<hr>
-</center>

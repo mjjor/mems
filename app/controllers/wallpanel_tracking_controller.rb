@@ -40,7 +40,16 @@ class WallpanelTrackingController < ApplicationController
 	end
 
   def show
-     @scannedtoday = Wallpanels.where("(wallpanels.status != 'open' AND wallpanels.status != ' ') AND `wallpanel_trackings`.`trans_code` = ?", params[:transcode]).joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(wallpanel_trackings.updated_at) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) ").lastupdate
+    case params[:scanned]
+      when 'scanned' then
+        @scannedtoday = Wallpanels.where("(wallpanels.status != 'open' AND wallpanels.status != ' ') AND `wallpanel_trackings`.`trans_code` = ?", params[:transcode]).joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(wallpanel_trackings.updated_at) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) ").lastupdate
+      when 'notscanned' then
+        if params[:transcode] == 'STH' 
+          @scannedtoday = Wallpanels.where(:status => 'open', :is_sheathed => true).oldestupdate
+        else
+          @scannedtoday = Wallpanels.where(:status => 'open').oldestupdate
+        end 
+    end
   end
 
   def send_vrs_notification

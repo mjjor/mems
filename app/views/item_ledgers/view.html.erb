@@ -1,0 +1,38 @@
+<% @page_title = 'Inventory' %>
+<% @previous_controller = 'inventory' %>
+<% @previous_action = 'index' %>
+<% @page_module = 'invledgers' %>
+<% @page_access = 'summary' %>
+
+<h2 align='center'> <%= @itemnumber %> - Item Ledgers Card</h2> 
+<br />
+
+<table id="itemledgers" class="display" width="65%" align="center">
+<thead>
+	<tr>
+		<th width = '5%'> ID   </th>		
+		<th width = '5%'> Trans Code   </th>
+		<th width = '13%'> Document     </th>
+		<th width = '13%'> Lot / Serial </th>
+		<th width = '13%'> Opening Balance </th>
+		<th width = '13%'> Quantity     </th>
+		<th width = '13%'> Closing Balance </th>   
+		<th width = '25%'> Trans Date   </th>
+	</tr>	
+</thead>
+<tbody>
+	<% @itemledger.each do |itemledg| %>
+	
+	<tr>
+		<td align = 'center'><%= itemledg.id %></td>
+		<td align = 'center'><%= itemledg.transcode %></td>
+		<td align = 'center'><%= itemledg.document_num %></td>
+		<td align = 'center'><%= itemledg.lotserial %></td>
+		<td align = 'center'><%= number_with_precision(itemledg.openbal, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= number_with_precision(itemledg.quantity, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= number_with_precision(itemledg.closebal, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= localize(itemledg.created_at, :format => :long) %></td>
+	</tr>
+	<% end %>
+</tbody>	
+	</table>	

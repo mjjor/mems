@@ -72,6 +72,7 @@
 <thead>
 <th colspan="10">
   <h2 align='center'>Coil Inventory Summary by Gauge</h2>
+  <h6 align='center'>Click Gauge to View Item Balances</h6>
 </th>
  </tr> 
   <tr>
@@ -90,7 +91,7 @@
 <tbody>
   <% @invtots.each do |invtot| %>
   <tr>
-    <td align = 'center'><%= link_to(invtot.gauge, controller: "inv_balance", action: "show", gauge: invtot.gauge, procure: true, company: "MMPL") %></td>
+    <td align = 'center'><%= link_to( invtot.gauge, {controller: 'inv_balance', action: 'show', gauge: invtot.gauge, company: 'MMPL', procure: true}, target: '_blank') %></td>
     <td align = 'center'><%= number_with_precision(invtot.ohFT, :precision => 2, :delimiter => ",") %></td>
     <td align = 'center'><%= number_with_precision(invtot.ohLBS, :precision => 2, :delimiter => ",") %></td>
     <td align = 'center'><%= number_to_currency(invtot.ohVal) %></td>
@@ -105,4 +106,4 @@
 </tbody>  
   </table>
   <br />
-  <h5 align='center'>Click Gauge to View Item Balances</h5>
+ 

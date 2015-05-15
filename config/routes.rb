@@ -1,32 +1,60 @@
 Rails.application.routes.draw do
   
-  get 'calc_fractions/index'
+ # get 'inv_count_master/create'
 
-  get 'calc_fractions/show'
+ # get 'inv_count_master/view'
 
-  get 'phase_master/index'
+ # get 'inv_count_master/edit'
 
-  get 'phase_master/show'
+ # get 'inv_count_master/update'
 
-  get 'phase_master/edit'
+ # get 'inventory_counts/coil'
 
-  get 'phase_master/update'
+ # get 'inventory_counts/flatstock'
 
-  get 'project_master/index'
+ # get 'inventory_counts/sheathing'
 
-  get 'project_master/show'
+ #  get 'inv_count/coil'
 
-  get 'project_master/edit'
+ #  get 'inv_count/flatstock'
 
-  get 'project_master/update'
+ # get 'inv_count/sheathing'
 
-  get 'pwo_header/index'
+ # get 'item_ledgers/index'
 
-  get 'pwo_header/show'
+ # get 'item_ledgers/view'
 
-  get 'pwo_header/edit'
+ # get 'item_ledgers/edit'
 
-  get 'pwo_header/update'
+ # get 'item_ledgers/update'
+
+ # get 'calc_fractions/index'
+
+ # get 'calc_fractions/show'
+
+ # get 'phase_master/index'
+
+ # get 'phase_master/show'
+
+ # get 'phase_master/edit'
+
+ # get 'phase_master/update'
+
+ # get 'project_master/index'
+
+ # get 'project_master/show'
+
+ # get 'project_master/edit'
+
+ # get 'project_master/update'
+
+ # get 'pwo_header/index'
+
+ # get 'pwo_header/show'
+
+ # get 'pwo_header/edit'
+
+ # get 'pwo_header/update'
 
 root to: "mems#index"
   

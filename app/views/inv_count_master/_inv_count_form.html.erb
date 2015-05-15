@@ -1,0 +1,60 @@
+
+<table align="center", width="40%" >
+	<tr>
+		<th>
+		<%=	f.label(:description, "Count Name:") %>
+		</th>
+		<td>
+		<%= @countmaster.description%> 	
+		</td>
+	</tr>
+	<tr>
+		<th>
+			<%=	f.label(:start_date, "Count Start Date") %>
+		</th>
+		<td>
+		<%= localize(@countmaster.start_date, :format => :long) %>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			<%=	f.label(:coil_cycle, "Coil Count Cycle") %>
+		</th>
+		<td>
+		   	<%= f.number_field(:coil_cycle) %>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			<%=	f.label(:misc_cycle, "Miscellaneous Count Cycle") %>
+		</th>
+		<td>
+		   	<%= f.number_field(:misc_cycle) %>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			<%=	f.label(:sheating_cycle, "Sheathing Count Cycle") %>
+		</th>
+		<td>
+		   	<%= f.number_field(:sheathing_cycle) %>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			<%=	f.label(:sheetsteel_cycle, "Sheet Steel Count Cycle") %>
+		</th>
+		<td>
+		   	<%= f.number_field(:sheetsteel_cycle) %>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			<%=	f.label(:is_active, "Active 1 = Yes, 0 = No") %>
+		</th>
+		<td>
+		   	<%= f.number_field(:is_active) %>
+		   	<%= f.hidden_field(:id, :value => @countmaster.id) %>
+		</td>
+	</tr>
+</table>

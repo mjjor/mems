@@ -56,7 +56,7 @@
 	<% @invtable.each do |invbal| %>
 	<tr>
 		<td align = 'center'><%= link_to(invbal.item_number, controller: "inv_lot", action: "show", item_masters_id: invbal.item_masters_id, item_number: invbal.item_number, company: @company, procure: @procure) %></td>
-		<td align = 'center'><%= number_with_precision(invbal.ohFT, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= link_to(number_with_precision(invbal.ohFT, :precision => 2, :delimiter => ","), controller: "item_ledgers", action: "view", item_masters_id: invbal.item_masters_id, item_number: invbal.item_number, company: @company, procure: @procure, callprog: "invbal") %></td>
 		<td align = 'center'><%= number_with_precision(invbal.ohLBS, :precision => 2, :delimiter => ",") %></td>
 	    <%if params[:procure] %>
 		<td align = 'center'><%= number_to_currency(invbal.ohVal) %></td>

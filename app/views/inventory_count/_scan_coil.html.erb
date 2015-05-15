@@ -1,0 +1,44 @@
+<% @page_module = 'inventory_count' %>
+<% @page_sub_module = 'scan_coil' %>
+<% @company = params[:company] %>
+<% @itemcateg = params[:itemcateg] %>
+
+
+<%= error_messages_for(@scan_coil) %>
+
+<table align=center > 
+  	<tr>
+    <th><%= f.label(:lotserial, "Coil Label") %></th>
+    <td><%= f.text_field(:lotserial) %> </td>
+        <%= f.hidden_field :company, :value => @company %>
+        <%= f.hidden_field :itemcateg, :value => @itemcateg %>
+        <%= f.hidden_field :users_id, :value => session[:user_id] %>
+  </tr>
+</table>
+<!--
+<script type="text/javascript">
+window.onload = function() {
+  document.getElementById('wallpanel_tracking_panellabel').focus();
+}
+</script>
+{:tabindex => '1'}
+-->
+<script type="text/javascript">
+$(document).ready(function(){    
+    //Check if the current URL contains '#'
+    if(document.URL.indexOf("#")==-1){
+        // Set the URL to whatever it was plus "#".
+        url = document.URL+"#";
+        location = "#";
+
+        //Reload the page
+        location.reload(true);
+    }
+});
+</script>
+
+<script type="text/javascript">
+function setFocus(){
+document.getElementById("inventory_counts_lotserial").focus();
+}
+</script>

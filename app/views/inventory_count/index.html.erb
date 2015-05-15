@@ -1,0 +1,45 @@
+<% @page_title = "Inventory Count Main Menu" %>
+<% @previous_controller = 'inventory_count' %>
+<% @previous_action = 'index' %>
+<% @page_module = "inventory_count" %>
+<% @company = params[:company] %>
+<br />
+
+
+<table width="80%" align="center">
+	<tr>
+		<td width="33%" align="center">
+            <%= case @company  
+                    when "MBSL" then image_tag("magest_60x60_Icon.png")
+                    when "MMPL" then image_tag("magest_BlkWht_60x60_Icon.png")
+            end %>   
+            <br />
+            <h2> <%= @company %> Inventory Count </h2>
+	   </td>
+	</tr>
+    <tr>
+    	<td width="33%" align="center">
+    		
+	    </td>
+	 </tr>
+	    <tr>
+    	<td width="33%" align="center">
+            <br />
+            <%= case @company 
+            when "MBSL" then link_to('Count Sheathing', :controller => 'inventory_count', :action => 'flatstock', :method => :get, company: 'MBSL', itemcateg: 'STH') 
+            when "MMPL" then link_to('Count Coils', :controller => 'inventory_count', :action => 'coil', :method => :get, company: 'MMPL', itemcateg: 'COL') 
+            end %>    
+    	</td>
+	 </tr>
+     <tr>
+        <td width="33%" align="center">
+            <br />
+            <%= case @company 
+            when "MBSL" then link_to('Count Miscellaneous', :controller => 'inventory_count', :action => 'flatstock', :method => :get, company: 'MBSL', itemcateg: 'MSC')    
+            when "MMPL" then link_to('Count Sheet Steel', :controller => 'inventory_count', :action => 'flatstock', :method => :get, company: 'MMPL', itemcateg: 'SHS') 
+            end %>    
+        </td>
+     </tr>
+</table>
+<br />
+<hr>

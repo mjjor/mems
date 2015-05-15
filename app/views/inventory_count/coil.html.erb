@@ -1,0 +1,15 @@
+<% @page_title = "Inventory Count" %>
+<% @previous_controller = 'inventory' %>
+<% @previous_action = 'index' %>
+<% @page_module = "inventory_count" %>
+<% @company = params[:company] %>
+
+<div class="panel tracking new">
+  <%= form_for(@coilcount, :url => {:action => 'coil_update'}) do |f| %>
+    <%= render(:partial => "scan_coil", :locals => {:f => f}) %>
+    <br>
+    <div class="form-buttons">
+      <%= submit_tag("Submit Coil") %> 
+    </div>
+<% end %>
+    </div>

@@ -26,7 +26,8 @@
 	 </tr>
 	    <tr>
     	<td width="33%" align="center">
-    		
+    		<%= if !InvCountMasters.find_by(:is_active => 1).blank?
+                link_to("Inventory Count ", :controller => 'inventory_count', :action => 'index', :method => :get, company: 'MBSL')  end %> 
     	</td>
     	<td width="33%" align="center">
      		
@@ -48,6 +49,19 @@
     		<%= link_to("Inventory Details", :controller => 'inv_balance', :action => 'show', :method => :get, company: 'MMPL') %>
 	    </td>
 	 </tr> 
+     <tr>
+        <td width="33%" align="center">
+            
+        </td>
+        <td width="33%" align="center">
+           
+        </td>
+        <td width="33%" align="center">
+            <br />
+            <%= if !InvCountMasters.find_by(:is_active => 1).blank?  
+            link_to("Inventory Count", :controller => 'inventory_count', :action => 'index', :method => :get, company: 'MMPL') end %>
+        </td>
+     </tr> 
 </table>
 <br />
 <hr>

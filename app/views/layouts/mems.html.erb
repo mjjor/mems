@@ -6,6 +6,13 @@
     <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     <%= csrf_meta_tags %>
   <body onload="setFocus();">
+      <script type="text/javascript">
+          $(document).ready(function(){
+          setTimeout(function(){
+          $('#sysmess').remove();
+          }, 10000);
+          })
+      </script>
 <hr>
 <div id="header" >
 <table align="center">
@@ -72,10 +79,10 @@
 </table>
 <hr>
     <% if !flash[:notice].blank? %>
-        <div class="notice">
+        <div id="sysmess" class="notice">
           <%= flash[:notice] %>
+         <hr>
         </div>
-        <hr>
       <% end %>
       <div id="content">
         <%= yield %>
@@ -88,3 +95,4 @@
     </div>
   </body>
 </html>
+

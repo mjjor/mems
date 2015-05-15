@@ -6,17 +6,17 @@ class InventoryController < ApplicationController
       before_action :confirm_page_access
 
   def index
-
+   
   end
    
   def dashboard
     @company = params[:company]
   	@gaugevalue = InvCostLayers.joins("INNER JOIN `item_coils` ON `inv_cost_layers`.`item_masters_id` = `item_coils`.`item_masters_id` 
-   	                                    ").sum("`inv_cost_layers`.`curr_cost` * `inv_cost_layers`.`curr_qty`") 	
+   	                                    ").where("`inv_cost_layers`.`active` = ? ", 1 ).sum("`inv_cost_layers`.`curr_cost` * `inv_cost_layers`.`curr_qty`") 	
   	@gaugeweight = InvCostLayers.joins("INNER JOIN `item_coils` ON `inv_cost_layers`.`item_masters_id` = `item_coils`.`item_masters_id` 
-   	                                    ").sum("`item_coils`.`lbsperfoot` * `inv_cost_layers`.`curr_qty`") 	
+   	                                    ").where("`inv_cost_layers`.`active` = ? ", 1 ).sum("`item_coils`.`lbsperfoot` * `inv_cost_layers`.`curr_qty`") 	
   	@gaugefootage = InvCostLayers.joins("INNER JOIN `item_coils` ON `inv_cost_layers`.`item_masters_id` = `item_coils`.`item_masters_id` 
-   	                                    ").sum("`inv_cost_layers`.`curr_qty`") 	  	
+   	                                    ").where("`inv_cost_layers`.`active` = ? ", 1 ).sum("`inv_cost_layers`.`curr_qty`") 	  	
     @invtots = ItemCoils.find_by_sql("SELECT 
                                       IB.item_number,
                                       ICA.gauge gauge,

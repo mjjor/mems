@@ -13,23 +13,42 @@
 
 ActiveRecord::Schema.define(version: 20140909161040) do
 
+  create_table "accounting_periods", force: true do |t|
+    t.integer "acct_year"
+    t.integer "acct_period"
+    t.string  "acctyp",      limit: 6
+    t.date    "start_date"
+    t.date    "end_date"
+    t.boolean "active"
+    t.boolean "closed"
+  end
+
+  add_index "accounting_periods", ["acctyp"], name: "acctyrprd", using: :btree
+  add_index "accounting_periods", ["end_date"], name: "enddate", using: :btree
+  add_index "accounting_periods", ["start_date"], name: "startdate", using: :btree
+
   create_table "allocations", force: true do |t|
-    t.string   "company",         limit: 5
-    t.integer  "item_masters_id"
-    t.integer  "warehouses_id"
-    t.string   "lotserial",       limit: 1
-    t.integer  "lotserial_id"
-    t.integer  "alloc_from"
-    t.string   "alloc_from_type", limit: 5
-    t.integer  "alloc_to"
-    t.string   "alloc_to_type",   limit: 5
-    t.decimal  "alloc_qty",                  precision: 12, scale: 4
-    t.string   "alloc_uom",       limit: 5
-    t.string   "alloc_type",      limit: 5
-    t.string   "created_by",      limit: 25
-    t.datetime "created_at",                                          null: false
-    t.string   "updated_by",      limit: 25
-    t.datetime "updated_at",                                          null: false
+    t.string    "company",         limit: 5
+    t.integer   "item_masters_id"
+    t.string    "item_number",     limit: 30
+    t.integer   "warehouses_id"
+    t.string    "lotserial",       limit: 1
+    t.integer   "lotserial_id"
+    t.integer   "alloc_from_id"
+    t.string    "alloc_from",      limit: 50
+    t.string    "alloc_from_type", limit: 5
+    t.integer   "alloc_to_id"
+    t.integer   "alloc_to"
+    t.string    "alloc_to_type",   limit: 5
+    t.decimal   "alloc_orig_qty",             precision: 12, scale: 4
+    t.decimal   "alloc_curr_qty",             precision: 12, scale: 4
+    t.string    "alloc_uom",       limit: 5
+    t.string    "alloc_type",      limit: 5
+    t.string    "created_by",      limit: 25
+    t.timestamp "created_at",                                                         null: false
+    t.string    "updated_by",      limit: 25
+    t.timestamp "updated_at",                                                         null: false
+    t.boolean   "active",                                              default: true
   end
 
   add_index "allocations", ["company", "alloc_from"], name: "alloc_from", using: :btree
@@ -37,6 +56,48 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "allocations", ["company", "item_masters_id"], name: "item", using: :btree
   add_index "allocations", ["company", "warehouses_id", "item_masters_id"], name: "itemwhse", using: :btree
   add_index "allocations", ["lotserial_id"], name: "lotserial", using: :btree
+
+  create_table "ams_order", force: true do |t|
+    t.string   "orderno",      limit: 20
+    t.string   "bundle",       limit: 3
+    t.integer  "quantity"
+    t.decimal  "length",                   precision: 10, scale: 3
+    t.string   "material",     limit: 20
+    t.string   "message",      limit: 40
+    t.string   "prodcode",     limit: 20
+    t.string   "partno",       limit: 30
+    t.string   "partoption",   limit: 1
+    t.string   "bundlelabel",  limit: 254
+    t.string   "partlabel",    limit: 254
+    t.string   "kitname",      limit: 24
+    t.string   "item_id",      limit: 22
+    t.string   "action",       limit: 1
+    t.datetime "schedate"
+    t.string   "machine",      limit: 2
+    t.string   "user1",        limit: 254
+    t.string   "user2",        limit: 254
+    t.decimal  "holeoffset",               precision: 8,  scale: 3
+    t.string   "holecount",    limit: 4
+    t.string   "stagger",      limit: 1
+    t.string   "partformat",   limit: 12
+    t.string   "bundleformat", limit: 12
+    t.string   "user3",        limit: 254
+    t.string   "user4",        limit: 254
+    t.string   "user5",        limit: 254
+    t.string   "bundlecode",   limit: 15
+    t.string   "nomasub",      limit: 1
+    t.datetime "daterec"
+    t.datetime "datesent"
+    t.integer  "loctid"
+    t.string   "adduser",      limit: 10
+    t.integer  "plantid"
+    t.string   "MACHINENUM",   limit: 3
+    t.string   "DELSENT",      limit: 1
+  end
+
+  add_index "ams_order", ["datesent"], name: "datesent", using: :btree
+  add_index "ams_order", ["orderno"], name: "orderno", using: :btree
+  add_index "ams_order", ["prodcode"], name: "prodcode", using: :btree
 
   create_table "bin_masters", force: true do |t|
     t.string  "company",          limit: 5
@@ -60,27 +121,36 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "bin_masters", ["company", "warehouses_id", "bin"], name: "companywhsebin", unique: true, using: :btree
 
   create_table "coil_receipts", force: true do |t|
-    t.string    "company",           limit: 30
+    t.string    "company",            limit: 30
     t.integer   "item_masters_id"
-    t.string    "lot",               limit: 16
-    t.string    "basemetal",         limit: 20
-    t.decimal   "thickness",                    precision: 6,  scale: 2
-    t.string    "coating",           limit: 5
-    t.string    "grade",             limit: 5
-    t.decimal   "width",                        precision: 8,  scale: 4
-    t.string    "mill_coil_id",      limit: 16
-    t.string    "processor_coil_id", limit: 16
-    t.string    "heat_number",       limit: 20
-    t.decimal   "lbsperfoot",                   precision: 9,  scale: 4
-    t.decimal   "received_weight",              precision: 12, scale: 4
-    t.decimal   "received_footage",             precision: 12, scale: 4
-    t.string    "created_by",        limit: 25
-    t.timestamp "created_at",                                                            null: false
-    t.string    "updated_by",        limit: 25
-    t.timestamp "updated_at",                                                            null: false
-    t.timestamp "ams_sent_at",                                                           null: false
-    t.boolean   "ams_sent",                                              default: false
+    t.integer   "warehouses_id"
+    t.string    "lot",                limit: 16
+    t.string    "basemetal",          limit: 20
+    t.decimal   "thickness",                     precision: 6,  scale: 4
+    t.string    "coating",            limit: 5
+    t.string    "grade",              limit: 5
+    t.decimal   "width",                         precision: 8,  scale: 4
+    t.string    "mill_coil_id",       limit: 16
+    t.string    "processor_coil_id",  limit: 16
+    t.string    "heat_number",        limit: 20
+    t.decimal   "lbsperfoot",                    precision: 9,  scale: 4
+    t.decimal   "received_weight",               precision: 12, scale: 4
+    t.decimal   "received_footage",              precision: 12, scale: 4
+    t.string    "created_by",         limit: 25
+    t.timestamp "created_at",                                                             null: false
+    t.timestamp "updated_at",                                                             null: false
+    t.string    "updated_by",         limit: 25
+    t.timestamp "ams_sent_at",                                                            null: false
+    t.boolean   "ams_sent",                                               default: false
     t.integer   "ext_id"
+    t.integer   "po_line_id"
+    t.string    "po_number",          limit: 45
+    t.string    "material_condition", limit: 45
+    t.string    "backer",             limit: 45
+    t.string    "processor",          limit: 50
+    t.string    "vendor",             limit: 50
+    t.string    "mill",               limit: 50
+    t.boolean   "frompo"
   end
 
   add_index "coil_receipts", ["company", "item_masters_id"], name: "companyitem", using: :btree
@@ -88,7 +158,7 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "coil_receipts", ["item_masters_id"], name: "item", using: :btree
 
   create_table "companies", force: true do |t|
-    t.string    "company",                limit: 5
+    t.string    "company",                limit: 10
     t.string    "company_name",           limit: 50
     t.string    "short_name",             limit: 25
     t.string    "street_address1",        limit: 50
@@ -144,7 +214,6 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.string    "inv_xfer_acct",          limit: 15
     t.timestamp "created_at"
     t.timestamp "updated_at"
-    t.integer   "ext_id"
   end
 
   add_index "companies", ["company"], name: "company", using: :btree
@@ -253,18 +322,44 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "eclipse_imports", ["production_date"], name: "production_date", using: :btree
 
   create_table "gl_accounts", force: true do |t|
-    t.string  "company",     limit: 5
-    t.string  "glacct",      limit: 20
-    t.string  "description", limit: 50
-    t.string  "glgroup",     limit: 10
-    t.boolean "allowje",                default: true
-    t.boolean "active",                 default: false
-    t.string  "ext_account", limit: 35
+    t.string  "company",       limit: 5
+    t.string  "glacct",        limit: 20
+    t.string  "description",   limit: 50
+    t.string  "glgroup",       limit: 10
+    t.boolean "allowje",                  default: true
+    t.boolean "active",                   default: false
+    t.string  "ext_account",   limit: 35
     t.integer "ext_id"
+    t.integer "DB_CR_Default"
   end
 
   add_index "gl_accounts", ["company", "glacct"], name: "companyacct", unique: true, using: :btree
   add_index "gl_accounts", ["glgroup", "glacct"], name: "groupacct", using: :btree
+
+  create_table "ic_sub_ledgers", force: true do |t|
+    t.string   "glacct",             limit: 20
+    t.datetime "trans_date"
+    t.string   "trans_yp",           limit: 6
+    t.string   "trans_code",         limit: 3
+    t.string   "document_num",       limit: 30
+    t.integer  "document_header_id"
+    t.string   "document_type",      limit: 30
+    t.integer  "item_ledgers_id"
+    t.decimal  "debit_amount",                  precision: 12, scale: 2
+    t.decimal  "credit_amount",                 precision: 12, scale: 2
+    t.datetime "gl_posting_date"
+    t.string   "gl_doc_num",         limit: 30
+    t.boolean  "gl_posted"
+    t.integer  "acct_period"
+    t.integer  "acct_year"
+    t.string   "acct_yp",            limit: 6
+  end
+
+  add_index "ic_sub_ledgers", ["acct_yp"], name: "glyrprd", using: :btree
+  add_index "ic_sub_ledgers", ["gl_posting_date"], name: "postingdate", using: :btree
+  add_index "ic_sub_ledgers", ["trans_code", "trans_date"], name: "transcode", using: :btree
+  add_index "ic_sub_ledgers", ["trans_date"], name: "transdate", using: :btree
+  add_index "ic_sub_ledgers", ["trans_yp"], name: "transyrprd", using: :btree
 
   create_table "images", force: true do |t|
     t.binary "image",       limit: 2147483647
@@ -279,7 +374,8 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.integer   "item_masters_id",                                                     null: false
     t.integer   "warehouses_id",                                                       null: false
     t.integer   "inv_balances_id",                                                     null: false
-    t.integer   "bin_id",                                                              null: false
+    t.integer   "bin_masters_id",                                                      null: false
+    t.string    "bin",             limit: 15
     t.decimal   "onhand",                     precision: 12, scale: 4, default: 0.0,   null: false
     t.decimal   "qa_hold_qty",                precision: 12, scale: 4
     t.decimal   "onorder",                    precision: 12, scale: 4, default: 0.0,   null: false
@@ -295,9 +391,9 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.boolean   "active",                                              default: true
   end
 
-  add_index "inv_balance_details", ["bin_id"], name: "fk_inv_balance_details_bin_idx", using: :btree
+  add_index "inv_balance_details", ["bin_masters_id"], name: "fk_inv_balance_details_bin_idx", using: :btree
   add_index "inv_balance_details", ["company", "item_masters_id"], name: "companyitem", using: :btree
-  add_index "inv_balance_details", ["company", "warehouses_id", "item_masters_id", "bin_id", "inv_balances_id", "qa_hold"], name: "itemwhsebin", unique: true, using: :btree
+  add_index "inv_balance_details", ["company", "warehouses_id", "item_masters_id", "bin_masters_id", "inv_balances_id", "qa_hold"], name: "itemwhsebin", unique: true, using: :btree
   add_index "inv_balance_details", ["company", "warehouses_id", "item_masters_id"], name: "itemwhhse", using: :btree
   add_index "inv_balance_details", ["inv_balances_id"], name: "fk_inv_balance_details_balance_idx", using: :btree
   add_index "inv_balance_details", ["item_masters_id"], name: "fk_inv_balance_details_item_idx", using: :btree
@@ -305,6 +401,7 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   create_table "inv_balances", force: true do |t|
     t.string    "company",         limit: 5
     t.integer   "item_masters_id",                                                    null: false
+    t.string    "item_number",     limit: 30
     t.integer   "warehouses_id",                                                      null: false
     t.decimal   "onhand",                     precision: 12, scale: 4, default: 0.0,  null: false
     t.decimal   "qa_hold_qty",                precision: 12, scale: 4, default: 0.0,  null: false
@@ -322,12 +419,14 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "inv_balances", ["company", "item_masters_id"], name: "companyitem", using: :btree
   add_index "inv_balances", ["company", "warehouses_id", "item_masters_id"], name: "itemwhhse", unique: true, using: :btree
   add_index "inv_balances", ["item_masters_id"], name: "fk_inv_balances_1_idx", using: :btree
+  add_index "inv_balances", ["item_number", "company", "item_masters_id"], name: "itemmaster", using: :btree
 
   create_table "inv_cost_layers", force: true do |t|
     t.string    "company",         limit: 5
     t.integer   "warehouses_id",                                                      null: false
     t.integer   "item_masters_id",                                                    null: false
     t.string    "lotserial",       limit: 20
+    t.integer   "lotserial_id"
     t.decimal   "orig_qty",                   precision: 12, scale: 4, default: 0.0,  null: false
     t.decimal   "orig_cost",                  precision: 12, scale: 4, default: 0.0,  null: false
     t.decimal   "curr_qty",                   precision: 12, scale: 4, default: 0.0,  null: false
@@ -352,6 +451,24 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "inv_cost_layers", ["item_masters_id"], name: "fk_inv_cost_layers_item_idx", using: :btree
   add_index "inv_cost_layers", ["lotserial"], name: "lotserial", using: :btree
 
+  create_table "inv_count_masters", force: true do |t|
+    t.string    "valid_companies",  limit: 60
+    t.string    "description",      limit: 50
+    t.integer   "sheathing_cycle"
+    t.integer   "sheetsteel_cycle"
+    t.integer   "coil_cycle"
+    t.boolean   "is_active"
+    t.timestamp "start_date",                  null: false
+    t.timestamp "end_date",                    null: false
+    t.string    "created_by",       limit: 25
+    t.timestamp "created_at",                  null: false
+    t.string    "updated_by",       limit: 25
+    t.timestamp "updated_at",                  null: false
+  end
+
+  add_index "inv_count_masters", ["description"], name: "decription", using: :btree
+  add_index "inv_count_masters", ["start_date"], name: "startdate", using: :btree
+
   create_table "inv_lots", force: true do |t|
     t.string    "company",                limit: 5
     t.integer   "item_masters_id",                                                               null: false
@@ -359,9 +476,11 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.integer   "inv_balances_id"
     t.integer   "inv_balance_details_id"
     t.integer   "inv_cost_layers_id"
-    t.integer   "bin_id",                                                                        null: false
+    t.integer   "bin_masters_id",                                                                null: false
+    t.string    "bin",                    limit: 15
     t.string    "lot",                    limit: 50
     t.decimal   "orig_qty",                          precision: 12, scale: 4
+    t.decimal   "orig_weight",                       precision: 12, scale: 4
     t.decimal   "good_usage",                        precision: 12, scale: 4, default: 0.0
     t.decimal   "scrap_usage",                       precision: 12, scale: 4, default: 0.0
     t.decimal   "curr_qty",                          precision: 12, scale: 4, default: 0.0,      null: false
@@ -374,11 +493,12 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.timestamp "updated_at"
     t.boolean   "qa_hold",                                                    default: false
     t.boolean   "active",                                                     default: true
+    t.boolean   "variance_processed",                                         default: false
   end
 
-  add_index "inv_lots", ["company", "item_masters_id", "warehouses_id", "bin_id"], name: "itembin", using: :btree
+  add_index "inv_lots", ["company", "item_masters_id", "warehouses_id", "bin_masters_id"], name: "itembin", using: :btree
   add_index "inv_lots", ["company", "item_masters_id", "warehouses_id", "inv_balance_details_id"], name: "itemwhsedetail", using: :btree
-  add_index "inv_lots", ["company", "item_masters_id", "warehouses_id", "lot", "bin_id"], name: "itemlotbin", using: :btree
+  add_index "inv_lots", ["company", "item_masters_id", "warehouses_id", "lot", "bin_masters_id"], name: "itemlotbin", using: :btree
   add_index "inv_lots", ["company", "item_masters_id"], name: "companyitem", using: :btree
   add_index "inv_lots", ["company", "warehouses_id", "item_masters_id"], name: "itemwhhse", using: :btree
   add_index "inv_lots", ["inv_balance_details_id"], name: "fk_inv_lots_detail_idx", using: :btree
@@ -416,23 +536,62 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "inv_serialnos", ["companies_id", "wareshouses_id", "item_masters_id"], name: "itemwhhse", using: :btree
   add_index "inv_serialnos", ["serialno"], name: "serialno", using: :btree
 
-  create_table "item_coils", force: true do |t|
-    t.string    "company",         limit: 5
+  create_table "inventory_counts", force: true do |t|
+    t.string    "company",              limit: 5
+    t.integer   "count_num"
+    t.integer   "inv_count_masters_id",                                      default: 1
+    t.string    "count_description",    limit: 50
     t.integer   "item_masters_id"
-    t.string    "basemetal",       limit: 20
-    t.decimal   "thickness",                  precision: 6, scale: 4
+    t.string    "item_number",          limit: 30
+    t.string    "item_description",     limit: 100
+    t.integer   "bin_masters_id"
+    t.string    "lotserial",            limit: 50
+    t.decimal   "opening_balance",                  precision: 12, scale: 4, default: 0.0
+    t.boolean   "count_1",                                                   default: false
+    t.decimal   "count_1_quantity",                 precision: 12, scale: 4, default: 0.0
+    t.decimal   "count_1_inv_qty",                  precision: 12, scale: 4
+    t.decimal   "count_1_variance",                 precision: 12, scale: 4, default: 0.0
+    t.boolean   "count_2",                                                   default: false
+    t.decimal   "count_2_quantity",                 precision: 12, scale: 4, default: 0.0
+    t.decimal   "count_2_inv_qty",                  precision: 12, scale: 4
+    t.decimal   "count_2_variance",                 precision: 12, scale: 4, default: 0.0
+    t.boolean   "count_3",                                                   default: false
+    t.decimal   "count_3_quantity",                 precision: 12, scale: 4, default: 0.0
+    t.decimal   "count_3_inv_qty",                  precision: 12, scale: 4
+    t.decimal   "count_3_variance",                 precision: 12, scale: 4, default: 0.0
+    t.string    "item_class",           limit: 15
+    t.string    "item_category",        limit: 15
+    t.string    "created_by",           limit: 25
+    t.timestamp "created_at",                                                                null: false
+    t.string    "updated_by",           limit: 25
+    t.timestamp "updated_at",                                                                null: false
+    t.boolean   "count_active",                                              default: true
+    t.decimal   "inv_uom_cnv",                      precision: 12, scale: 4
+    t.string    "inv_unit",             limit: 5
+  end
+
+  add_index "inventory_counts", ["created_at"], name: "created", using: :btree
+  add_index "inventory_counts", ["item_masters_id"], name: "item", using: :btree
+  add_index "inventory_counts", ["lotserial"], name: "lotserial", using: :btree
+
+  create_table "item_coils", force: true do |t|
+    t.string    "company",          limit: 5
+    t.integer   "item_masters_id"
+    t.string    "basemetal",        limit: 20
+    t.decimal   "thickness",                   precision: 6, scale: 4
     t.integer   "gauge"
-    t.string    "coating",         limit: 5
-    t.string    "grade",           limit: 5
-    t.decimal   "lbsperfoot",                 precision: 9, scale: 4
-    t.decimal   "width",                      precision: 8, scale: 4
-    t.string    "default_uom",     limit: 5
-    t.string    "ams_material",    limit: 20
-    t.boolean   "master_coil",                                        default: false
-    t.string    "created_by",      limit: 25
-    t.timestamp "created_at",                                                         null: false
-    t.string    "updated_by",      limit: 25
-    t.timestamp "updated_at",                                                         null: false
+    t.string    "coating",          limit: 5
+    t.string    "grade",            limit: 5
+    t.decimal   "lbsperfoot",                  precision: 9, scale: 4
+    t.decimal   "width",                       precision: 8, scale: 4
+    t.string    "default_uom",      limit: 5
+    t.string    "ams_material",     limit: 20
+    t.boolean   "master_coil",                                         default: false
+    t.string    "created_by",       limit: 25
+    t.timestamp "created_at",                                                          null: false
+    t.string    "updated_by",       limit: 25
+    t.timestamp "updated_at",                                                          null: false
+    t.decimal   "lbsperfoot_calcd",            precision: 9, scale: 4
   end
 
   add_index "item_coils", ["company", "item_masters_id"], name: "companyitem", unique: true, using: :btree
@@ -518,7 +677,7 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.string    "company",            limit: 5
     t.integer   "item_masters_id",                                                       null: false
     t.integer   "warehouses_id",                                                         null: false
-    t.integer   "bin_id"
+    t.integer   "bin_masters_id"
     t.string    "transcode",          limit: 3
     t.string    "document_num",       limit: 30
     t.integer   "document_header_id"
@@ -539,7 +698,6 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.boolean   "qa_hold"
   end
 
-  add_index "item_ledgers", ["bin_id"], name: "fk_item_ledgers_bin_idx", using: :btree
   add_index "item_ledgers", ["company", "item_masters_id", "warehouses_id"], name: "itemcostlayer", using: :btree
   add_index "item_ledgers", ["company", "item_masters_id"], name: "companyitem", using: :btree
   add_index "item_ledgers", ["company", "warehouses_id", "item_masters_id"], name: "itemwhhse", using: :btree
@@ -577,7 +735,7 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.boolean   "lot_control",                                           default: false
     t.boolean   "serialized",                                            default: false
     t.boolean   "produce",                                               default: false
-    t.boolean   "bom_item",                                              default: false
+    t.boolean   "bom_item_type"
     t.boolean   "consumable",                                            default: false
     t.boolean   "qa_inspect",                                            default: false
     t.boolean   "active",                                                default: false
@@ -816,7 +974,7 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.decimal   "good_qty_used",              precision: 12, scale: 4, default: 0.0
     t.decimal   "scrap_qty_used",             precision: 12, scale: 4, default: 0.0
     t.decimal   "total_qty_used",             precision: 12, scale: 4, default: 0.0
-    t.string    "lotserial",       limit: 50
+    t.string    "lotserial",       limit: 50,                          default: " "
     t.text      "line_notes"
     t.text      "user_notes"
     t.string    "created_by",      limit: 25
@@ -972,7 +1130,7 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.string    "created_by",         limit: 25
     t.timestamp "created_at",                                                              null: false
     t.string    "updated_by",         limit: 25
-    t.timestamp "updated_at",                                                              null: false
+    t.timestamp "updated_at"
     t.boolean   "is_active",                                              default: true
     t.integer   "coil_id"
     t.string    "coil_material",      limit: 50
@@ -1033,6 +1191,7 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "panellabel"
+    t.boolean  "production_recorded", default: false
   end
 
   add_index "wallpanel_trackings", ["wallpanels_id", "created_at"], name: "created", using: :btree
@@ -1040,28 +1199,30 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "wallpanel_trackings", ["wallpanels_id"], name: "wallpanel_id", using: :btree
 
   create_table "wallpanels", force: true do |t|
+    t.string   "company",         limit: 5,                           default: "MBSL"
     t.string   "panelnumber"
     t.string   "panellabel"
     t.string   "exportkey"
     t.string   "projectnumber"
     t.string   "exposure"
-    t.decimal  "length",          precision: 10, scale: 4
-    t.decimal  "height",          precision: 10, scale: 4
-    t.decimal  "areagross",       precision: 10, scale: 4
-    t.decimal  "areanet",         precision: 10, scale: 4
+    t.decimal  "length",                     precision: 10, scale: 4
+    t.decimal  "height",                     precision: 10, scale: 4
+    t.decimal  "areagross",                  precision: 10, scale: 4
+    t.decimal  "areanet",                    precision: 10, scale: 4
     t.boolean  "is_loadbearing"
     t.boolean  "is_sheathed"
-    t.decimal  "weight",          precision: 10, scale: 4
-    t.decimal  "weight_sheathed", precision: 10, scale: 4
+    t.decimal  "weight",                     precision: 10, scale: 4
+    t.decimal  "weight_sheathed",            precision: 10, scale: 4
     t.integer  "prod_sequence"
     t.string   "bundle_id"
     t.string   "bundle_position"
     t.integer  "bundle_sequence"
     t.string   "updated_by"
-    t.boolean  "is_active",                                default: true
+    t.boolean  "is_active",                                           default: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "status"
+    t.string   "sheathing_part",  limit: 30
   end
 
   add_index "wallpanels", ["bundle_id"], name: "bundle", using: :btree
@@ -1070,6 +1231,9 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "wallpanels", ["panellabel"], name: "panellabel", unique: true, using: :btree
   add_index "wallpanels", ["panelnumber", "bundle_id"], name: "panel_bundle", using: :btree
   add_index "wallpanels", ["projectnumber"], name: "project", using: :btree
+  add_index "wallpanels", ["status", "updated_at"], name: "statusupdated", using: :btree
+  add_index "wallpanels", ["status"], name: "status", using: :btree
+  add_index "wallpanels", ["updated_at"], name: "updated_at", using: :btree
 
   create_table "warehouses", force: true do |t|
     t.string  "valid_companies",         limit: 30
@@ -1124,11 +1288,11 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.string   "company"
     t.string   "workstation"
     t.integer  "prod_lineid"
-    t.decimal  "prod_sequence",  precision: 10, scale: 0
-    t.decimal  "min_security",   precision: 10, scale: 0
+    t.decimal  "prod_sequence",            precision: 10, scale: 0
+    t.decimal  "min_security",             precision: 10, scale: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "machine_number"
+    t.string   "machine_number", limit: 5
   end
 
   add_index "workstations", ["workstation", "prod_sequence"], name: "workstation_sequence", using: :btree

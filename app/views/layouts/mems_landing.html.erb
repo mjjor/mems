@@ -19,12 +19,19 @@
 </div>
     <div id="main">
       <% if !flash[:notice].blank? %>
-        <div class="notice">
+        <div id="sysmess" class="notice">
           <%= flash[:notice] %>
           <hr>
         </div>
       <% end %>
-      <div id="content">
+        <script type="text/javascript">
+          $(document).ready(function(){
+          setTimeout(function(){
+          $('#sysmess').remove();
+          }, 10000);
+          })
+        </script>
+    <div id="content">
         <%= yield %>
       </div>
     </div>
