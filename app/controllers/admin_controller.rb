@@ -1,4 +1,5 @@
 class AdminController < ApplicationController
+
 layout "mems"
 
 before_action :confirm_logged_in

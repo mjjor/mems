@@ -20,12 +20,21 @@
 	</td>  
 <tr>
 	<td style = "background-color: #F5F5F5">
-		<%= 
-        case @count_cycle
-        when 1 then f.label(:count_1_qty, "Number of Sheets:") 
-        when 2 then f.label(:count_2_qty, "Number of Sheets:") 
-        when 3 then f.label(:count_3_qty, "Number of Sheets:") 	
-        end	%>
+		<%=
+        if params[:itemcateg] == "MSC" 
+            case @count_cycle
+                when 1 then f.label(:count_1_qty, "Count Quantity: ") 
+                when 2 then f.label(:count_2_qty, "Count Quantity: ") 
+                when 3 then f.label(:count_3_qty, "Count Quantity: ")  
+            end
+        else    
+            case @count_cycle
+                when 1 then f.label(:count_1_qty, "Number of Sheets:") 
+                when 2 then f.label(:count_2_qty, "Number of Sheets:") 
+                when 3 then f.label(:count_3_qty, "Number of Sheets:") 	
+            end 
+        end	
+        %>
     </td>
     <td>
     	<%= 
