@@ -12,9 +12,15 @@ class InventoryCountController < ApplicationController
   end
 
   def coil_update
+    @notfound = true
+    @company = params[:inventory_counts][:company]
+    @itemcateg = params[:inventory_counts][:itemcateg]
     @count_master = InvCountMasters.find_by("valid_companies LIKE ? AND is_active = ?", "%#{params[:company]}%", 1)
     @count_cycle = @count_master.coil_cycle
     @coil = InventoryCounts.find_by(:lotserial => params[:inventory_counts][:lotserial])
+
+    if !@coil.nil?  
+      @notfound = false
     case @count_cycle
       when 1 then
           @coil.count_1 = 1
@@ -36,15 +42,22 @@ class InventoryCountController < ApplicationController
           @coil.updated_by = session[:user_id]
     end
     @coil.save
-  if @coil.save
-    flash[:notice] = "Count Recorded Successfully!"
-        redirect_to(:action => 'coil', :company => params[:company], :itemcateg => params[:inventory_counts][:itemcateg])
-      else
-         flash[:notice] = "*** LAST COUNT NOT PROCESSED ***" 
-        render('flatstock')
-      end
-
+    if @coil.save
+       @coilsaved = true
+    else @coilsaved = false  
+    end  
   end
+  if !@notfound && @coilsaved 
+      flash[:notice] = "Count Recorded Successfully!"
+      redirect_to(:action => 'coil', :company => params[:inventory_counts][:company], :itemcateg => params[:inventory_counts][:itemcateg])
+  else
+    flash[:notice] = "*** LAST COIL NOT RECORDED ***"
+    # @company = @company
+    # @itemcateg = @itemcateg    
+    redirect_to(:action => 'coil', :company => params[:inventory_counts][:company], :itemcateg => params[:inventory_counts][:itemcateg])
+    #render('coil') 
+  end  
+end
 
   def flatstock
   	@count_master = InvCountMasters.find_by("valid_companies LIKE ? AND is_active = ?", "%#{params[:company]}%", 1)
@@ -130,10 +143,10 @@ class InventoryCountController < ApplicationController
 
 private
 
-def sheet_params
-   params.require(:inventory_counts).permit([:sheet][:company], [:sheet][:item_number], [:sheet][:sheet_part], 
-                                            [:sheet][:count_1], [:sheet][:count_2], [:sheet][:count_3], 
-                                            [:sheet][:count_1_qty], [:sheet][:count_2_qty], [:sheet][:count_3_qty]) 
+def count_params
+   params.require(:inventory_counts).permit(:company, :item_number, :sheet_part, :count_1, :count_2, :count_3, 
+                                            :count_1_qty, :count_2_qty, :count_1_variance, :count_2_variance, 
+                                            :count_3_variance, :count_3_qty, :lotserial) 
 end
 
 

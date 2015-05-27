@@ -32,18 +32,18 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.integer   "item_masters_id"
     t.string    "item_number",     limit: 30
     t.integer   "warehouses_id"
-    t.string    "lotserial",       limit: 1
-    t.integer   "lotserial_id"
-    t.integer   "alloc_from_id"
-    t.string    "alloc_from",      limit: 50
-    t.string    "alloc_from_type", limit: 5
     t.integer   "alloc_to_id"
-    t.integer   "alloc_to"
+    t.string    "alloc_to",        limit: 50
     t.string    "alloc_to_type",   limit: 5
+    t.string    "alloc_type",      limit: 5
     t.decimal   "alloc_orig_qty",             precision: 12, scale: 4
     t.decimal   "alloc_curr_qty",             precision: 12, scale: 4
     t.string    "alloc_uom",       limit: 5
-    t.string    "alloc_type",      limit: 5
+    t.string    "lotserial",       limit: 1
+    t.string    "alloc_from",      limit: 50
+    t.integer   "lotserial_id"
+    t.integer   "alloc_from_id"
+    t.string    "alloc_from_type", limit: 5
     t.string    "created_by",      limit: 25
     t.timestamp "created_at",                                                         null: false
     t.string    "updated_by",      limit: 25
@@ -121,36 +121,36 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "bin_masters", ["company", "warehouses_id", "bin"], name: "companywhsebin", unique: true, using: :btree
 
   create_table "coil_receipts", force: true do |t|
-    t.string    "company",            limit: 30
-    t.integer   "item_masters_id"
-    t.integer   "warehouses_id"
-    t.string    "lot",                limit: 16
-    t.string    "basemetal",          limit: 20
-    t.decimal   "thickness",                     precision: 6,  scale: 4
-    t.string    "coating",            limit: 5
-    t.string    "grade",              limit: 5
-    t.decimal   "width",                         precision: 8,  scale: 4
-    t.string    "mill_coil_id",       limit: 16
-    t.string    "processor_coil_id",  limit: 16
-    t.string    "heat_number",        limit: 20
-    t.decimal   "lbsperfoot",                    precision: 9,  scale: 4
-    t.decimal   "received_weight",               precision: 12, scale: 4
-    t.decimal   "received_footage",              precision: 12, scale: 4
-    t.string    "created_by",         limit: 25
-    t.timestamp "created_at",                                                             null: false
-    t.timestamp "updated_at",                                                             null: false
-    t.string    "updated_by",         limit: 25
-    t.timestamp "ams_sent_at",                                                            null: false
-    t.boolean   "ams_sent",                                               default: false
-    t.integer   "ext_id"
-    t.integer   "po_line_id"
-    t.string    "po_number",          limit: 45
-    t.string    "material_condition", limit: 45
-    t.string    "backer",             limit: 45
-    t.string    "processor",          limit: 50
-    t.string    "vendor",             limit: 50
-    t.string    "mill",               limit: 50
-    t.boolean   "frompo"
+    t.string   "company",            limit: 30
+    t.integer  "item_masters_id"
+    t.integer  "warehouses_id"
+    t.string   "lot",                limit: 16
+    t.string   "basemetal",          limit: 20
+    t.decimal  "thickness",                     precision: 6,  scale: 4
+    t.string   "coating",            limit: 5
+    t.string   "grade",              limit: 5
+    t.decimal  "width",                         precision: 8,  scale: 4
+    t.string   "mill_coil_id",       limit: 16
+    t.string   "processor_coil_id",  limit: 16
+    t.string   "heat_number",        limit: 20
+    t.decimal  "lbsperfoot",                    precision: 9,  scale: 4
+    t.decimal  "received_weight",               precision: 12, scale: 4
+    t.decimal  "received_footage",              precision: 12, scale: 4
+    t.string   "created_by",         limit: 25
+    t.datetime "created_at",                                                             null: false
+    t.datetime "updated_at",                                                             null: false
+    t.string   "updated_by",         limit: 25
+    t.datetime "ams_sent_at",                                                            null: false
+    t.boolean  "ams_sent",                                               default: false
+    t.integer  "ext_id"
+    t.integer  "po_line_id"
+    t.string   "po_number",          limit: 45
+    t.string   "material_condition", limit: 45
+    t.string   "backer",             limit: 45
+    t.string   "processor",          limit: 50
+    t.string   "vendor",             limit: 50
+    t.string   "mill",               limit: 50
+    t.boolean  "frompo"
   end
 
   add_index "coil_receipts", ["company", "item_masters_id"], name: "companyitem", using: :btree
@@ -158,62 +158,62 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "coil_receipts", ["item_masters_id"], name: "item", using: :btree
 
   create_table "companies", force: true do |t|
-    t.string    "company",                limit: 10
-    t.string    "company_name",           limit: 50
-    t.string    "short_name",             limit: 25
-    t.string    "street_address1",        limit: 50
-    t.string    "street_address2",        limit: 50
-    t.string    "street_address3",        limit: 50
-    t.string    "street_city",            limit: 50
-    t.string    "street_prov",            limit: 50
-    t.string    "street_pcode",           limit: 20
-    t.string    "street_country",         limit: 50
-    t.string    "mail_address1",          limit: 50
-    t.string    "mail_address2",          limit: 50
-    t.string    "mail_address3",          limit: 50
-    t.string    "mail_city",              limit: 50
-    t.string    "mail_prov",              limit: 50
-    t.string    "mail_pcode",             limit: 20
-    t.string    "mail_country",           limit: 50
-    t.string    "phone",                  limit: 20
-    t.string    "fax",                    limit: 20
-    t.string    "email",                  limit: 50
-    t.string    "local_currency",         limit: 3
-    t.string    "fed_tax_id",             limit: 20
-    t.string    "prov_tax_id",            limit: 20
-    t.string    "county_tax_id",          limit: 20
-    t.string    "city_tax_id",            limit: 20
-    t.string    "other_tax_id",           limit: 20
-    t.string    "duns_number",            limit: 15
-    t.string    "logo_file"
-    t.string    "clr_wip_acct",           limit: 15
-    t.string    "clr_payroll_acct",       limit: 15
-    t.string    "clr_equip_acct",         limit: 15
-    t.string    "clr_inv_acct",           limit: 15
-    t.string    "clr_poaccr_acct",        limit: 15
-    t.string    "clr_retainage_acct",     limit: 15
-    t.string    "clr_retainearn_acct",    limit: 15
-    t.string    "clr_exch_gainloss_acct", limit: 15
-    t.string    "clr_sales_tax_acct",     limit: 15
-    t.string    "ar_acct",                limit: 15
-    t.string    "ar_discount_acct",       limit: 15
-    t.string    "ar_adjustment_acct",     limit: 15
-    t.string    "ar_holdback_acct",       limit: 15
-    t.string    "sales_taxrecd_acct",     limit: 15
-    t.string    "ar_def_bankacct",        limit: 15
-    t.string    "ap_acct",                limit: 15
-    t.string    "ap_discount_account",    limit: 15
-    t.string    "ap_adjustment_acct",     limit: 15
-    t.string    "sales_taxpaid_acct",     limit: 15
-    t.string    "purchase_variance_acct", limit: 15
-    t.string    "ap_holdback_acct",       limit: 15
-    t.string    "ap_def_bankacct",        limit: 15
-    t.string    "inv_stock_acct",         limit: 15
-    t.string    "inv_nonstock_acct",      limit: 15
-    t.string    "inv_return_loss_acct",   limit: 15
-    t.string    "inv_xfer_acct",          limit: 15
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.string   "company",                limit: 10
+    t.string   "company_name",           limit: 50
+    t.string   "short_name",             limit: 25
+    t.string   "street_address1",        limit: 50
+    t.string   "street_address2",        limit: 50
+    t.string   "street_address3",        limit: 50
+    t.string   "street_city",            limit: 50
+    t.string   "street_prov",            limit: 50
+    t.string   "street_pcode",           limit: 20
+    t.string   "street_country",         limit: 50
+    t.string   "mail_address1",          limit: 50
+    t.string   "mail_address2",          limit: 50
+    t.string   "mail_address3",          limit: 50
+    t.string   "mail_city",              limit: 50
+    t.string   "mail_prov",              limit: 50
+    t.string   "mail_pcode",             limit: 20
+    t.string   "mail_country",           limit: 50
+    t.string   "phone",                  limit: 20
+    t.string   "fax",                    limit: 20
+    t.string   "email",                  limit: 50
+    t.string   "local_currency",         limit: 3
+    t.string   "fed_tax_id",             limit: 20
+    t.string   "prov_tax_id",            limit: 20
+    t.string   "county_tax_id",          limit: 20
+    t.string   "city_tax_id",            limit: 20
+    t.string   "other_tax_id",           limit: 20
+    t.string   "duns_number",            limit: 15
+    t.string   "logo_file"
+    t.string   "clr_wip_acct",           limit: 15
+    t.string   "clr_payroll_acct",       limit: 15
+    t.string   "clr_equip_acct",         limit: 15
+    t.string   "clr_inv_acct",           limit: 15
+    t.string   "clr_poaccr_acct",        limit: 15
+    t.string   "clr_retainage_acct",     limit: 15
+    t.string   "clr_retainearn_acct",    limit: 15
+    t.string   "clr_exch_gainloss_acct", limit: 15
+    t.string   "clr_sales_tax_acct",     limit: 15
+    t.string   "ar_acct",                limit: 15
+    t.string   "ar_discount_acct",       limit: 15
+    t.string   "ar_adjustment_acct",     limit: 15
+    t.string   "ar_holdback_acct",       limit: 15
+    t.string   "sales_taxrecd_acct",     limit: 15
+    t.string   "ar_def_bankacct",        limit: 15
+    t.string   "ap_acct",                limit: 15
+    t.string   "ap_discount_account",    limit: 15
+    t.string   "ap_adjustment_acct",     limit: 15
+    t.string   "sales_taxpaid_acct",     limit: 15
+    t.string   "purchase_variance_acct", limit: 15
+    t.string   "ap_holdback_acct",       limit: 15
+    t.string   "ap_def_bankacct",        limit: 15
+    t.string   "inv_stock_acct",         limit: 15
+    t.string   "inv_nonstock_acct",      limit: 15
+    t.string   "inv_return_loss_acct",   limit: 15
+    t.string   "inv_xfer_acct",          limit: 15
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "companies", ["company"], name: "company", using: :btree
@@ -227,26 +227,26 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "companies", ["street_prov"], name: "prov", using: :btree
 
   create_table "cost_types", force: true do |t|
-    t.string    "cost_type",   limit: 10
-    t.string    "description", limit: 50
-    t.string    "is_default",  limit: 45, default: "0"
-    t.timestamp "created_at"
+    t.string   "cost_type",   limit: 10
+    t.string   "description", limit: 50
+    t.string   "is_default",  limit: 45, default: "0"
+    t.datetime "created_at"
   end
 
   add_index "cost_types", ["cost_type"], name: "cost_type", using: :btree
 
   create_table "current_coils", force: true do |t|
-    t.integer   "workstations_id"
-    t.string    "workstation",       limit: 50
-    t.integer   "inv_lots_id"
-    t.string    "lot",               limit: 50
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.boolean   "coil_complete",                default: false
-    t.string    "smartcard",         limit: 20
-    t.integer   "smartcard_reading"
-    t.boolean   "is_active",                    default: true
-    t.boolean   "processed",                    default: false
+    t.integer  "workstations_id"
+    t.string   "workstation",       limit: 50
+    t.integer  "inv_lots_id"
+    t.string   "lot",               limit: 50
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "coil_complete",                default: false
+    t.string   "smartcard",         limit: 20
+    t.integer  "smartcard_reading"
+    t.boolean  "is_active",                    default: true
+    t.boolean  "processed",                    default: false
   end
 
   add_index "current_coils", ["inv_lots_id"], name: "coil", using: :btree
@@ -254,66 +254,66 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   add_index "current_coils", ["workstations_id"], name: "workstation", using: :btree
 
   create_table "eclipse_imports", force: true do |t|
-    t.string    "type",                     limit: 1
-    t.string    "reason",                   limit: 3
-    t.string    "date",                     limit: 10
-    t.string    "time",                     limit: 8
-    t.integer   "minutes",                                                       default: 0,   null: false
-    t.string    "production_date",          limit: 10
-    t.string    "shift",                    limit: 1
-    t.integer   "machine",                                                       default: 0,   null: false
-    t.string    "order_number",             limit: 20
-    t.string    "material",                 limit: 20
-    t.string    "product_code",             limit: 20
-    t.string    "customer_name",            limit: 30
-    t.string    "work_order_nbr",           limit: 18
-    t.string    "order_type",               limit: 1
-    t.integer   "bundle",                                                        default: 0,   null: false
-    t.integer   "quantity",                                                      default: 0,   null: false
-    t.decimal   "item_length",                          precision: 10, scale: 3, default: 0.0, null: false
-    t.string    "part_option",              limit: 1
-    t.string    "part_number",              limit: 30
-    t.string    "pattern",                  limit: 3
-    t.decimal   "total_length",                         precision: 14, scale: 3, default: 0.0, null: false
-    t.decimal   "footage",                              precision: 14, scale: 3, default: 0.0, null: false
-    t.decimal   "hole_offset",                          precision: 8,  scale: 3, default: 0.0, null: false
-    t.integer   "hole_count",                                                    default: 0,   null: false
-    t.string    "inv_coil",                 limit: 16
-    t.string    "coil_material",            limit: 20
-    t.decimal   "coil_width",                           precision: 6,  scale: 3, default: 0.0, null: false
-    t.decimal   "lbs_per_foot",                         precision: 7,  scale: 3, default: 0.0, null: false
-    t.decimal   "cost_per_lbs",                         precision: 7,  scale: 2, default: 0.0, null: false
-    t.string    "heat_number",              limit: 20
-    t.string    "code_type",                limit: 1
-    t.integer   "code_value",                                                    default: 0,   null: false
-    t.string    "code_description",         limit: 30
-    t.string    "code_exempt",              limit: 1
-    t.string    "machine_status",           limit: 1
-    t.decimal   "duration",                             precision: 8,  scale: 2, default: 0.0, null: false
-    t.decimal   "runtime",                              precision: 8,  scale: 2, default: 0.0, null: false
-    t.decimal   "downtime",                             precision: 8,  scale: 2, default: 0.0, null: false
-    t.decimal   "exempt_time",                          precision: 8,  scale: 2, default: 0.0, null: false
-    t.decimal   "good_footage",                         precision: 11, scale: 3, default: 0.0, null: false
-    t.decimal   "scrap_footage",                        precision: 14, scale: 3, default: 0.0, null: false
-    t.decimal   "exempt_scrap",                         precision: 14, scale: 3, default: 0.0, null: false
-    t.decimal   "reclaimed",                            precision: 14, scale: 3, default: 0.0, null: false
-    t.decimal   "actual_speed",                         precision: 8,  scale: 3, default: 0.0, null: false
-    t.decimal   "target_speed",                         precision: 8,  scale: 3, default: 0.0, null: false
-    t.integer   "employee_id",                                                   default: 0,   null: false
-    t.string    "employee_name",            limit: 30
-    t.string    "item_id",                  limit: 22
-    t.decimal   "list_id",                              precision: 10, scale: 3, default: 0.0, null: false
-    t.string    "list_text",                limit: 40
-    t.string    "plant_name",               limit: 30
-    t.string    "list_valid",               limit: 100
-    t.integer   "code_responsibility_type",                                      default: 0,   null: false
-    t.string    "unknown",                  limit: 50,                           default: " ", null: false
-    t.string    "bundle_code",              limit: 15
-    t.timestamp "created_at",                                                                  null: false
-    t.timestamp "updated_at"
-    t.string    "processed",                limit: 1,                            default: "n", null: false
-    t.string    "importfile",               limit: 100
-    t.integer   "ext_id"
+    t.string   "type",                     limit: 1
+    t.string   "reason",                   limit: 3
+    t.string   "date",                     limit: 10
+    t.string   "time",                     limit: 8
+    t.integer  "minutes",                                                       default: 0,   null: false
+    t.string   "production_date",          limit: 10
+    t.string   "shift",                    limit: 1
+    t.integer  "machine",                                                       default: 0,   null: false
+    t.string   "order_number",             limit: 20
+    t.string   "material",                 limit: 20
+    t.string   "product_code",             limit: 20
+    t.string   "customer_name",            limit: 30
+    t.string   "work_order_nbr",           limit: 18
+    t.string   "order_type",               limit: 1
+    t.integer  "bundle",                                                        default: 0,   null: false
+    t.integer  "quantity",                                                      default: 0,   null: false
+    t.decimal  "item_length",                          precision: 10, scale: 3, default: 0.0, null: false
+    t.string   "part_option",              limit: 1
+    t.string   "part_number",              limit: 30
+    t.string   "pattern",                  limit: 3
+    t.decimal  "total_length",                         precision: 14, scale: 3, default: 0.0, null: false
+    t.decimal  "footage",                              precision: 14, scale: 3, default: 0.0, null: false
+    t.decimal  "hole_offset",                          precision: 8,  scale: 3, default: 0.0, null: false
+    t.integer  "hole_count",                                                    default: 0,   null: false
+    t.string   "inv_coil",                 limit: 16
+    t.string   "coil_material",            limit: 20
+    t.decimal  "coil_width",                           precision: 6,  scale: 3, default: 0.0, null: false
+    t.decimal  "lbs_per_foot",                         precision: 7,  scale: 3, default: 0.0, null: false
+    t.decimal  "cost_per_lbs",                         precision: 7,  scale: 2, default: 0.0, null: false
+    t.string   "heat_number",              limit: 20
+    t.string   "code_type",                limit: 1
+    t.integer  "code_value",                                                    default: 0,   null: false
+    t.string   "code_description",         limit: 30
+    t.string   "code_exempt",              limit: 1
+    t.string   "machine_status",           limit: 1
+    t.decimal  "duration",                             precision: 8,  scale: 2, default: 0.0, null: false
+    t.decimal  "runtime",                              precision: 8,  scale: 2, default: 0.0, null: false
+    t.decimal  "downtime",                             precision: 8,  scale: 2, default: 0.0, null: false
+    t.decimal  "exempt_time",                          precision: 8,  scale: 2, default: 0.0, null: false
+    t.decimal  "good_footage",                         precision: 11, scale: 3, default: 0.0, null: false
+    t.decimal  "scrap_footage",                        precision: 14, scale: 3, default: 0.0, null: false
+    t.decimal  "exempt_scrap",                         precision: 14, scale: 3, default: 0.0, null: false
+    t.decimal  "reclaimed",                            precision: 14, scale: 3, default: 0.0, null: false
+    t.decimal  "actual_speed",                         precision: 8,  scale: 3, default: 0.0, null: false
+    t.decimal  "target_speed",                         precision: 8,  scale: 3, default: 0.0, null: false
+    t.integer  "employee_id",                                                   default: 0,   null: false
+    t.string   "employee_name",            limit: 30
+    t.string   "item_id",                  limit: 22
+    t.decimal  "list_id",                              precision: 10, scale: 3, default: 0.0, null: false
+    t.string   "list_text",                limit: 40
+    t.string   "plant_name",               limit: 30
+    t.string   "list_valid",               limit: 100
+    t.integer  "code_responsibility_type",                                      default: 0,   null: false
+    t.string   "unknown",                  limit: 50,                           default: " ", null: false
+    t.string   "bundle_code",              limit: 15
+    t.datetime "created_at",                                                                  null: false
+    t.datetime "updated_at"
+    t.string   "processed",                limit: 1,                            default: "n", null: false
+    t.string   "importfile",               limit: 100
+    t.integer  "ext_id"
   end
 
   add_index "eclipse_imports", ["material"], name: "material", using: :btree
@@ -454,11 +454,12 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   create_table "inv_count_masters", force: true do |t|
     t.string    "valid_companies",  limit: 60
     t.string    "description",      limit: 50
+    t.integer   "coil_cycle"
+    t.integer   "misc_cycle"
     t.integer   "sheathing_cycle"
     t.integer   "sheetsteel_cycle"
-    t.integer   "coil_cycle"
     t.boolean   "is_active"
-    t.timestamp "start_date",                  null: false
+    t.timestamp "start_date"
     t.timestamp "end_date",                    null: false
     t.string    "created_by",       limit: 25
     t.timestamp "created_at",                  null: false
@@ -539,7 +540,7 @@ ActiveRecord::Schema.define(version: 20140909161040) do
   create_table "inventory_counts", force: true do |t|
     t.string    "company",              limit: 5
     t.integer   "count_num"
-    t.integer   "inv_count_masters_id",                                      default: 1
+    t.integer   "inv_count_masters_id"
     t.string    "count_description",    limit: 50
     t.integer   "item_masters_id"
     t.string    "item_number",          limit: 30
@@ -549,15 +550,15 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.decimal   "opening_balance",                  precision: 12, scale: 4, default: 0.0
     t.boolean   "count_1",                                                   default: false
     t.decimal   "count_1_quantity",                 precision: 12, scale: 4, default: 0.0
-    t.decimal   "count_1_inv_qty",                  precision: 12, scale: 4
+    t.decimal   "count_1_inv_qty",                  precision: 12, scale: 4, default: 0.0
     t.decimal   "count_1_variance",                 precision: 12, scale: 4, default: 0.0
     t.boolean   "count_2",                                                   default: false
     t.decimal   "count_2_quantity",                 precision: 12, scale: 4, default: 0.0
-    t.decimal   "count_2_inv_qty",                  precision: 12, scale: 4
+    t.decimal   "count_2_inv_qty",                  precision: 12, scale: 4, default: 0.0
     t.decimal   "count_2_variance",                 precision: 12, scale: 4, default: 0.0
     t.boolean   "count_3",                                                   default: false
     t.decimal   "count_3_quantity",                 precision: 12, scale: 4, default: 0.0
-    t.decimal   "count_3_inv_qty",                  precision: 12, scale: 4
+    t.decimal   "count_3_inv_qty",                  precision: 12, scale: 4, default: 0.0
     t.decimal   "count_3_variance",                 precision: 12, scale: 4, default: 0.0
     t.string    "item_class",           limit: 15
     t.string    "item_category",        limit: 15
@@ -627,6 +628,7 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.boolean   "serialized",                                           default: false
     t.boolean   "produce",                                              default: false
     t.boolean   "bom_item",                                             default: false
+    t.boolean   "allocate",                                             default: false
     t.boolean   "consumable",                                           default: false
     t.boolean   "qa_inspect",                                           default: false
     t.boolean   "active",                                               default: false
@@ -954,7 +956,9 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.date     "date_complete"
     t.text     "notes"
     t.text     "user_notes"
+    t.string   "created_by",            limit: 25
     t.datetime "created_at"
+    t.string   "updated_by",            limit: 25
     t.datetime "updated_at"
   end
 
@@ -1006,7 +1010,9 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.boolean  "serialized",                                              default: false
     t.text     "notes"
     t.text     "user_notes"
+    t.string   "created_by",          limit: 25
     t.datetime "created_at"
+    t.string   "updated_by",          limit: 25
     t.datetime "updated_at"
     t.integer  "status"
     t.string   "item_number",         limit: 30
@@ -1278,6 +1284,8 @@ ActiveRecord::Schema.define(version: 20140909161040) do
     t.boolean "active",                    default: true
     t.integer "ext_id"
     t.boolean "qa_hold",                   default: false
+    t.boolean "offsite",                   default: false
+    t.boolean "consignment",               default: false
   end
 
   add_index "whse_zones", ["company", "warehouses_id", "zone", "is_secure_pick"], name: "issecure", using: :btree

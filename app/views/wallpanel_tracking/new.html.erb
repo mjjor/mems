@@ -43,13 +43,13 @@ window.onload = function() {
   <table width="100%">
    <tr>
     <td width="33%" align="left">
-       <%= link_to( {:action => 'show', :method => 'get', :scanned => 'notscanned', :transcode => @trans_code}, :target => '_blank') do 
+       <%= link_to( {:action => 'show', :method => 'get', :scanned => 'scanned', :transcode => @trans_code}, :target => '_blank') do 
         image_tag('button_Scanned_Panels.png') 
         end  %>
         
     </td>
     <td width="33%" align="center">
-     <%= link_to( {:action => 'show', :method => 'get',  :scanned => 'scanned', :transcode => @trans_code}, :target => '_blank') do 
+     <%= link_to( {:action => 'show', :method => 'get',  :scanned => 'notscanned', :transcode => @trans_code}, :target => '_blank') do 
           image_tag('panelsNotScanned.png') 
         end %>
     </td>

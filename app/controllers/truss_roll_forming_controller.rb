@@ -104,7 +104,12 @@ class TrussRollFormingController < ApplicationController
 	end
 
   def show
-     @scannedtoday = Trusses.where("(trusses.status != 'open' AND trusses.status != ' ')").joins("INNER JOIN `truss_trackings` ON `trusses`.`id` = `truss_trackings`.`trusses_id` AND DATE(truss_trackings.updated_at) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").lastupdate
+    case params[:scanned]
+      when 'scanned' then
+        @scannedtoday = Trusses.where("(trusses.status != 'open' AND trusses.status != ' ')").joins("INNER JOIN `truss_trackings` ON `trusses`.`id` = `truss_trackings`.`trusses_id` AND DATE(truss_trackings.updated_at) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").lastupdate
+      when 'unscanned' then
+        @scannedtoday = Trusses.where(:status => 'open').oldestupdate
+   end
   end
  
 #  def coil_change

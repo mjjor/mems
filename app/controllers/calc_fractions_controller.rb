@@ -3,10 +3,11 @@ class CalcFractionsController < ApplicationController
 layout "mems_landing"
 
   def index
-  	
+  	@fractIn = CalcFractions.new
   end
 
   def calcFract
+
   		@denom  = 16
 
   		@value1  = if params[:fractnum1].include? "-" 
@@ -59,7 +60,8 @@ layout "mems_landing"
 
 	  
 	  @fractresult= @intval.to_s + @fract 
-
+     
+     
 	  redirect_to(:action => 'show', :results => [params[:fractnum1], params[:fractnum2], params[:fractnum3], params[:fractnum4],
 	  	                                          params[:fractnum5], @fractresult, @numer]) 
   end

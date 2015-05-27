@@ -1,4 +1,9 @@
-<% @page_title = 'Inventory' %>
+<%  if params[:gauge] != nil 
+		@page_title = "#{params[:gauge]}-Gauge-Inventory" 
+	else
+		@page_title = 'Inventory'	
+	end 
+%>
 <% @previous_controller = 'inventory' %>
 <% if params[:procure] %>
 <% @previous_action = 'dashboard' %>
@@ -14,12 +19,10 @@
 <td width='20%' align='left'>
 </td>
 <td width='60%' align='center'>	
-<h2 align='center'>Item Inventory Balance</h2> 
+<h2 align='center'>Inventory Balances</h2> 
 </td>
 <td width='20%' align='right'>
-
 <%= link_to image_tag('excel-30.png'), controller: 'inv_balance', action: 'show', format: 'xls', procure: params[:procure], gauge: params[:gauge], company: params[:company] %>
-
 </td>
 </tr>
 	<tr>
@@ -67,7 +70,7 @@
 		<td align = 'center'><%= number_to_currency(invbal.qaVal) %></td>
 		<% end %>
 		<td align = 'center'><%= number_with_precision(invbal.ooFT, :precision => 2, :delimiter => ",") %></td>
-		<td align = 'center'><%= number_with_precision(invbal.alFT, :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= link_to(number_with_precision(invbal.alFT, :precision => 2, :delimiter => ","), controller: "allocations", action: "show", item_masters_id: invbal.item_masters_id, item_number: invbal.item_number, company: @company) %></td>
 		<td align = 'center'><%= number_with_precision(invbal.avFT, :precision => 2, :delimiter => ",") %></td>
 	</tr>
 	<% end %>

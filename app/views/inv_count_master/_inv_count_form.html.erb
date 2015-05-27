@@ -21,7 +21,7 @@
 			<%=	f.label(:coil_cycle, "Coil Count Cycle") %>
 		</th>
 		<td>
-		   	<%= f.number_field(:coil_cycle) %>
+			<%= f.select(:coil_cycle, options_for_select([["1",1],["2",2],["3",3]], @countmaster.coil_cycle)) %>
 		</td>
 	</tr>
 	<tr>
@@ -29,7 +29,7 @@
 			<%=	f.label(:misc_cycle, "Miscellaneous Count Cycle") %>
 		</th>
 		<td>
-		   	<%= f.number_field(:misc_cycle) %>
+			<%= f.select(:misc_cycle, options_for_select([["1",1],["2",2],["3",3]], @countmaster.misc_cycle)) %>
 		</td>
 	</tr>
 	<tr>
@@ -37,7 +37,7 @@
 			<%=	f.label(:sheating_cycle, "Sheathing Count Cycle") %>
 		</th>
 		<td>
-		   	<%= f.number_field(:sheathing_cycle) %>
+		   	<%= f.select(:sheathing_cycle, options_for_select([["1",1],["2",2],["3",3]], @countmaster.sheathing_cycle)) %>
 		</td>
 	</tr>
 	<tr>
@@ -45,16 +45,17 @@
 			<%=	f.label(:sheetsteel_cycle, "Sheet Steel Count Cycle") %>
 		</th>
 		<td>
-		   	<%= f.number_field(:sheetsteel_cycle) %>
+			<%= f.select(:sheetsteel_cycle, options_for_select([["1",1],["2",2],["3",3]], @countmaster.sheetsteel_cycle)) %>
 		</td>
 	</tr>
 	<tr>
 		<th>
-			<%=	f.label(:is_active, "Active 1 = Yes, 0 = No") %>
+			<%=	f.label(:is_active, "Count is Active") %>
 		</th>
 		<td>
-		   	<%= f.number_field(:is_active) %>
+			<%= f.check_box(:is_active, :value => @countmaster.is_active) %>
 		   	<%= f.hidden_field(:id, :value => @countmaster.id) %>
 		</td>
 	</tr>
 </table>
+ 

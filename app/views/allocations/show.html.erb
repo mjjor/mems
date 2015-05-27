@@ -1,0 +1,61 @@
+<% @page_title = "#{params[:item_number]}-Allocations" %>
+<% @previous_controller = 'inventory' %>
+<% if params[:procure] %>
+<% @previous_action = 'dashboard' %>
+<% else %>
+<% @previous_action = 'index' %>
+<% end %>
+<% @page_module = 'allocations' %>
+<% @page_access = 'itemalloc' %>
+
+
+<table width="85%" align="center">
+<tr>
+<td width='20%' align='left'>
+</td>
+<td width='60%' align='center'>	
+</td>
+<td width='20%' align='right'>
+
+<%= link_to image_tag('excel-30.png'), controller: 'allocations', action: 'show', format: 'xls', item_number: params[:item_number], item_masters_id: params[:item_masters_id], company: params[:company] %>
+
+</td>
+</tr>
+	<tr>
+<td width='20%' align='right'>
+</td>
+<td width='60%' align='center'>
+</td>
+<td width='20%' align='left' >
+</td>
+</tr>
+</table>
+
+<table id="allocs" class="display" width="85%" align="center">
+<thead>
+	<tr>
+		<th> Order Number      </th>
+		<th> Phase/Floor       </th>
+		<th> Profile           </th>
+		<th> Original Quantity </th>
+		<th> Current Quantity  </th>
+		<th> Allocation Type   </th>
+		<th> Active            </th>
+		<th> Allocation Added  </th>
+	</tr>	
+</thead>
+<tbody>
+	<% @alloc.each do |alloc| %>
+	<tr>
+		<td align = 'center'><%= alloc.alloc_to %></td>
+		<td align = 'center'><%= alloc.phase_desc %></td>
+		<td align = 'center'><%= alloc.profile %></td>
+		<td align = 'center'><%= number_with_precision((alloc.alloc_orig_qty / 12), :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= number_with_precision((alloc.alloc_curr_qty / 12), :precision => 2, :delimiter => ",") %></td>
+		<td align = 'center'><%= alloc.alloc_type %></td>
+		<td align = 'center'><%= alloc.active %></td>
+		<td align = 'center'><%= localize(alloc.created_at, format: :long) %></td>
+	</tr>
+	<% end %>
+</tbody>	
+	</table>	

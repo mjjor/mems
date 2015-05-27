@@ -5,7 +5,11 @@
 <% @page_sub_module = 'truss_rollformer' %>
 <% @page_access = 'truss_tracking' %>
 
-<h2 align = 'center'> Scanned Trusses Last 7 Days </h2> 
+<% if params[:scanned] == 'scanned' %>
+<h2 align = 'center'> Scanned Trusses Last 7 Days </h2>
+<% else %>
+<h2 align = 'center'> Trusses not Scanned</h2>
+<% end %>
 
 <table id="scanned_trusses" class="display" width="90%" align="center">
 <thead>

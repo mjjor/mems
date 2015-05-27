@@ -1,4 +1,6 @@
 class ItemLedgersController < ApplicationController
+
+	layout "mems"
   def index
   end
 

@@ -6,7 +6,11 @@
 <% @page_access = 'panel_tracking' %>
 <% @transcode %>
 
+<% if params[:scanned] == 'scanned' %>
 <h2 align='center'>Scanned Panels Last 7 Days</h2> 
+<% else %>
+<h2 align='center'>Panels Not Scanned</h2>
+<% end %>
 
 <table id="scanned_panels" class="display" width="65%" align="center">
 <thead>

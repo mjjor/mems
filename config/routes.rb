@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+ # get 'allocation/index'
+
+ # get 'allocation/show'
+
  # get 'inv_count_master/create'
 
  # get 'inv_count_master/view'

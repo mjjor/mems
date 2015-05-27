@@ -1,0 +1,25 @@
+
+<h2>Item Allocations - <%= params[:item_number] %></h2> 
+
+<table border="1">
+	<tr>
+		<th> Item Number       </th>
+		<th> Order Number      </th>
+		<th> Original Quantity </th>
+		<th> Current Quantity  </th>
+		<th> Allocation Type   </th>
+		<th> Active            </th>
+		<th> Allocation Added  </th>
+	</tr>	
+	<% @alloc.each do |alloc| %>
+	<tr>
+		<td><%= alloc.item_number  %></td>
+		<td><%= alloc.alloc_to %></td>
+		<td><%= (alloc.alloc_orig_qty / 12) %></td>
+		<td><%= (alloc.alloc_curr_qty / 12) %></td>
+		<td><%= alloc.alloc_type %></td>
+		<td><%= alloc.active %></td>
+		<td><%= alloc.created_at %></td>
+	</tr>
+	<% end %>
+	</table>	

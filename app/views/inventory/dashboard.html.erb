@@ -31,23 +31,19 @@
 </tr>
 <tr>
 <td width = '33%' align = 'center'>
-    <%= bar_chart InvBalances.joins("INNER JOIN `item_coils` ON `inv_balances`.`item_masters_id` = `item_coils`.`item_masters_id`").group("`item_coils`.`gauge`").sum("`inv_balances`.`onhand`"),
-        colors: ["lightsteelblue", "#eee"],
-        library: { backgroundColor: "#6495ED;", 
-                   hAxis: {title: "Footage"}, 
-                   vAxis: {title: "Guage"}, 
-                   discrete: true} %>
+    <%= bar_chart [ { name: 'On Hand', data: InvBalances.joins("INNER JOIN `item_coils` ON `inv_balances`.`item_masters_id` = `item_coils`.`item_masters_id`").group("`item_coils`.`gauge`").sum("`inv_balances`.`onhand`") },
+                    { name: 'Allocated', data: InvBalances.joins("INNER JOIN `item_coils` ON `inv_balances`.`item_masters_id` = `item_coils`.`item_masters_id`").group("`item_coils`.`gauge`").sum("`inv_balances`.`allocated`"), colors: ["lightsteelblue"]}] 
+    %>
 </td> 
 <td width = '33%' align = 'center'>
-    <%= bar_chart InvBalances.joins("INNER JOIN `item_coils` ON `inv_balances`.`item_masters_id` = `item_coils`.`item_masters_id`").group("`item_coils`.`gauge`").sum("(`inv_balances`.`onhand` * `item_coils`.`lbsperfoot`)"), 
-        colors: ["lightsteelblue", "#eee"],
-        library: { backgroundColor: "#6495ED;", 
-                  hAxis: {title: "Pounds" }, 
-                  vAxis: {title: "Gauge"}, 
-                  discrete: true} %>
+    <%= bar_chart [ { name: 'On Hand', data: InvBalances.joins("INNER JOIN `item_coils` ON `inv_balances`.`item_masters_id` = `item_coils`.`item_masters_id`").group("`item_coils`.`gauge`").sum("(`inv_balances`.`onhand` * `item_coils`.`lbsperfoot`)"), colors: ["lightsteelblue", "#eee"] }, 
+                  { name: 'Allocated', data: InvBalances.joins("INNER JOIN `item_coils` ON `inv_balances`.`item_masters_id` = `item_coils`.`item_masters_id`").group("`item_coils`.`gauge`").sum("(`inv_balances`.`allocated` * `item_coils`.`lbsperfoot`)")}]
+    %>
 </td>
 <td width = '33%' align = 'center'>
-    <%= bar_chart InvCostLayers.joins("INNER JOIN `item_coils` ON `inv_cost_layers`.`item_masters_id` = `item_coils`.`item_masters_id`").where("`inv_cost_layers`.`active` = ? ", 1 ).group("`item_coils`.`gauge`").sum("`inv_cost_layers`.`curr_cost` * `inv_cost_layers`.`curr_qty`"), colors: ["lightsteelblue", "#eee"], library: {backgroundColor: '#6495ED;', 
+    <%= bar_chart InvCostLayers.joins("INNER JOIN `item_coils` ON `inv_cost_layers`.`item_masters_id` = `item_coils`.`item_masters_id`").where("`inv_cost_layers`.`active` = ? ", 1 ).group("`item_coils`.`gauge`").sum("`inv_cost_layers`.`curr_cost` * `inv_cost_layers`.`curr_qty`"), 
+            # colors: ["lightsteelblue", '#eee'], 
+             library: {backgroundColor: '#6495ED;', 
              hAxis: {title: 'Dollars' }, 
              vAxis: {title: 'Gauge'}, 
              discrete: true} %>
@@ -91,7 +87,7 @@
 <tbody>
   <% @invtots.each do |invtot| %>
   <tr>
-    <td align = 'center'><%= link_to( invtot.gauge, {controller: 'inv_balance', action: 'show', gauge: invtot.gauge, company: 'MMPL', procure: true}, target: '_blank') %></td>
+    <td align = 'center'><%= link_to( invtot.gauge, {controller: 'inv_balance', action: 'show', gauge: invtot.gauge, company: 'MMPL', procure: true, gauge: invtot.gauge}, target: '_blank') %></td>
     <td align = 'center'><%= number_with_precision(invtot.ohFT, :precision => 2, :delimiter => ",") %></td>
     <td align = 'center'><%= number_with_precision(invtot.ohLBS, :precision => 2, :delimiter => ",") %></td>
     <td align = 'center'><%= number_to_currency(invtot.ohVal) %></td>

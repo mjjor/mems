@@ -1,4 +1,4 @@
-<% @page_title = 'Inventory Balance Details' %>
+<% @page_title = "#{params[:item_number]}-Inventory Details" %>
 <% @previous_controller = 'inventory' %>
 <% if params[:procure] %>
 <% @previous_action = 'dashboard' %>
@@ -13,7 +13,6 @@
 <td width="20%" align="left">
 </td>
 <td width="60%" align="center">
-<h2 align='center'>Lots for: &nbsp; <%= @itemnumber %> </h2>
 </td>
 <td width="20%" align="right">
 <%= link_to image_tag('excel-30.png'), controller: "inv_lot", action: "show", format: 'xls', item_number: @itemnumber,item_masters_id: @itemmastersid, procure: params[:procure], company: params[:company] %>
