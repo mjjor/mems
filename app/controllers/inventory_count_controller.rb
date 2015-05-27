@@ -140,8 +140,14 @@ end
 
   def view_count
     @count_master = InvCountMasters.find_by("is_active = ?", 1)
-    @count_cycle = @count_master.sheetsteel_cycle
+    # @count_cycle = @count_master.sheetsteel_cycle
+    if !@count_master.nil?
     @count = InventoryCounts.where(:inv_count_masters_id => @count_master[:id]).updated
+    else
+    flash[:notice] = "No Active Count in Progress"
+        redirect_to(:controller => 'admin', :action => 'index')  
+    end 
+
   end
 
 private
