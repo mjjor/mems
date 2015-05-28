@@ -89,39 +89,55 @@ end
                   @invcount.count_1_quantity =  params[:sheet][:count_1_qty].to_i
                   @invcount.count_1_inv_qty = (params[:sheet][:count_1_qty].to_i * @invcount.inv_uom_cnv)
                   @invcount.count_1_variance = ((params[:sheet][:count_1_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) 
-                  @invcount.updated_by = session[:user_id]
+                  @invcount.count_1_cost_variance = (((params[:sheet][:count_1_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) * @invcount.unit_cost) 
+                  @invcount.item_inv_unit_variance = ((params[:sheet][:count_1_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) 
+                  @invcount.item_cost_variance = (((params[:sheet][:count_1_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) * @invcount.unit_cost) 
                 else 
                   @invcount.count_1_quantity = @invcount.count_1_quantity + params[:sheet][:count_1_qty].to_i
-                  @invcount.count_1_inv_qty = ((@invcount.count_1_quantity + params[:sheet][:count_1_qty].to_i) * @invcount.inv_uom_cnv)
-                  @invcount.count_1_variance = ((@invcount.count_1_quantity + params[:sheet][:count_1_qty].to_i) * (@invcount.inv_uom_cnv - @invcount.opening_balance)) 
-                  @invcount.updated_by = session[:user_id]
+                  @invcount.count_1_inv_qty = (@invcount.count_1_quantity.to_i * @invcount.inv_uom_cnv)
+                  @invcount.count_1_variance = ((@invcount.count_1_quantity.to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) 
+                  @invcount.count_1_cost_variance = (((@invcount.count_1_quantity.to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) * @invcount.unit_cost) 
+                  @invcount.item_inv_unit_variance = ((@invcount.count_1_quantity.to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) 
+                  @invcount.item_cost_variance = (((@invcount.count_1_quantity.to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) * @invcount.unit_cost) 
 			          end
+                  @invcount.updated_by = session[:user_id]                
                   @invcount.count_1 = 1  
     when 2 then 
                 if (params[:sheet][:count_2_qty] == "0")
-                  @invcount.count_2_quantity =  params[:sheet][:count_1_qty].to_i
+                  @invcount.count_2_quantity =  params[:sheet][:count_2_qty].to_i
                   @invcount.count_2_inv_qty = (params[:sheet][:count_2_qty].to_i * @invcount.inv_uom_cnv)
                   @invcount.count_2_variance = ((params[:sheet][:count_2_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) 
-                  @invcount.updated_by = session[:user_id]
+                  @invcount.count_2_cost_variance = (((params[:sheet][:count_2_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) * @invcount.unit_cost)
+                  @invcount.item_inv_unit_variance = ((params[:sheet][:count_2_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) 
+                  @invcount.item_cost_variance = (((params[:sheet][:count_2_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) * @invcount.unit_cost)
                 else 
                   @invcount.count_2_quantity = @invcount.count_2_quantity + params[:sheet][:count_2_qty].to_i
-                  @invcount.count_2_inv_qty = ((@invcount.count_2_quantity + params[:sheet][:count_2_qty].to_i) * @invcount.inv_uom_cnv) 
-                  @invcount.count_2_variance = (((@invcount.count_2_quantity + params[:sheet][:count_2_qty].to_i) * @invcount.inv_uom_cnv) - @invcount.opening_balance)
-                  @invcount.updated_by = session[:user_id]
+                  @invcount.count_2_inv_qty = (@invcount.count_2_quantity.to_i * @invcount.inv_uom_cnv) 
+                  @invcount.count_2_variance = ((@invcount.count_2_quantity.to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance)
+                  @invcount.count_2_cost_variance = (((@invcount.count_2_quantity.to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) * @invcount.unit_cost)
+                  @invcount.item_inv_unit_variance = ((@invcount.count_1_quantity.to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) 
+                  @invcount.item_cost_variance = (((@invcount.count_1_quantity.to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) * @invcount.unit_cost)
                 end
+                  @invcount.updated_by = session[:user_id]
                   @invcount.count_2 = 1 
 		when 3 then 
-                if (params[:sheet][:count_1_qty] == "0")
-                  @invcount.count_1_quantity =  params[:sheet][:count_1_qty].to_i
-                  @invcount.count_1_inv_qty = (params[:sheet][:count_1_qty].to_i * @invcount.inv_uom_cnv)
-                  @invcount.count_1_variance = ((params[:sheet][:count_1_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) 
-                  @invcount.updated_by = session[:user_id]
+                if (params[:sheet][:count_3_qty] == "0")
+                  @invcount.count_3_quantity =  params[:sheet][:count_3_qty].to_i
+                  @invcount.count_3_inv_qty = (params[:sheet][:count_3_qty].to_i * @invcount.inv_uom_cnv)
+                  @invcount.count_3_variance = ((params[:sheet][:count_3_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) 
+                  @invcount.count_3_cost_variance = (((params[:sheet][:count_3_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) * @invcount.unit_cost)
+                  @invcount.item_inv_unit_variance = ((params[:sheet][:count_3_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) 
+                  @invcount.item_cost_variance = (((params[:sheet][:count_3_qty].to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) * @invcount.unit_cost) 
+
                 else 
                   @invcount.count_3_quantity = (@invcount.count_3_quantity + params[:sheet][:count_3_qty].to_i)
-                  @invcount.count_3_inv_qty = ((@invcount.count_3_quantity + params[:sheet][:count_3_qty].to_i) * @invcount.inv_uom_cnv)
-                  @invcount.count_3_variance = (((@invcount.count_3_quantity + params[:sheet][:count_3_qty].to_i) * @invcount.inv_uom_cnv) - @invcount.opening_balance)
-                  @invcount.updated_by = session[:user_id]
+                  @invcount.count_3_inv_qty = (@invcount.count_3_quantity.to_i * @invcount.inv_uom_cnv)
+                  @invcount.count_3_variance = ((@invcount.count_3_quantity.to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance)
+                  @invcount.count_3_cost_variance = (((@invcount.count_3_quantity.to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) * @invcount.unit_cost)
+                  @invcount.item_inv_unit_variance = ((@invcount.count_1_quantity.to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) 
+                  @invcount.item_cost_variance = (((@invcount.count_1_quantity.to_i * @invcount.inv_uom_cnv) - @invcount.opening_balance) * @invcount.unit_cost)
                 end	
+                  @invcount.updated_by = session[:user_id]
                   @invcount.count_3 = 1
   end
 
