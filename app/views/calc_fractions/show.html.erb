@@ -1,21 +1,13 @@
 <% @page_title = "Fractional Dimension Addition" %>
-<title> Fractional Dimension Calculator</title>
-<div class="sections new">
-<!--
-	<table align="center">
-	<tr>	
-		<td wwht ><%= image_tag('magest_BlkWht_60x60_Icon.png') %></td>
-		<td><h3> Coil Width Calculator </h3></td>
-	</tr>
-</table>
-<hr />
--->
-<table bgcolor = "#DCDCDC" align="center">
-	<tr>
-		<td width = '150' bgcolor = "#ffffff">&nbsp;</td>	
-  		<td width = '185' bgcolor = "#ffffff"><h3>Fractional Dimensions</h3></td>
-	</tr>
-	</table>
-</div>
+<title> Fraction Results </title>
 
-<%= render(:partial => 'fractResult') %>
+<div class='row'>
+	<div class='small-6 small-centered medium-6 medium-centered large-5 large-centered columns'>
+		<div class='row'>
+		<fieldset>
+			<legend>Result</legend>
+				<%= render(:partial => 'fractResult') %>
+		</fieldset>
+		</div>
+	</div>
+</div>

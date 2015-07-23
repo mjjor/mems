@@ -146,7 +146,7 @@ end
 		flash[:notice] = "Count Recorded Successfully!"
         redirect_to(:action => 'flatstock', :company => params[:sheet][:company], :itemcateg => params[:sheet][:itemcateg])
       else
-         flash[:notice] = "*** LAST COUNT NOT PROCESSED ***" 
+         flash[:alert] = "Last count NOT processed" 
         render('flatstock')
       end
   end	
@@ -160,7 +160,7 @@ end
     if !@count_master.nil?
     @count = InventoryCounts.where(:inv_count_masters_id => @count_master[:id]).updated
     else
-    flash[:notice] = "No Active Count in Progress"
+    flash[:alert] = "No Active Count in Progress"
         redirect_to(:controller => 'admin', :action => 'index')  
     end 
 
@@ -181,8 +181,8 @@ def confirm_page_access
                                              :sub_module => 'invcount',
                                              :access_page => 'count').first
       unless found_page_access
-         flash[:notice] = "You do not have access to the requested page." 
-         redirect_to(:controller => 'mems_login', :action => 'index.html')
+         flash[:alert] = "You do not have access to the requested page." 
+         redirect_to(:controller => 'mems', :action => 'login')
       return false
       else return true
       end

@@ -1,23 +1,27 @@
 class WallpanelTrackingController < ApplicationController
 	
+    layout "mems"
+
     before_action :confirm_logged_in
     before_action :confirm_page_access
 
-    layout "mems"
-
 	def new
-     @panel = WallpanelTracking.new
-     @trans_code = params[:trans_code]
-     #@daysfootage   = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DAYOFMONTH(`wallpanel_trackings`.`updated_at`) = DAYOFMONTH(CURRENT_DATE() -1)  AND MONTH(`wallpanel_trackings`.`updated_at`) = MONTH(CURRENT_DATE())").sum(:length)
-     #@weeksfootage  = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DAYOFMONTH(`wallpanel_trackings`.`updated_at`) = DAYOFMONTH(CURRENT_DATE() -7)  AND MONTH(`wallpanel_trackings`.`updated_at`) = MONTH(CURRENT_DATE())").sum(:length)
-     #@monthsfootage = Wallpanels.joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND MONTH(`wallpanel_trackings`.`updated_at`) = MONTH(CURRENT_DATE())").sum(:length)
-  
+      @panel = WallpanelTracking.new
+      @trans_code = params[:trans_code]
+      @dayfootage = ActiveRecord::Base.connection.select_value("SELECT wpFtDay(CURRENT_DATE)")
+      @dayfootage = @dayfootage.to_f
+      @vrsDayFootage = Wallpanels.where("(`wallpanels`.`status` = 'VRS')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) = DATE(CURRENT_DATE())").sum(:length).to_f.round(2)
+      @opaDayFootage = Wallpanels.where("(`wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` AND DATE(`wallpanel_trackings`.`updated_at`) = DATE(CURRENT_DATE())").sum(:length).to_f.round(2)
+      @sthDaySqFt = ActiveRecord::Base.connection.select_value("SELECT sthSqFtDay(CURRENT_DATE)")
+      @sthDaySqFt = @sthdaysqft.to_f
+      @vrsDayPanelCount = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(updated_at) = CURDATE() AND (`wallpanel_trackings`.`trans_code` = 'VRS')"]).count("DATE(`updated_at`)")
+      @opaDayPanelCount = WallpanelTracking.select("DATE(`updated_at`)").where(["DATE(updated_at) = CURDATE() AND (`wallpanel_trackings`.`trans_code` = 'OPA')"]).count("DATE(`updated_at`)")
+      @sthDayPanelCount =  ActiveRecord::Base.connection.select_value("SELECT sthCntDay(CURRENT_DATE)")
+      @sthDayPanelCount = @sthdaypanelcount.to_f
 	end
 
 	def create
-    # @panelid = Wallpanels.where(panellabel: params[:panellabel]).pluck(:id) 
-     @panel = WallpanelTracking.where(panellabel: panel_params[:panellabel]).first_or_initialize
-     #@panel = WallpanelTracking.new 
+     @panel = WallpanelTracking.where(panellabel: panel_params[:panellabel], trans_code: panel_params[:trans_code]).first_or_initialize
      @wpid = Wallpanels.where(panellabel: panel_params[:panellabel]).limit(1).pluck(:id)
 	   @panel.wallpanels_id = @wpid[:id[0].to_i]
      @panel.panellabel = panel_params[:panellabel]
@@ -30,10 +34,10 @@ class WallpanelTrackingController < ApplicationController
          @trans_code = @panel.trans_code
          updpanel.save
          @panel.touch
-         flash[:notice] = "Panel record created successfully!"
+         flash[:notice] = "Panel successfully processed!"
          redirect_to(:action => 'new', :trans_code => @panel.trans_code)
       else
-         flash[:notice] = "*** LAST PANEL SCANNED NOT PROCESSED ***"
+         flash[:alert] = "Last panel scanned not processed"
         @trans_code = @panel.trans_code 
         render('new')
       end
@@ -119,8 +123,8 @@ def confirm_page_access
                                              :sub_module => 'wall_panel',
                                              :access_page => 'panel_scan').first
       unless found_page_access
-         flash[:notice] = "You do not have access to the requested page." 
-         redirect_to(:controller => 'mems_login', :action => 'index.html')
+         flash[:alert] = "You do not have access to the requested page." 
+         redirect_to(:controller => 'mems', :action => 'login')
       return false
       else return true
       end

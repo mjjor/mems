@@ -8,16 +8,17 @@
 
 <%= error_messages_for(@truss_roll_forming) %>
 
-<table align=center > 
-  	<tr>
-    <th><%= f.label(:trusslabel, "Truss Label") %></th>
-    <td><%= f.text_field(:trusslabel) %> </td>
+    
+    <div class="small-4 columns">
+      <%= f.label(:trusslabel, "Truss Label", class: "prefix") %>
+     </div>
+    <div class="small-8 columns">    
+        <%= f.text_field(:trusslabel) %>
         <%= f.hidden_field :trans_code, :value => @trans_code %>
         <%= f.hidden_field :users_id, :value => session[:user_id] %>
         <%= f.hidden_field :workstation, :value => 3 %>
-  </tr>
-</table>
-
+    </div>
+    
 <center>
 <%= @prodprocessed %>
 </center>
@@ -32,6 +33,6 @@ window.onload = function() {
 -->
 <script type="text/javascript">
 function setFocus(){
-document.getElementById("truss_rollformer_trusslabel").focus();
+document.getElementById("trusses_trusslabel").focus();
 }
 </script>

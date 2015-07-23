@@ -4,12 +4,19 @@
 <% @page_module = "inventory_count" %>
 <% @company = params[:company] %>
 
-<div class="panel tracking new">
+
+
+<div class='row'>
+	<div class='medium-6 medium-centered columns', align='center'>
+		<h5 class='subheader'>Scan Coil ID</h5>
+	</div>
+</div>
   <%= form_for(@coilcount, :url => {:action => 'coil_update'}) do |f| %>
     <%= render(:partial => "scan_coil", :locals => {:f => f}) %>
     <br>
-    <div class="form-buttons">
-      <%= submit_tag("Submit Coil") %> 
+    <div class="row">
+    	<div class='medium-4 medium-centered columns', align='center'>
+      <%= submit_tag("Submit Coil", class: 'button small secondary round') %> 
     </div>
 <% end %>
-    </div>
+ 

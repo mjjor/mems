@@ -29,7 +29,7 @@ class InvCountMasterController < ApplicationController
 		flash[:notice] = "Count Master Updated Successfully!"
         redirect_to(:action => 'view')
       else
-         flash[:notice] = "*** LAST COUNT NOT PROCESSED ***" 
+         flash[:alert] = "Last count NOT processed" 
         render('view')
       end
   end
@@ -41,8 +41,8 @@ def confirm_page_access
                                              :sub_module => 'invcount',
                                              :access_page => 'master').first
       unless found_page_access
-         flash[:notice] = "You do not have access to the requested page." 
-         redirect_to(:controller => 'mems_login', :action => 'index.html')
+         flash[:alert] = "You do not have access to the requested page." 
+         redirect_to(:controller => 'mems', :action => 'login')
       return false
       else return true
       end

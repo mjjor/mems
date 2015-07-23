@@ -1,30 +1,40 @@
-<table summary = "Width Calc Fields" bgcolor = "#ffffff" align="center">
-	<tr>
-		<!-- D9D9D9 -->
-		<td width = '150' bgcolor = '#DCDCDC'>
-			&nbsp;
-		</td>
-		<td width = '185' bgcolor = '#DCDCDC'>Inches (6 5/8 or 6.625)</td>	
-	</tr>	
-	<tr>
-		<td width = "150" bgcolor = "#DCDCDC">1st Value:</td>
-		<td width = "185" bgcolor = "#DCDCDC"><%= text_field_tag(:fractnum1) %></td>
-	</tr>
-	<tr>
-		<td width = "150" bgcolor = "#DCDCDC">2nd Value:</td>
-		<td width = "185" bgcolor = "#DCDCDC"><%= text_field_tag(:fractnum2) %></td>
-	</tr>
-	<tr>
-		<td width = "150" bgcolor = "#DCDCDC">3rd Value:</td>
-		<td width = "185" bgcolor = "#DCDCDC"><%= text_field_tag(:fractnum3) %></td>
-	</tr>
-	<tr>
-		<td width = "150" bgcolor = "#DCDCDC">4th Value:</td>
-		<td width = "185" bgcolor = "#DCDCDC"><%= text_field_tag(:fractnum4) %></td>
-	</tr>
-	<tr>
-		<td width = "150" bgcolor = "#DCDCDC">5th Value:</td>
-		<td width = "185" bgcolor = "#DCDCDC"><%= text_field_tag(:fractnum5) %></td>
-	</tr>
-</table>
-
+		<div class='row'>
+			<div class='small-4 columns'>
+				<label for='fract1', class='prefix right'>1st Value: &nbsp;</label>
+			</div>
+			<div class='small-8 columns'>
+				<%= text_field_tag(:fractnum1, nil, {:id => 'fract1', :placeholder => 'Enter Inches e.g. (6 5/8 or 6.625)'})%>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='small-4 columns'>
+		      	<label for='fract2', class='prefix right'>2nd Value: &nbsp;</label>
+	      	</div>
+	      	<div class='small-8 columns'>
+				<%= text_field_tag(:fractnum2, nil, {:id => 'fract2', :placeholder => 'Enter Inches e.g. (6 5/8 or 6.625)'}) %>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='small-4 columns'>
+				<label for='fract3', class='prefix right'>3rd Value: &nbsp;</label>
+			</div>
+			<div class='small-8 columns'>
+				<%= text_field_tag(:fractnum3, nil, {:id => 'fract3', :placeholder => 'Enter Inches e.g. (6 5/8 or 6.625)'}) %>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='small-4 columns'>	
+				<label for='fract4', class='prefix right'>4th Value: &nbsp;</label>
+			</div>
+			<div class='small-8 columns'>
+				<%= text_field_tag(:fractnum4, nil, {:id => 'fract4', :placeholder => 'Enter Inches e.g. (6 5/8 or 6.625)'}) %>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='small-4 columns'>
+				<label for='fract5', class='prefix right'>5th Value: &nbsp;</label>
+			</div>
+			<div class='small-8 columns'>
+				<%= text_field_tag(:fractnum5, nil, {:id => 'fract5', :placeholder => 'Enter Inches e.g. (6 5/8 or 6.625)'}) %>
+			</div>
+		</div>

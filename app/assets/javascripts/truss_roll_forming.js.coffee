@@ -2,6 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
-	$('#scanned_trusses').dataTable()
-	sPaginationType: 'full_numbers'
+	$('#scantrus').dataTable( {
+		"order": [[ 7, "desc" ]],
+		"paging_type": "full_numbers",
+		"pageLength": 25
+	});
+	sPaginationType: 'full_numbers -I'
 	bJQueryUI: true

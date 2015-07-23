@@ -1,35 +1,48 @@
-<% @page_title = "#{params[:item_number]}-Ledger Card"%>
+<% @page_title = 'Item Activity'%>
 <% @previous_controller = 'inventory' %>
 <% @previous_action = 'index' %>
 <% @page_module = 'invledgers' %>
 <% @page_access = 'summary' %>
 
-<table id="itemledgers" class="display" width="65%" align="center">
-<thead>
-	<tr>
-	<!--	<th width = '5%'> ID   </th> -->		
-		<th width = '5%'> Trans Code   </th>
-		<th width = '25%'> Document     </th>
-		<th width = '10%'> Lot / Serial </th>
-		<th width = '12%'> Opening Balance </th>
-		<th width = '10%'> Quantity     </th>
-		<th width = '13%'> Closing Balance </th>   
-		<th width = '25%'> Trans Date   </th>
-	</tr>	
-</thead>
-<tbody>
-	<% @itemledger.each do |itemledg| %>
-	
-	<tr>
-	<!--	<td align = 'center'><%= itemledg.id %></td>  -->
-		<td align = 'center'><%= itemledg.transcode %></td>
-		<td align = 'center'><%= itemledg.document_num %></td>
-		<td align = 'center'><%= itemledg.lotserial %></td>
-		<td align = 'center'><%= number_with_precision(itemledg.openbal, :precision => 2, :delimiter => ",") %></td>
-		<td align = 'center'><%= number_with_precision(itemledg.quantity, :precision => 2, :delimiter => ",") %></td>
-		<td align = 'center'><%= number_with_precision(itemledg.closebal, :precision => 2, :delimiter => ",") %></td>
-		<td align = 'center'><%= localize(itemledg.created_at, :format => :long) %></td>
-	</tr>
-	<% end %>
-</tbody>	
-	</table>	
+
+<div class='row'>
+	<div class='small-1 small-offset-11 columns', align='right'>
+	</div>
+</div>	
+
+
+<div class='row'>
+	<div class='small-12 small-centered columns', align='center'>	
+		<div class='panel secondary'>
+			<h5 class='subheader'>Item Activity for: <%= params[:item_number] %></h5>
+		</div>
+		<div class='row'>
+			<table id='itemledgers' class='display responsive'>
+				<thead>
+					<tr>
+						<th> Trans Code      </th>
+						<th> Document        </th>
+						<th> Lot / Serial    </th>
+						<th> Opening Balance </th>
+						<th> Quantity        </th>
+						<th> Closing Balance </th>   
+						<th> Trans Date      </th>
+					</tr>	
+				</thead>
+				<tbody>
+					<% @itemledger.each do |itemledg| %>
+					<tr>
+						<td><%= itemledg.transcode %></td>
+						<td><%= itemledg.document_num %></td>
+						<td><%= itemledg.lotserial %></td>
+						<td><%= number_with_precision(itemledg.openbal, :precision => 2, :delimiter => ",") %></td>
+						<td><%= number_with_precision(itemledg.quantity, :precision => 2, :delimiter => ",") %></td>
+						<td><%= number_with_precision(itemledg.closebal, :precision => 2, :delimiter => ",") %></td>
+						<td><%= localize(itemledg.created_at, :format => :long) %></td>
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>	

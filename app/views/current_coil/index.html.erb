@@ -15,26 +15,31 @@ window.onload = function() {
 </script>
 -->
 
-<div class="current_coil_new">
-  <h2>Coil ID</h2>
+<div class='row'>
+  <div class='small-12 columns'>
   <%= form_for(@coil, :url => {:action => 'edit'}) do |f| %> 
-    
-    <%= render(:partial => "scan_coil", :locals => {:f => f}) %>
-    
-    <br>
+    <div class='small-6 small-centered columns'>
+      <fieldset>
+        <legend>Coil Being Loaded</legend> 
+        <%= render(:partial => "scan_coil", :locals => {:f => f}) %>
+      </fieldset>
+      </div>
 
-    <div class="form-buttons">
-      <%= submit_tag("Load Coil") %>
+   <div class='row'>
+    <div class='small-12 small-centered columns', align='center'>
+      <div class='small-6 small-offset-3 columns', align='centered'>
+      <%= submit_tag('Load Coil', class: 'button small round secondary') %>
     </div>
-
-    <div align="right" class="form-buttons">
+      <div class='small-3 columns end', align = 'right'> 
     <%= 
  #  if @trans_code == 'NCN' then
-       link_to image_tag('send_message_120.png'), :controller => 'wallpanel_tracking', :action => 'send_ncn_notification'    
+       link_to('Send Message', {:controller => 'wallpanel_tracking', :action => 'send_ncn_notification'}, class: 'button small round secondary')    
         #tag(:br)
         #link_to "Offline Assembly Stoppage", :controller => 'wallpanel_tracking', :action => 'send_opa_notification'
     %>
-</div>
 <% end %>
+  </div>
+  </div>
+  </div>
 </div>
 

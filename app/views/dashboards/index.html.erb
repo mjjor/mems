@@ -1,72 +1,1444 @@
-<% @page_title = "Wall Panel Assembly Dashboard" %>
-<% @previous_controller = 'mems_login' %>
-<% @previous_action = 'index' %>
+<% @page_title = "Production Dashboard" %>
+<% @previous_controller = 'mems' %>
+<% @previous_action = 'login' %>
 <% @page_module = "dashboard" %>
 <% @page_sub_module = "wall_panel_dash" %>
 
 
 <META HTTP-EQUIV="refresh" CONTENT="1800">
 
-<script>
-  var Chartkick = {"language": "en"};
-</script>
+  <script> var Chartkick = {"language": "en"}; </script>
+  <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
 
-<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+  <div class='row'>
+    <div class='small-12 columns'>
+      <ul class="accordion" data-accordion>
+        <li class="accordion-navigation">
 
-<h1><centre>Previous 7 Days</center></h1>
-<hr>
-<br>
-<table align = 'center' width = '95%' = "background-color: #FFFFFF", border = 1 >
-  <tr>
-  <td width = '33%', align = 'center', style = "background-color: #eee">
-	<h3><center>Footage<br></h3><h6>&nbsp;(Total and Daily Avg exclude current day)<br></h6><h4>Total =&nbsp;<%= number_with_delimiter(@wtdfootage) %>&nbsp; Feet<br>Daily Avg = <%= number_with_delimiter(@avgwtdfootage) %>&nbsp; Feet</h4></center></h4>
-</td>
-<td width = '33%', align = 'center', style = "background-color: #eee">
-  <div>
-  <h3><center>Poundage <br></h3><h6>&nbsp;(Total and Daily Avg exclude current day)<br></h6><h4>Total = &nbsp;<%= number_with_delimiter(@wtdpoundage) %>&nbsp; Pounds<br>Daily Avg = <%= number_with_delimiter(@avgwtdpoundage) %>&nbsp; Pounds</center></h4>  
-  </td>
-<td width = '33%', align = 'center' , style = "background-color: #eee">
-  <h3><center>Units<br></h3><h6>&nbsp;(Total and Daily Avg exclude current day)<br></h6><h4>Total = &nbsp;<%= number_with_delimiter(@wtdpanelcount)%>&nbsp; Panels <br>Daily Avg = <%= number_with_delimiter(@avgwtdpanelcount)%>&nbsp; Panels</center></h4>
-</td>  
-</tr>
-<tr>
-<td width = '33%' align = 'center'>
- <%= column_chart Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id`").group_by_day("`wallpanel_trackings`.`updated_at`", last: 8, format: "%d/%m").reverse_order.sum(:length), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
-</td>
-<td width = '33%' align = 'center'>
-  <%= column_chart Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` ").group_by_day("`wallpanel_trackings`.`updated_at`", last: 8, format: "%d/%m").reverse_order.sum(:weight), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Pounds"}, discrete: true} %>
-</td>
-<td width = '33%' align = 'center'>
-    <%= column_chart WallpanelTracking.where("(`wallpanel_trackings`.`trans_code` = 'VRS' OR `wallpanel_trackings`.`trans_code` = 'OPA')").group_by_day("`updated_at`", last: 8, format: "%d/%m").reverse_order.count, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Panels"}, discrete: true} %>
- </td> 
-</tr>
-</table>
+          <!-- Wallpanel  Assembly -->
+
+          <a href="#panel1a"><h5 class='subheader'><%= image_tag('mbsl_30x30_Icon.png') %>&nbsp; Wallpanel Assembly &raquo;</h5></a>
+          <div id="panel1a" class="content">
+            <div class='row'>
+              <div class='small-12 columns'>
+                <ul class="tabs" data-tab>
+                  <li class="tab-title active"><a href="#panel1"><h6 class='subheader'>7 Day</h6></a></li>
+                  <li class="tab-title"><a href="#panel2"><h6 class='subheader'>30 Day</h6></a></li>
+                  <li class="tab-title"><a href="#panel3"><h6 class='subheader'>7 Day Versa</h6></a></li>
+                  <li class="tab-title"><a href="#panel4"><h6 class='subheader'>30 Day Versa</h6></a></li>
+                  <li class="tab-title"><a href="#panel5"><h6 class='subheader'>7 Day Offline</h6></a></li>
+                  <li class="tab-title"><a href="#panel6"><h6 class='subheader'>30 Day Offline</h6></a></li>
+                  <li class="tab-title"><a href="#panel7"><h6 class='subheader'>7 Day Sheathing Prep</h6></a></li>
+                  <li class="tab-title"><a href="#panel8"><h6 class='subheader'>30 Day Sheathing Prep</h6></a></li>
+                </ul>
+                <div class="tabs-content">
+                  <div class="content active" id="panel1">
+                    <div class='row'>
+                      <div class='small-12 medium-12 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Total Linear Footage<br /></h5>
+                          <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                          <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@wtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@avgwtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                        </div>
+                        <br />
+                        <%= bar_chart [ { name: 'OffLine', data:
+                          WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) ").group(:proddate).reverse_order.sum(:opa_linear_footage) }, { name: 'Versa', data: WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:wpa_linear_footage) } ], :stacked => true, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-12 large-6 columns'>
+                          <div class='panel', align='center'>
+                            <h5 class='subheader'>Total Poundage <br></h5>
+                            <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                            <h6 class='subheader'>Total = &nbsp;<%= number_with_precision(@wtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br>Daily Avg = <%= number_with_precision(@avgwtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                          </div>
+                          <br />
+                          <%= bar_chart [ { name: 'OffLine', data:
+                            WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:opa_panel_weight) },  { name: 'Versa', data: WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:wpa_panel_weight) }], :stacked => true, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                          </div>
+                          <div class='small-12 medium-12 large-6 end columns'>
+                            <div class='panel', align='center'>
+                              <h5 class='subheader'>Total Units<br /></h5>
+                              <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                              <h6 class='subheader'>Total = &nbsp;<%= number_with_delimiter(@wtdpanelcount)%>&nbsp; Panels <br />Daily Avg = <%= number_with_precision(@avgwtdpanelcount, precision: 2, delimiter: ',')%>&nbsp; Panels<br /></h6>
+                            </div>
+                            <br />
+                            <%= bar_chart [ { name: 'OffLine', data:
+                              WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:opa_count) }, { name: 'Versa', data: WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:wpa_count) } ], :stacked => true, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                            </div>
+                            <div class='small-12 medium-12 large-6 end columns'>
+                              <div class='panel', align='center'>
+                                <h5 class='subheader'>Total Material Footage<br></h5>
+                                <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br></h6>
+                                <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@wtdmaterialfootage, precision: 2, delimiter: ',') %>&nbsp;Feet<br>Daily Avg = <%= number_with_precision(@avgwtdmaterialfootage, precision: 2, delimiter: ',') %>  &nbsp; Feet<br></h6>
+                              </div>
+                            </br />
+                            <%= bar_chart [ { name: 'OffLine', data:
+                             WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:opa_material_linear_footage) }, { name: 'Versa', data: WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:wpa_material_linear_footage) } ], :stacked => true, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                           </div>
+                         </div>
+                       </div>
+                       <div class="content" id="panel2">
+                        <div class='row'>
+                          <div class='small-12 medium-12 large-6 columns'>
+                            <div class='panel', align='center'>
+                              <h5 class='subheader'>Total Linear Footage<br /></h5>
+                              <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                              <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@mtdfootage, precision: 2, delimiter: ',')%> &nbsp; Feet<br />Daily Avg = <%= number_with_precision(@avgmtdfootage, precision: 2, delimiter: ',') %> &nbsp; Feet<br /></h6>
+                            </div>
+                            <br />
+                            <%= bar_chart [ { name: 'OffLine', data:
+                              WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:opa_linear_footage) }, { name: 'Versa', data: WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:wpa_linear_footage) } ], :stacked => true, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                            </div>
+                            <div class='small-12 medium-6 large-6 columns'>
+                              <div class='panel', align='center'>
+                                <h5 class='subheader'>Total Poundage<br /></h5>
+                                <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                                <h6 class='subheader'>Total = &nbsp;<%= number_with_precision(@mtdpoundage, precision: 2, delimiter: ',') %>&nbsp;Pounds<br />Daily Avg = <%= number_with_precision(@avgmtdpoundage, precision: 2, delimiter: ',') %>&nbsp;Pounds<br /></h6>
+                              </div>
+                              <br />
+                              <%= bar_chart [ { name: 'OffLine', data:
+                                WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:opa_panel_weight) }, { name: 'Versa', data: WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:wpa_panel_weight) } ], :stacked => true, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                              </div>
+                              <div class='small-12 medium-6 large-6 end columns'>
+                                <div class='panel', align='center'>
+                                  <h5 class='subheader'>Total Units<br></h5>
+                                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br></h6>
+                                  <h6 class='subheader'>Total = &nbsp; <%= number_with_delimiter(@mtdpanelcount) %>&nbsp;Panels<br>Daily Avg = <%= number_with_precision(@avgtmdpanelcount, precision: 2, delimiter: ',') %>  &nbsp; Panels<br></h6>
+                                </div>
+                              </br />
+                              <%= bar_chart [ { name: 'OffLine', data:
+                               WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:opa_count) }, { name: 'Versa', data: WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:wpa_count) } ], :stacked => true, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                             </div>
+                             <div class='small-12 medium-6 large-6 end columns'>
+                              <div class='panel', align='center'>
+                                <h5 class='subheader'>Total Material Footage<br></h5>
+                                <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br></h6>
+                                <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@mtdmaterialfootage, precision: 2, delimiter: ',') %>&nbsp;Feet<br>Daily Avg = <%= number_with_precision(@avgmtdmaterialfootage, precision: 2, delimiter: ',') %>  &nbsp; Feet<br></h6>
+                              </div>
+                            </br />
+                            <%= bar_chart [ { name: 'OffLine', data:
+                             WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:opa_material_linear_footage) }, { name: 'Versa', data: WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:wpa_material_linear_footage) } ], :stacked => true, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                           </div>
+                         </div>
+                       </div>
+                       <div class="content" id="panel3">
+                        <div class='row'>
+                          <div class='small-12 medium-6 large-6 columns'>
+                            <div class='panel', align='center'>
+                              <h5 class='subheader'>Versa Table Linear Footage<br /></h5>
+                              <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                              <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@wpawtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@wpaavgwtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                            </div>
+                            <br />
+                            <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:wpa_linear_footage), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                          </div>
+                          <div class='small-12 medium-6 large-6 columns'>
+                            <div class='panel', align='center'>
+                              <h5 class='subheader'>Versa Table Poundage <br></h5>
+                              <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                              <h6 class='subheader'>Total = &nbsp;<%= number_with_precision(@wpawtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br>Daily Avg = <%= number_with_precision(@wpaavgwtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                            </div>
+                            <br />
+                            <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:wpa_panel_weight), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                          </div>
+                          <div class='small-12 medium-6 large-6 end columns'>
+                            <div class='panel', align='center'>
+                              <h5 class='subheader'>Versa Table Units<br /></h5>
+                              <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                              <h6 class='subheader'>Total = &nbsp;<%= number_with_delimiter(@wpawtdpanelcount)%>&nbsp; Panels <br />Daily Avg = <%= number_with_precision(@wpaavgwtdpanelcount, precision: 2, delimiter: ',')%>&nbsp; Panels<br /></h6>
+                            </div>
+                            <br />
+                            <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:wpa_count), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                          </div>
+                          <div class='small-12 medium-6 large-6 end columns'>
+                            <div class='panel', align='center'>
+                              <h5 class='subheader'>Versa Table Material Footage<br></h5>
+                              <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br></h6>
+                              <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@wpawtdmaterialfootage, precision: 2, delimiter: ',') %>&nbsp;Feet<br>Daily Avg = <%= number_with_precision(@wpaavgwtdmaterialfootage, precision: 2, delimiter: ',') %>  &nbsp; Feet<br></h6>
+                            </div>
+                          </br />
+                          <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:wpa_material_linear_footage), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="content" id="panel4">
+                      <div class='row'>
+                        <div class='small-12 medium-6 large-6 columns'>
+                          <div class='panel', align='center'>
+                            <h5 class='subheader'>Versa Table Linear Footage<br /></h5>
+                            <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                            <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@wpamtdfootage, precision: 2, delimiter: ',')%> &nbsp; Feet<br />Daily Avg = <%= number_with_precision(@wpaavgmtdfootage, precision: 2, delimiter: ',') %> &nbsp; Feet<br /></h6>
+                          </div>
+                          <br />
+                          <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:wpa_linear_footage), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                          <div class='panel', align='center'>
+                            <h5 class='subheader'>Versa Table Poundage<br /></h5>
+                            <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                            <h6 class='subheader'>Total = &nbsp;<%= number_with_precision(@wpamtdpoundage, precision: 2, delimiter: ',') %>&nbsp;Pounds<br />Daily Avg = <%= number_with_precision(@wpaavgmtdpoundage, precision: 2, delimiter: ',') %>&nbsp;Pounds<br /></h6>
+                          </div>
+                          <br />
+                          <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:wpa_panel_weight), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 end columns'>
+                          <div class='panel', align='center'>
+                            <h5 class='subheader'>Versa Table Units<br></h5>
+                            <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br></h6>
+                            <h6 class='subheader'>Total = &nbsp; <%= number_with_delimiter(@wpamtdpanelcount) %>&nbsp;Panels<br>Daily Avg = <%= number_with_precision(@wpaavgmtdpanelcount, precision: 2, delimiter: ',') %>  &nbsp; Panels<br></h6>
+                          </div>
+                        </br />
+                        <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:wpa_count), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                      </div>
+                      <div class='small-12 medium-6 large-6 end columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Versa Table Material Footage<br></h5>
+                          <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br></h6>
+                          <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@wpamtdmaterialfootage, precision: 2, delimiter: ',') %>&nbsp;Feet<br>Daily Avg = <%= number_with_precision(@wpaavgmtdmaterialfootage, precision: 2, delimiter: ',') %>  &nbsp; Feet<br></h6>
+                        </div>
+                      </br />
+                      <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:wpa_material_linear_footage), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                    </div>
+                  </div>
+                </div>
+                <div class="content" id="panel5">
+                  <div class='row'>
+                    <div class='small-12 medium-6 large-6 columns'>
+                      <div class='panel', align='center'>
+                        <h5 class='subheader'>Offline Assembly Linear Footage<br /></h5>
+                        <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                        <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@opawtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@opaavgwtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                      </div>
+                      <br />
+                      <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:opa_linear_footage), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                    </div>
+                    <div class='small-12 medium-6 large-6 columns'>
+                      <div class='panel', align='center'>
+                        <h5 class='subheader'>Offline Assembly Poundage <br></h5>
+                        <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                        <h6 class='subheader'>Total = &nbsp;<%= number_with_precision(@opawtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br>Daily Avg = <%= number_with_precision(@opaavgwtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                      </div>
+                      <br />
+                      <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:opa_panel_weight), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                    </div>
+                    <div class='small-12 medium-6 large-6 end columns'>
+                      <div class='panel', align='center'>
+                        <h5 class='subheader'>Offline Assembly Units<br /></h5>
+                        <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                        <h6 class='subheader'>Total = &nbsp;<%= number_with_delimiter(@opawtdpanelcount)%>&nbsp; Panels <br />Daily Avg = <%= number_with_precision(@opaavgwtdpanelcount, precision: 2, delimiter: ',')%>&nbsp; Panels<br /></h6>
+                      </div>
+                      <br />
+                      <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:opa_count), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                    </div>
+                    <div class='small-12 medium-6 large-6 end columns'>
+                      <div class='panel', align='center'>
+                        <h5 class='subheader'>Offline Assembly Material Footage<br></h5>
+                        <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br></h6>
+                        <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@opawtdmaterialfootage, precision: 2, delimiter: ',') %>&nbsp;Feet<br>Daily Avg = <%= number_with_precision(@opaavgwtdmaterialfootage, precision: 2, delimiter: ',') %>  &nbsp; Feet<br></h6>
+                      </div>
+                    </br />
+                    <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:opa_material_linear_footage), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                  </div>
+                </div>
+              </div>
+              <div class="content" id="panel6">
+                <div class='row'>
+                  <div class='small-12 medium-6 large-6 columns'>
+                    <div class='panel', align='center'>
+                      <h5 class='subheader'>Offline Assembly Linear Footage<br /></h5>
+                      <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                      <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@opamtdfootage, precision: 2, delimiter: ',')%> &nbsp; Feet<br />Daily Avg = <%= number_with_precision(@opaavgmtdfootage, precision: 2, delimiter: ',') %> &nbsp; Feet<br /></h6>
+                    </div>
+                    <br />
+                    <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:opa_linear_footage), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                  </div>
+                  <div class='small-12 medium-6 large-6 columns'>
+                    <div class='panel', align='center'>
+                      <h5 class='subheader'>Offline Assembly Poundage<br /></h5>
+                      <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                      <h6 class='subheader'>Total = &nbsp;<%= number_with_precision(@opamtdpoundage, precision: 2, delimiter: ',') %>&nbsp;Pounds<br />Daily Avg = <%= number_with_precision(@opaavgmtdpoundage, precision: 2, delimiter: ',') %>&nbsp;Pounds<br /></h6>
+                    </div>
+                    <br />
+                    <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:opa_panel_weight), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                  </div>
+                  <div class='small-12 medium-6 large-6 end columns'>
+                    <div class='panel', align='center'>
+                      <h5 class='subheader'>Offline Assembly Units<br></h5>
+                      <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br></h6>
+                      <h6 class='subheader'>Total = &nbsp; <%= number_with_delimiter(@opamtdpanelcount) %>&nbsp;Panels<br>Daily Avg = <%= number_with_precision(@opaavgmtdpanelcount, precision: 2, delimiter: ',') %>  &nbsp; Panels<br></h6>
+                    </div>
+                  </br />
+                  <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:opa_count), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                </div>
+                <div class='small-12 medium-6 large-6 end columns'>
+                  <div class='panel', align='center'>
+                    <h5 class='subheader'>Offline Assembly Material Footage<br></h5>
+                    <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br></h6>
+                    <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@opamtdmaterialfootage, precision: 2, delimiter: ',') %>&nbsp;Feet<br>Daily Avg = <%= number_with_precision(@opaavgmtdmaterialfootage, precision: 2, delimiter: ',') %>&nbsp;Feet<br></h6>
+                  </div>
+                </br />
+                <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:opa_material_linear_footage), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel7">
+            <div class='row'>
+              <div class='small-12 medium-6 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Sheathing SqFt<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@sthwtdsqft, precision: 2, delimiter: ',')%> &nbsp; SqFt<br />Daily Avg = <%= number_with_precision(@sthavgwtdsqft, precision: 2, delimiter: ',') %> &nbsp; SqFt<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:sth_panel_sqft), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-6 large-6 end columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Sheathing Units<br></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br></h6>
+                  <h6 class='subheader'>Total = &nbsp; <%= number_with_delimiter(@sthwtdpanelcount) %>&nbsp;Panels<br>Daily Avg = <%= number_with_precision(@sthavgwtdpanelcount, precision: 2, delimiter: ',') %>  &nbsp; Panels<br></h6>
+                </div>
+              </br />
+              <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:sth_count), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+            </div>
+          </div>
+        </div>
+        <div class="content" id="panel8">
+          <div class='row'>
+            <div class='small-12 medium-6 large-6 columns'>
+              <div class='panel', align='center'>
+                <h5 class='subheader'>Sheathing SqFt<br /></h5>
+                <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@sthmtdsqft, precision: 2, delimiter: ',')%> &nbsp; SqFt<br />Daily Avg = <%= number_with_precision(@sthavgmtdsqft, precision: 2, delimiter: ',') %> &nbsp; SqFt<br /></h6>
+              </div>
+              <br />
+              <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:sth_panel_sqft), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+            </div>
+            <div class='small-12 medium-6 large-6 end columns'>
+              <div class='panel', align='center'>
+                <h5 class='subheader'>Sheathing Units<br></h5>
+                <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br></h6>
+                <h6 class='subheader'>Total = &nbsp; <%= number_with_delimiter(@sthmtdpanelcount) %>&nbsp;Panels<br>Daily Avg = <%= number_with_precision(@sthavgmtdpanelcount, precision: 2, delimiter: ',') %>  &nbsp; Panels<br></h6>
+              </div>
+            </br />
+            <%= bar_chart WpaProductionSummaries.where("DATE(wpa_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:sth_count), :stacked => false, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</li>
 <br />
-<hr>
- <h1>Previous 30 Days</h1>
- <hr>
+
+<!-- Roll Forming Production -->
+
+<li class="accordion-navigation">
+  <a href="#panel2a"><h5 class='subheader'><%= image_tag('mmpl_30x30_Icon.png') %> &nbsp; Total Rollforming Production &raquo;</h5></a>
+  <div id="panel2a" class="content">
+    <div class='row'>
+      <div class='small-12 columns'>
+        <ul class="tabs" data-tab>
+          <li class="tab-title active"><a href="#panel21"><h6 class='subheader'>7 Day</h6></a></li>
+          <li class="tab-title"><a href="#panel22"><h6 class='subheader'>30 Day</h6></a></li>
+          <li class="tab-title"><a href="#panel23"><h6 class='subheader'>90 Day by Day</h6></a></li>
+          <li class="tab-title"><a href="#panel24"><h6 class='subheader'>90 Day by Month</h6></a></li>
+          <li class="tab-title"><a href="#panel25"><h6 class='subheader'>180 Day by Day</h6></a></li>
+          <li class="tab-title"><a href="#panel26"><h6 class='subheader'>180 Day by Month</h6></a></li>
+          <li class="tab-title"><a href="#panel27"><h6 class='subheader'>365 Day by Day</h6></a></li>
+          <li class="tab-title"><a href="#panel28"><h6 class='subheader'>365 Day by Month</h6></a></li>
+        </ul>
+        <div class="tabs-content">
+          <div class="content active" id="panel21">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfwtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfavgwtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfwtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfavgwtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel22">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@rfmtdfootage, precision: 2, delimiter: ',')%> &nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfavgmtdfootage, precision: 2, delimiter: ',') %> &nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>    
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfmtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfavgmtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel23">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rf90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfavg90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rf90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfavg90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel24">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rf90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfavg90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 3 MONTH)").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rf90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfavg90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 3 MONTH)").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel25">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rf180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfavg180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY)").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rf180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfavg180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY)").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel26">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rf180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfavg180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH)").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total Total =&nbsp;<%= number_with_precision(@rf180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfavg180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH)").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div> 
+          <div class="content" id="panel27">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rf365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfavg365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rf365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfavg365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel28">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rf365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfavg365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH)").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Total Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rf365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfavg365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH)").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>
 <br />
-<table align = 'center' width = '95%' = "background-color: #FFFFFF", border = 1 >
-<tr>
-  <td width = '33%', align = 'center', style = "background-color: #eee">
-    <h3><center>Footage<br></h3><h6>&nbsp;(Total and Daily Avg exclude current day)<br></h6><h4>Total = &nbsp; <%= number_with_delimiter(@mtdfootage)%> &nbsp; Feet<br>Daily Avg = <%= number_with_delimiter(@avgmtdfootage)%> &nbsp; Feet</h4>
-</td>
-<td width = '33%', align = 'center', style = "background-color: #eee">
-  <h3>Poundage<br></h3><h6>&nbsp;(Total and Daily Avg exclude current day)<br></h6><h4>Total = &nbsp;<%= number_with_delimiter(@mtdpoundage) %>&nbsp;Pounds<br>Daily Avg = <%= number_with_delimiter(@avgmtdpoundage) %>&nbsp;Pounds</h4>
-</td>
-<td width = '33%', align = 'center' , style = "background-color: #eee">
-<h3>Units<br></h3><h6>&nbsp;(Total and Daily Avg exclude current day)<br></h6><h4>Total = &nbsp; <%= number_with_delimiter(@mtdpanelcount) %>&nbsp;Panels<br>Daily Avg = <%= number_with_delimiter(@avgtmdpanelcount) %>  &nbsp; Panels</h4>
-</td>  
-</tr>
-<tr>
-  <td width = '33%' align = 'center'>
-<%= column_chart Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id`").group_by_day("`wallpanel_trackings`.`updated_at`", last: 31, format: "%d/%m").reverse_order.sum(:length), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},  discrete: true}  %>
-</td>
-<td width = '33%', align = 'center'>
- <%= column_chart Wallpanels.where("(`wallpanels`.`status` = 'VRS' OR `wallpanels`.`status` = 'OPA')").joins("INNER JOIN `wallpanel_trackings` ON `wallpanels`.`id` = `wallpanel_trackings`.`wallpanels_id` ").group_by_day("`wallpanel_trackings`.`updated_at`", last: 31, format: "%d/%m").reverse_order.sum(:weight), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Pounds"},  discrete: true}%>
-</td>
-<td width = '33%' align = 'center'>
-  <%= column_chart WallpanelTracking.where("(`wallpanel_trackings`.`trans_code` = 'VRS' OR `wallpanel_trackings`.`trans_code` = 'OPA')").group_by_day("`updated_at`", last: 31, format: "%d/%m").reverse_order.count, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Panels"}, discrete: true}%>
-</td>
-</tr>
-</table>
+<li class="accordion-navigation">
+  <a href="#panel2b"><h5 class='subheader'><%= image_tag('mmpl_30x30_Icon.png') %> &nbsp; Supermill Rollforming Production &raquo;</h5></a>
+  <div id="panel2b" class="content">
+    <div class='row'>
+      <div class='small-12 columns'>
+        <ul class="tabs" data-tab>
+          <li class="tab-title active"><a href="#panel2b1"><h6 class='subheader'>7 Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2b2"><h6 class='subheader'>30 Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2b3"><h6 class='subheader'>90 Day by Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2b4"><h6 class='subheader'>90 Day by Month</h6></a></li>
+          <li class="tab-title"><a href="#panel2b5"><h6 class='subheader'>180 Day by Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2b6"><h6 class='subheader'>180 Day by Month</h6></a></li>
+          <li class="tab-title"><a href="#panel2b7"><h6 class='subheader'>365 Day by Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2b8"><h6 class='subheader'>365 Day by Month</h6></a></li>
+        </ul>
+        <div class="tabs-content">
+          <div class="content active" id="panel2b1">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsmwtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfsmavgwtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND workstations_id = 1").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsmwtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfsmavgwtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND workstations_id = 1").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2b2">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@rfsmmtdfootage, precision: 2, delimiter: ',')%> &nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfsmavgmtdfootage, precision: 2, delimiter: ',') %> &nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND workstations_id = 1").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>    
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsmmtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfsmavgmtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND workstations_id = 1").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2b3">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsm90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfsmavg90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY) AND workstations_id = 1").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsm90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfsmavg90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY) AND workstations_id = 1").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2b4">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsm90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfsmavg90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 3 MONTH) AND workstations_id = 1").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsm90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfsmavg90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 3 MONTH) AND workstations_id = 1").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2b5">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsm180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfsmavg180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY) AND workstations_id = 1").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsm180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfsmavg180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY) AND workstations_id = 1").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2b6">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsm180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfsmavg180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH) AND workstations_id = 1").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsm180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfsmavg180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH) AND workstations_id = 1").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div> 
+          <div class="content" id="panel2b7">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsm365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfsmavg365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY) AND workstations_id = 1").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsm365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfsmavg365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY) AND workstations_id = 1").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2b8">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsm365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfsmavg365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND workstations_id = 1").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Supermill Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfsm365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfsmavg365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND workstations_id = 1").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>
+<br />
+<li class="accordion-navigation">
+  <a href="#panel2c"><h5 class='subheader'><%= image_tag('mmpl_30x30_Icon.png') %> &nbsp; Accessorial Rollforming Production &raquo;</h5></a>
+  <div id="panel2c" class="content">
+    <div class='row'>
+      <div class='small-12 columns'>
+        <ul class="tabs" data-tab>
+          <li class="tab-title active"><a href="#panel2c1"><h6 class='subheader'>7 Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2c2"><h6 class='subheader'>30 Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2c3"><h6 class='subheader'>90 Day by Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2c4"><h6 class='subheader'>90 Day by Month</h6></a></li>
+          <li class="tab-title"><a href="#panel2c5"><h6 class='subheader'>180 Day by Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2c6"><h6 class='subheader'>180 Day by Month</h6></a></li>
+          <li class="tab-title"><a href="#panel2c7"><h6 class='subheader'>365 Day by Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2c8"><h6 class='subheader'>365 Day by Month</h6></a></li>
+        </ul>
+        <div class="tabs-content">
+          <div class="content active" id="panel2c1">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfacwtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfacavgwtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND workstations_id = 2").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfacwtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfacavgwtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND workstations_id = 2").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2c2">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@rfacmtdfootage, precision: 2, delimiter: ',')%> &nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfacavgmtdfootage, precision: 2, delimiter: ',') %> &nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND workstations_id = 2").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>    
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfacmtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfacavgmtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND workstations_id = 2").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2c3">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfac90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfacavg90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY) AND workstations_id = 2").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfac90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfacavg90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY) AND workstations_id = 2").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2c4">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfac90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfacavg90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 3 MONTH) AND workstations_id = 2").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfac90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfacavg90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 3 MONTH) AND workstations_id = 2").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2c5">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfac180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfacavg180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY) AND workstations_id = 2").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfac180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfacavg180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY) AND workstations_id = 2").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2c6">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfac180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfacavg180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH) AND workstations_id = 2").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfac180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfacavg180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH) AND workstations_id = 2").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div> 
+          <div class="content" id="panel2c7">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfac365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfacavg365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY) AND workstations_id = 2").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfac365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfacavg365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY) AND workstations_id = 2").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2c8">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfac365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfacavg365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND workstations_id = 2").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Accessorial Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfac365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfacavg365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND workstations_id = 2").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>
+<br />
+<li class="accordion-navigation">
+  <a href="#panel2d"><h5 class='subheader'><%= image_tag('mmpl_30x30_Icon.png') %> &nbsp; Nucon Rollforming Production &raquo;</h5></a>
+  <div id="panel2d" class="content">
+    <div class='row'>
+      <div class='small-12 columns'>
+        <ul class="tabs" data-tab>
+          <li class="tab-title active"><a href="#panel2d1"><h6 class='subheader'>7 Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2d2"><h6 class='subheader'>30 Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2d3"><h6 class='subheader'>90 Day by Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2d4"><h6 class='subheader'>90 Day by Month</h6></a></li>
+          <li class="tab-title"><a href="#panel2d5"><h6 class='subheader'>180 Day by Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2d6"><h6 class='subheader'>180 Day by Month</h6></a></li>
+          <li class="tab-title"><a href="#panel2d7"><h6 class='subheader'>365 Day by Day</h6></a></li>
+          <li class="tab-title"><a href="#panel2d8"><h6 class='subheader'>365 Day by Month</h6></a></li>
+        </ul>
+        <div class="tabs-content">
+          <div class="content active" id="panel2d1">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnuwtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfnuavgwtdfootage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND workstations_id = 3").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnuwtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfnuavgwtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND workstations_id = 3").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2d2">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total = &nbsp; <%= number_with_precision(@rfnumtdfootage, precision: 2, delimiter: ',')%> &nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfnuavgmtdfootage, precision: 2, delimiter: ',') %> &nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND workstations_id = 3").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>    
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnumtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfnuavgmtdpoundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND workstations_id = 3").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2d3">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnu90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfnuavg90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY) AND workstations_id = 3").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnu90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfnuavg90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY) AND workstations_id = 3").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2d4">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnu90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfnuavg90footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 3 MONTH) AND workstations_id = 3").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnu90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfnuavg90poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 3 MONTH) AND workstations_id = 3").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2d5">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnu180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfnuavg180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY) AND workstations_id = 3").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnu180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfnuavg180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY) AND workstations_id = 3").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2d6">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnu180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfnuavg180footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH) AND workstations_id = 3").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnu180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfnuavg180poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH) AND workstations_id = 2").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div> 
+          <div class="content" id="panel2d7">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnu365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfnuavg365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY) AND workstations_id = 3").group(:proddate).reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnu365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfnuavg365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("DATE(rlf_production_summaries.proddate) >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY) AND workstations_id = 3").group(:proddate).reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+          <div class="content" id="panel2d8">
+            <div class='row'>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon  Footage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnu365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br />Daily Avg = <%= number_with_precision(@rfnuavg365footage, precision: 2, delimiter: ',') %>&nbsp; Feet<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND workstations_id = 3").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_footage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+              <div class='small-12 medium-12 large-6 columns'>
+                <div class='panel', align='center'>
+                  <h5 class='subheader'>Nucon Poundage<br /></h5>
+                  <h6 class='subheader'>&nbsp;(Total and Daily Avg exclude current day)<br /></h6>
+                  <h6 class='subheader'>Total =&nbsp;<%= number_with_precision(@rfnu365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br />Daily Avg = <%= number_with_precision(@rfnuavg365poundage, precision: 2, delimiter: ',') %>&nbsp; Pounds<br /></h6>
+                </div>
+                <br />
+                <%= bar_chart RlfProductionSummaries.where("rlf_production_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND workstations_id = 3").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:rlf_total_poundage), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>
+<br />
+
+
+
+
+<li class="accordion-navigation">
+
+          <!-- Gauge Usage -->
+
+          <a href="#panel3a"><h5 class='subheader'><%= image_tag('mmpl_30x30_Icon.png') %>&nbsp; Coil Material Usage &raquo;</h5></a>
+          <div id="panel3a" class="content">
+            <div class='row'>
+              <div class='small-12 columns'>
+                <ul class="tabs" data-tab>
+                  <li class="tab-title active"><a href="#panel30"><h6 class='subheader'>7 Day</h6></a></li>
+                  <li class="tab-title"><a href="#panel31"><h6 class='subheader'>30 Day</h6></a></li>
+                  <li class="tab-title"><a href="#panel32"><h6 class='subheader'>90 Day</h6></a></li>
+                  <li class="tab-title"><a href="#panel33"><h6 class='subheader'>180 Day </h6></a></li>
+                  <li class="tab-title"><a href="#panel34"><h6 class='subheader'>365 Day</h6></a></li>
+                  <li class="tab-title"><a href="#panel35"><h6 class='subheader'>12 Gauge</h6></a></li>
+                  <li class="tab-title"><a href="#panel36"><h6 class='subheader'>14 Gauge</h6></a></li>
+                  <li class="tab-title"><a href="#panel37"><h6 class='subheader'>16 Gauge</h6></a></li>
+                  <li class="tab-title"><a href="#panel38"><h6 class='subheader'>18 Gauge</h6></a></li>
+                  <li class="tab-title"><a href="#panel39"><h6 class='subheader'>20 Gauge</h6></a></li>
+                  <li class="tab-title"><a href="#panel31a"><h6 class='subheader'>25 Gauge</h6></a></li>
+                </ul>
+                <div class="tabs-content">
+                  <div class="content active" id="panel30">
+                    <div class='row'>
+                     <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Poundage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= pie_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").all.group(:gauge).sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                     <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Poundage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").all.group(:gauge).sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                      </div>
+                      <div class='row'>
+                      <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Footage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= pie_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").all.group(:gauge).sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Footage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").all.group(:gauge).sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                       </div>
+                    </div>
+                  <div class="content" id="panel31">
+                    <div class='row'>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Poundage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= pie_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").all.group(:gauge).sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Poundage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").all.group(:gauge).sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                      </div>
+                      <div class='row'>
+                      <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Footage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= pie_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").all.group(:gauge).sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Footage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)").all.group(:gauge).sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>   
+                      </div>
+                    </div>
+
+                  <div class="content" id="panel32">
+                    <div class='row'>
+                     <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Poundage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= pie_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)").all.group(:gauge).sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Poundage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)").all.group(:gauge).sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                        </div>
+                        <div class='row'>
+                      <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Footage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= pie_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)").all.group(:gauge).sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Footage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY)").all.group(:gauge).sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                       
+                      </div>
+                    </div>
+                  <div class="content" id="panel33">
+                    <div class='row'>
+                    <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Poundage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= pie_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY)").all.group(:gauge).sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Poundage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY)").all.group(:gauge).sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                      </div>
+                      <div class='row'>
+                      <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Footage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= pie_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY)").all.group(:gauge).sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Footage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 180 DAY)").all.group(:gauge).sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  <div class="content" id="panel34">
+                    <div class='row'>
+                      <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Poundage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= pie_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)").all.group(:gauge).sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Poundage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)").all.group(:gauge).sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                      </div>
+                      <div class='row'>
+                      <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Footage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= pie_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)").all.group(:gauge).sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>Footage by Gauge<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 365 DAY)").all.group(:gauge).sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  <div class="content" id="panel35">
+                    <div class='row'>
+                      <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>12 Gauge Footage - Last 365 Days<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 12").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>12 Gauge Poundage - Last 365 days<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 12").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="content" id="panel36">
+                    <div class='row'>
+                      <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>14 Gauge Footage - Last 365 Days<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 14").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>14 Gauge Poundage - Last 365 days<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 14").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="content" id="panel37">
+                    <div class='row'>
+                      <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>16 Gauge Footage - Last 365 Days<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart [{name: "16 Gauge", data: ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 16").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_quantity_prod)}, {name: "17 Gauge", data: ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 17").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_quantity_prod)} ], stacked: true, library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>16 Gauge Poundage - Last 365 days<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart [{name: "16 Gauge", data: ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 16").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_poundage_prod)}, {name: "17 Gauge", data: ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 17").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_poundage_prod)} ], stacked: true, library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="content" id="panel38">
+                    <div class='row'>
+                      <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>18 Gauge Footage - Last 365 Days<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 18").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>18 Gauge Poundage - Last 365 days<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 18").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="content" id="panel39">
+                    <div class='row'>
+                      <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>20 Gauge Footage - Last 365 Days<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 20").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>20 Gauge Poundage - Last 365 days<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 20").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="content" id="panel31a">
+                    <div class='row'>
+                      <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>25 Gauge Footage - Last 365 Days<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 25").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_quantity_prod), library: { backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"}, discrete: true} %>
+                        </div>
+                        <div class='small-12 medium-6 large-6 columns'>
+                        <div class='panel', align='center'>
+                          <h5 class='subheader'>25 Gauge Poundage - Last 365 days<br /></h5>
+                        </div>
+                        <br />
+                        <%= column_chart ItemSummaries.where("item_summaries.proddate >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND item_summaries.gauge = 25").group_by_month(:proddate, format: "%b/%y").reverse_order.sum(:total_poundage_prod), library: {backgroundColor: "#eee", hAxis: {slantedText: true, slantedTextAngle: 45, title: "Date" }, vAxis: {title: "Feet"},discrete: true} %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              </div>
+              </div>
+              </li>
+</ul>
+</div>
+</div>
+<br />
+

@@ -1,68 +1,65 @@
-<% @page_title = "#{params[:item_number]}-Inventory Details" %>
+<% @page_title = "Inventory Details" %>
 <% @previous_controller = 'inventory' %>
 <% if params[:procure] %>
+<% @previous_controller = 'inventory' %>
 <% @previous_action = 'dashboard' %>
 <% else %>
-<% @previous_action = 'show' %>
+<% @previous_controller = 'inv-balances' %>
+<% @previous_action = 'index' %>
 <% end %>
 <% @page_module = '' %>
 <% @page_access = 'invbal_details' %>
 
-<table width="80%" align="center">
-<tr>
-<td width="20%" align="left">
-</td>
-<td width="60%" align="center">
-</td>
-<td width="20%" align="right">
-<%= link_to image_tag('excel-30.png'), controller: "inv_lot", action: "show", format: 'xls', item_number: @itemnumber,item_masters_id: @itemmastersid, procure: params[:procure], company: params[:company] %>
-</td>
-</tr>
-<tr>
-<td width="20%" align="left">
-</td>
-<td width="60%" align="center">
-<% if params[:procure] %>
-<h5 align='center'>Click Lot Number to View Cost Layer</h5>
-<% else %> &nbsp;
-<% end %>
-</td>
-<td width="20%" align="right">
-</td>
-</tr>
-</table>
 
-<table id="invlots" class="display" width="80%" align="center">
-<thead>
-	<tr>
-		<th > Lot  </th>
-		<th > Bin  </th>
-		<th > Current Qty  </th>
-		<th > Original Qty </th>
-		<th > Good Usage   </th>
-		<th > Scrap Usage  </th>
-		<th > On Hold </th>   
-		<th > Active </th>
-		<th > Date Received </th>
-	</tr>	
-</thead>
-<tbody>
-	<% @invlots.each do |invlot| %>
-	<tr>
-		<% if params[:procure] %>
-		<td align = 'center'><%= link_to(invlot.lot , controller: "inv_cost_layer", action: "show", lot: invlot.lot, item_number: @itemnumber, procure: @procure, company: @company) %></td>
-		<% else %>
-		<td align = 'center'><%= invlot.lot %></td>
-		<% end %>
-		<td align = 'center'><%= invlot.bin %></td>
-		<td align = 'center'><%= number_with_precision(invlot.curr_qty, :precision => 2, :delimiter => ",") %></td>
-		<td align = 'center'><%= number_with_precision(invlot.orig_qty, :precision => 2, :delimiter => ",") %></td>
-		<td align = 'center'><%= number_with_precision(invlot.good_usage, :precision => 2, :delimiter => ",") %></td>
-		<td align = 'center'><%= number_with_precision(invlot.scrap_usage, :precision => 2, :delimiter => ",") %></td>
-		<td align = 'center'><%= invlot.qa_hold %></td>
-		<td align = 'center'><%= invlot.active %></td>
-		<td align = 'center'><%= localize(invlot.created_at, :format => :long) %></td>
-	</tr>
-	<% end %>
-</tbody>	
-	</table>	
+<div class='row'>
+	<div class='small-1 small-offset-11 columns', align = 'right'>
+		<%= link_to image_tag('excel-30.png'), controller: "inv_lot", action: "show", format: 'xls', item_number: @itemnumber,item_masters_id: @itemmastersid, procure: params[:procure], company: params[:company] %>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='small-12 small-centered columns', align='center'>
+		<div class='panel secondary'>
+			<h5 class='subheader'>Details for: <%= params[:item_number] %></h5>	
+			<%if session[:secgroup].include?('procure') %>
+			<h6 class='subheader'>Click Lot Number to View Cost Layer (Security required)</h6>	
+			<% end %>
+		</div>
+		<div class='row'>
+			<table id='invlots' class='display responsive no-wrap' align='center'>
+				<thead>
+					<tr>
+						<th > Lot          </th>
+						<th > Bin          </th>
+						<th > Current Qty  </th>
+						<th > Original Qty </th>
+						<th > Good Usage   </th>
+						<th > Scrap Usage  </th>
+						<th > On Hold      </th>   
+						<th > Active       </th>
+						<th > Date Received </th>
+					</tr>	
+				</thead>
+				<tbody>
+					<% @invlots.each do |invlot| %>
+					<tr>
+						<% if session[:secgroup].include?('procure') || session[:secgroup].include?('admin') || session[:secgroup].include?('mgmt') %>
+						<td><%= link_to(invlot.lot , controller: "inv_cost_layer", action: "show", lot: invlot.lot, item_number: @itemnumber, procure: @procure, company: @company) %></td>
+						<% else %>
+						<td><%= invlot.lot %></td>
+						<% end %>
+						<td><%= invlot.bin %></td>
+						<td><%= number_with_precision(invlot.curr_qty, :precision => 2, :delimiter => ",") %></td>
+						<td><%= number_with_precision(invlot.orig_qty, :precision => 2, :delimiter => ",") %></td>
+						<td><%= number_with_precision(invlot.good_usage, :precision => 2, :delimiter => ",") %></td>
+						<td><%= number_with_precision(invlot.scrap_usage, :precision => 2, :delimiter => ",") %></td>
+						<td><%= invlot.qa_hold %></td>
+						<td><%= invlot.active %></td>
+						<td><%= localize(invlot.created_at, :format => :long) %></td>
+					</tr>
+					<% end %>
+				</tbody>	
+			</table>		
+		</div>
+	</div>
+</div>

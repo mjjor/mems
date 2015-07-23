@@ -1,67 +1,38 @@
 <% @page_title = "Inventory Main Menu" %>
-<% @previous_controller = 'mems_login' %>
-<% @previous_action = 'index' %>
+<% @previous_controller = 'mems' %>
+<% @previous_action = 'login' %>
 <% @page_module = "inventory" %>
 
-<br />
-<table width="80%" align="center">
-	<tr>
-		<td width="33%" align="center">
-			<%= image_tag("magest_60x60_Icon.png") %> <br> MBSL </td>
-	    <td width="33%" align="center">
-	    	<%= image_tag("mmsl_logo_60.png") %> <br /> MMSL </td>
-	    <td width="33%" align="center">
-	    	<%= image_tag("magest_BlkWht_60x60_Icon.png") %> <br> MMPL </td>
-	</tr>
-    <tr>
-    	<td width="33%" align="center">
-    		
-    	</td>
-    	<td width="33%" align="center">
-     		
- 		</td>
- 		<td width="33%" align="center">
-    		
-	    </td>
-	 </tr>
-	    <tr>
-    	<td width="33%" align="center">
-    		<%= if !InvCountMasters.find_by(:is_active => 1).blank?
-                link_to("Inventory Count ", :controller => 'inventory_count', :action => 'index', :method => :get, company: 'MBSL')  end %> 
-    	</td>
-    	<td width="33%" align="center">
-     		
- 		</td>
- 		<td width="33%" align="center">
-    	<br />
-    		<%= link_to("Inventory Dashboard", :controller => 'inventory', :action => 'dashboard', :method => :get, company: 'MMPL') %> 
-	    </td>
-	 </tr>
-	     <tr>
-    	<td width="33%" align="center">
-    		
-    	</td>
-    	<td width="33%" align="center">
-     		
- 		</td>
- 		<td width="33%" align="center">
- 			<br />
-    		<%= link_to("Inventory Details", :controller => 'inv_balance', :action => 'show', :method => :get, company: 'MMPL') %>
-	    </td>
-	 </tr> 
-     <tr>
-        <td width="33%" align="center">
-            
-        </td>
-        <td width="33%" align="center">
-           
-        </td>
-        <td width="33%" align="center">
-            <br />
-            <%= if !InvCountMasters.find_by(:is_active => 1).blank?  
-            link_to("Inventory Count", :controller => 'inventory_count', :action => 'index', :method => :get, company: 'MMPL') end %>
-        </td>
-     </tr> 
-</table>
-<br />
-<hr>
+
+<div class='row'>
+  <div class='small-12 small-centered columns'>
+    <div class='small-4 columns', align='center'> 
+        <a class='button secondary' data-dropdown="drop1"> <%= image_tag("mbsl_30x30_Icon.png") %> MBSL &raquo;</a>
+          <ul id="drop1" class="small f-dropdown" data-dropdown-content>
+            <li><%= link_to("Inventory Details", {:controller => 'inv_balance', :action => 'showMBSL', :method => :get, company: 'MBSL'}) %></li>
+            <li><%= if !InvCountMasters.find_by(:is_active => 1).blank?
+              link_to("Inventory Count ", {:controller => 'inventory_count', :action => 'index', :method => :get, company: 'MBSL'}) 
+            end %>
+            </li>
+          </ul>
+    </div>
+    <div class='small-4 columns', align='center'>
+      <a class='button secondary' data-dropdown="drop2"><%= image_tag("mmsl_logo_30.png") %> MMSL &raquo;</a>
+        <ul id="drop2" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
+          <li><a href="#">MMSL inventory module is not active</a></li>
+        </ul>
+    </div>
+     <div class='small-4 columns', align='center'>
+        <a class='button secondary' data-dropdown="drop3"><%= image_tag("mmpl_30x30_Icon.png") %> MMPL &raquo;</a>
+          <ul id="drop3" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
+            <li><a href="#">
+              <%= link_to("Inventory Dashboard", {:controller => 'inventory', :action => 'dashboard', :method => :get, company: 'MMPL'}) %></a></li>
+            <li><a href='#'>
+              <%= link_to("Inventory Details", {:controller => 'inv_balance', :action => 'showMMPL', :method => :get, company: 'MMPL', fromDash: false}) %></a></li>
+            <li><a href='#'>
+             <%= if !InvCountMasters.find_by(:is_active => 1).blank? 
+            link_to("Inventory Count", {:controller => 'inventory_count', :action => 'index', :method => :get, company: 'MMPL'}) end %>
+          </ul>
+    </div>
+  </div>
+</div>

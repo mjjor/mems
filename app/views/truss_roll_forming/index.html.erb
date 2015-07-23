@@ -15,37 +15,69 @@ window.onload = function() {
 </script>
 -->
 
-<div class="truss tracking new">
-  <h2>Truss ID</h2>
-  <%= form_for(@truss, :url => {:action => 'create'}) do |f| %>
+<div class="row">
+  <div class="small-6 small-centered columns", align="center">
     
-    <%= render(:partial => "scan_truss", :locals => {:f => f}) %>
-    
-    <br>
+  </div>
+</div>
 
-    <div class="form-buttons">
-      <%= submit_tag("Submit Truss") %>
+   <%= form_for(@truss, :url => {:action => 'create'}) do |f| %>
+ <div class="row">
+      <div class="small-12 columns">
+        <div class="small-5 columns", align="center">
+          <div class="row">
+            <div class="small-12 columns", align="center">
+              <h4 class="subheader">Scan Truss </h4>
+             </div>
+           </div> 
+       <fieldset>
+        <%= render(:partial => "scan_truss", :locals => {:f => f}) %>
+          <div class="row">
+            <div class="small-12", align="center">
+              <%= submit_tag("Submit Truss", class: 'button secondary small round') %>
+            </div>
+          </div>
+      </fieldset>
+      </div>
+      <div class="small-5 columns">
+          <div class="row">
+        <div class="small-12", align="center">
+          <h4 class="subheader">Current Coil</h4>
+        </div>
+      </div>
+      <div class="row">  
+        <div class="small-12 columns">
+          <fieldset>
+           <%= render(:partial => "current_coil", :locals => {:f => f}) %>
+          </fieldset>
+        </div>
+      </div>
+      </div> 
+  </div> 
+  </div>
+  
+<div class="row">
+  <div class="small-12 columns">
+  <hr />
+    <div class="small-4 columns", align="left">     
+        <%= link_to('Scanned Trusses', {:controller => 'truss_roll_forming', :action => 'show', :method => 'get', :scanned => 'scanned', :transcode => @trans_code}, target: '_blank', class: 'button secondary small round') %>
     </div>
-    <br />
-    <hr />
-     <%= render(:partial => "current_coil", :locals => {:f => f}) %>
-    <hr />
-
-      <table width="100%">
-    <tr>
-      <td width="33%" align="left">
-        <%= link_to  image_tag('button_Scanned_Trusses.png'), :action => 'show', :method => 'get', scanned: 'scanned', :transcode => @trans_code %>
-      </td>
-      <td width="33%" align="center">
-        <%= link_to  image_tag('trussesNotScanned.png'), :action => 'show', :method => 'get', scanned: 'unscanned', :transcode => @trans_code %>
-      </td>
-      <td width="33%" align="right">
-       <%= 
-         link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_ncn_notification'   %>
-      </td>
-    </tr>
-   </table>    
-
+    <div class="small-4 columns", align="center">         
+        <%= link_to('Trussed NOT Scanned', {:controller => 'truss_roll_forming', :action => 'show', :method => 'get', :scanned => 'unscanned', :transcode => @trans_code}, target: '_blank', class: 'button secondary small round') %>
+    </div>
+    <div class="small-4 columns", align="right">
+       <%= link_to "Send Message", {:controller => 'wallpanel_tracking', :action => 'send_ncn_notification'}, class: 'button secondary small round' %>
+    </div>
+    </div>
      <hr>
+    </div>
+    </div>
+  </div>
+   
 <% end %>
 
+<script type="text/javascript">
+function setFocus(){
+document.getElementById("truss_tracking_trusslabel").focus();
+}
+</script>

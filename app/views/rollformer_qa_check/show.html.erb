@@ -1,4 +1,4 @@
-<% @page_title = 'Roll Former QA Check' %>
+<% @page_title = 'Roll Former QA Form' %>
 <% @previous_controller = 'rollformer_qa_check' %>
 <% @previous_action = 'index' %>
 <% @page_module = 'qa' %>
@@ -6,16 +6,18 @@
 <% @page_access = 'rollform_qa_edit' %>
 
 
-<div class="profile qa new">
-  <h2>Profile QA Check</h2>
   <%= form_for(:qaform, :url => {:action => 'edit'}) do |f| %>
-</div>
+
     <%= render(:partial => "qa_form", :locals => {:f => f}) %>
-    <br>
-<div class="form-buttons">
-      <%= submit_tag("Submit Profile") %>
-</div>
-<div align="right" class="form-buttons">
-     <%= link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_rlf_notification' %>
-</div>
-<% end %>
+<div class='row'>
+	<div class='small-12 columns'>
+		<div class='small-8 small-push-6 columns',align='right'>  
+      		<%= submit_tag('Submit Form', class: 'button small secondary round') %>
+			<% end %>
+		</div>
+		<div class='small-2 columns', align='right'>
+     		<%= link_to('Send Message', {:controller => 'wallpanel_tracking', :action => 'send_rlf_notification'}, class: 'button small secondary round') %>
+ 		</div>
+ 	</div>
+ </div>
+

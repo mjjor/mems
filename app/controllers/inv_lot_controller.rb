@@ -35,8 +35,8 @@ def confirm_page_access
                                              :sub_module => 'invlots',
                                              :access_page => 'summary').first
       unless found_page_access
-         flash[:notice] = "You do not have access to the requested page." 
-         redirect_to(:controller => 'mems_login', :action => 'index.html')
+         flash[:alert] = "You do not have access to the requested page." 
+         redirect_to(:controller => 'mems', :action => 'login')
       return false
       else return true
       end

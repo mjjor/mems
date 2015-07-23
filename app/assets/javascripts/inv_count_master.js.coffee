@@ -4,7 +4,8 @@
 jQuery ->
 	$('#countadmin').dataTable {
 		"order": [[ 6, "desc" ]],
-		"paging_type": "full_numbers -I"
+		"paging_type": "full_numbers -I",
+		"responsive": "true"
 	};
 	sPaginationType: 'full_numbers'
 	bJQueryUI: true

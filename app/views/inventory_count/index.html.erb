@@ -6,40 +6,32 @@
 <br />
 
 
-<table width="80%" align="center">
-	<tr>
-		<td width="33%" align="center">
+<div class='row'>
+    <div class='small-12 columns', align='center'>
+        <div class='row'>
+            <h5 class='subheader'> 
             <%= case @company  
-                    when "MBSL" then image_tag("magest_60x60_Icon.png")
-                    when "MMPL" then image_tag("magest_BlkWht_60x60_Icon.png")
+                    when "MBSL" then image_tag("mbsl_30x30_Icon.png")
+                    when "MMPL" then image_tag("mmpl_30x30_Icon.png")
             end %>   
-            <br />
-            <h2> <%= @company %> Inventory Count </h2>
-	   </td>
-	</tr>
-    <tr>
-    	<td width="33%" align="center">
-    		
-	    </td>
-	 </tr>
-	    <tr>
-    	<td width="33%" align="center">
-            <br />
-            <%= case @company 
-            when "MBSL" then link_to('Count Sheathing', :controller => 'inventory_count', :action => 'flatstock', :method => :get, company: 'MBSL', itemcateg: 'STH') 
-            when "MMPL" then link_to('Count Coils', :controller => 'inventory_count', :action => 'coil', :method => :get, company: 'MMPL', itemcateg: 'COL') 
-            end %>    
-    	</td>
-	 </tr>
-     <tr>
-        <td width="33%" align="center">
-            <br />
-            <%= case @company 
-            when "MBSL" then link_to('Count Miscellaneous', :controller => 'inventory_count', :action => 'flatstock', :method => :get, company: 'MBSL', itemcateg: 'MSC')    
-            when "MMPL" then link_to('Count Sheet Steel', :controller => 'inventory_count', :action => 'flatstock', :method => :get, company: 'MMPL', itemcateg: 'SHS') 
-            end %>    
-        </td>
-     </tr>
-</table>
-<br />
-<hr>
+            <%= @company %> Inventory Count 
+            </h5>
+         </div>
+        <div class='row'>
+            <div class='small-4 small-centered columns'>
+                <%= case @company 
+                when "MBSL" then link_to('Count Sheathing', {:controller => 'inventory_count', :action => 'flatstock', :method => :get, company: 'MBSL', itemcateg: 'STH'}, class: 'button small secondary round') 
+                when "MMPL" then link_to('Count Coils', {:controller => 'inventory_count', :action => 'coil', :method => :get, company: 'MMPL', itemcateg: 'COL'}, class: 'button small secondary round') 
+                end %>    
+            </div>
+        </div>
+        <div class='row'>
+            <div class='small-4 small-cenTered columns', align='center'>    
+                <%= case @company 
+                    when "MBSL" then link_to('Count Miscellaneous', {:controller => 'inventory_count', :action => 'flatstock', :method => :get, company: 'MBSL', itemcateg: 'MSC'}, class: 'button small secondary round')    
+                    when "MMPL" then link_to('Count Sheet Steel', {:controller => 'inventory_count', :action => 'flatstock', :method => :get, company: 'MMPL', itemcateg: 'SHS'}, class: 'button small secondary round')
+                end %>   
+            </div>
+        </div>
+    </div>
+</div>

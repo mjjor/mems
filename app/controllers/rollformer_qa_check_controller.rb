@@ -64,10 +64,10 @@ def edit
     @rollformqa.users_id = session[:user_id]
     @rollformqa.save
     if @rollformqa.save
-     flash[:notice] = "QA Form submitted successfully!"
+     flash[:notice] = "QA form submitted successfully!"
          redirect_to(:action => 'index', :trans_code => @trans_code)
     else
-     flash[:notice] = "Oooops QA FORM NOT SUCCESSFULLY SUBMITTED!"
+     flash[:alert] = "QA form NOT submitted successfully!"
          redirect_to(:action => 'show', :newid => @newrollformqa.id, :itemnum => params[:member][:member_id], 
                                        :reqlength => @pwolinelength, :pmark => @pwolinepmark)
      end
@@ -94,17 +94,20 @@ def confirm_page_access
                                              :module => 'qa',
                                              :sub_module => 'roll_form_qa').first
       unless found_page_access
-         flash[:notice] = "You do not have access to the requested page." 
-         redirect_to(:controller => 'mems_login', :action => 'index.html')
+         flash[:alert] = "You do not have access to the requested page." 
+         redirect_to(:controller => 'mems', :action => 'login')
       return false
       else return true
       end
   end
 
 def profile_qa_params
-   params.require(:rollformer_qa_checks).permit(:pwo_order_id, :item_number, :piecemark, :hole_center_width_A, :hole_center_width_B,
-                                               :flange_C, :web_D, :flange_E, :return_O, :return_D, :actual_length, :meets_visual, :user_notes,
-                                               :coilid, :header_id, :member_id, :pcemark_id, :requested_length, :item_number) 
+   params.require(:rollformer_qa_check).permit(:id, :company, :warehouses_id, :pwo_order_id, :pwo_lines_id, :item_masters_id,
+                                               :item_number, :workstations_id, :coilid, :coil_material, :users_id, :piececount, 
+                                               :piecemark, :thickness, :required_length, :actual_length, :hole_center_width_A,
+                                               :hole_center_width_B, :flange_C, :web_D, :flange_E, :return_O, :return_D, :flare,
+                                               :overbend, :crown, :camber, :bow, :twist, :meets_visual, :in_spec, 
+                                               :need_manager_approval, :user_notes, :notes, :created_at, :updated_at)
 end
 
 end

@@ -1,28 +1,33 @@
-<table bgcolor = "#ffffff" summary = "Width Calc Fields" align="center">
-	<!--
-	<tr>
-		<td width = '160' bgcolor = '#DCDCDC'>
-			&nbsp;
-		</td>
-		<td width = '160' bgcolor = '#DCDCDC'><b>Mils (97mils = 0.097) </b>
-		</td>	
-
-	</tr>	
--->
-	<tr >
-		<td width = '160' bgcolor = '#DCDCDC'>Material Thickness: </td>
-		<td width = '160' bgcolor = '#DCDCDC'><center><%= number_with_precision((params[:results][0].to_f), precision: 4) %></center></td>
-	</tr>
-	<tr>
-		<td width = '160' bgcolor = '#DCDCDC'>Coil Width: </td>
-		<td width = '160' bgcolor = '#DCDCDC'><center><%= number_with_precision((params[:results][1].to_f), precision: 4)  %></center></td>
-	</tr>
-	<tr>
-		<td width = '160' bgcolor = '#DCDCDC'>Inner Diameter: </td>
-		<td width = '160' bgcolor = '#DCDCDC'><center><%= number_with_precision((params[:results][2].to_f), precision: 4) %></center</td>
-	</tr>
-	<tr>
-		<td width = '160' bgcolor = '#DCDCDC'>Outer Diameter:</td>
-		<td width = '160' bgcolor = '#DCDCDC'><center><%= number_with_precision((params[:results][3].to_f), precision: 4)  %></center></td>
-	</tr>
-</table>
+	<div class='row'>
+		<div class='small-4 columns'>
+			<label for='fract1', class='prefix right'>Material Thickness: &nbsp;</label>
+		</div>
+		<div class='small-8 columns'>
+			<label class='prefix center'><%= number_with_precision((params[:results][0].to_f), precision: 4, placeholder: 'Enter Inches e.g. (6 5/8 or 6.625)') %></label>
+		</div>
+	</div>
+	<div class='row'>
+		<div class='small-4 columns'>
+			<label for='fract1', class='prefix right'>Coil Width: &nbsp;</label>
+		</div>
+		<div class='small-8 columns'>
+			<label class='prefix center'><%= number_with_precision((params[:results][1].to_f), precision: 4, placeholder: 'Enter Inches e.g. (6 5/8 or 6.625)') %></label>
+		</div>
+	</div>
+	<div class='row'>
+		<div class='small-4 columns'>
+			<label for='fract1', class='prefix right'>Inner Diameter: &nbsp;</label>
+		</div>
+		<div class='small-8 columns'>
+			<label class='prefix center'><%= number_with_precision((params[:results][2].to_f), precision: 4, placeholder: 'Enter Inches e.g. (6 5/8 or 6.625)') %></label>
+		</div>
+	</div>
+	<div class='row'>
+		<div class='small-4 columns'>
+			<label for='fract1', class='prefix right'>Outer Diameter: &nbsp;</label>
+		</div>
+		<div class='small-8 columns'>
+			<label class='prefix center'><%= number_with_precision((params[:results][3].to_f), precision: 4, placeholder: 'Enter Inches e.g. (6 5/8 or 6.625)') %></label>
+		</div>
+	</div>
+		

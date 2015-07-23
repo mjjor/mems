@@ -12,8 +12,8 @@ def confirm_page_access
                                              :module => 'ar',
                                              :sub_module => 'ar_menu').first
       unless found_page_access
-         flash[:notice] = "You do not have access to the requested page." 
-         redirect_to(:controller => 'mems_login', :action => 'index.html')
+         flash[:alert] = "You do not have access to the requested page." 
+         redirect_to(:controller => 'mems', :action => 'login')
       return false
       else return true
       end

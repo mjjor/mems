@@ -4,32 +4,36 @@
 <% @page_module = "admin" %>
 <% @page_sub_module = "count_mgmt" %>
 
-<h4> Click 'Count Description' to Edit record </h4>
 
-<table id="countadmin" class="display" width="85%" align="center">
-<thead>
-  <tr>
-    <th> Count Description </th>
-    <th> Count Date </th>
-    <th> Coil Cycle  </th>
-	<th> Miscellaneous Cycle</th>
-    <th> Sheathing Cycle  </th>
-    <th> Sheet Steel Cycle</th>
-    <th> Is Active </th>
-    </tr> 
-</thead>
-<tbody>
-  <% @countmaster.each do |count| %>
-  <tr>
-    <td align = 'center'><%= link_to(count.description, controller: "inv_count_master", action: "edit", id: count.id) %></td>
-    <td align = 'center'><%= localize(count.start_date, :format => :long) %></td>
-    <td align = 'center'><%= count.coil_cycle %></td>
-    <td align = 'center'><%= count.misc_cycle %></td>
-    <td align = 'center'><%= count.sheathing_cycle %></td>
-    <td align = 'center'><%= count.sheetsteel_cycle %></td>
-    <td align = 'center'><%= count.is_active %></td>
-    </td>
-    </tr>
-  <% end %>
-</tbody>  
-  </table>
+<div class='row'>
+  <div class='small-12 small-centered columns', align='center'>
+    <h5 class='subheader'>Click 'Count Description' to Edit record</h5>
+      <table id="countadmin" class="display responsive no-wrap">
+        <thead>
+          <tr>
+            <th> Count Description </th>
+            <th> Count Date </th>
+            <th> Coil Cycle  </th>
+        	  <th> Miscellaneous Cycle</th>
+            <th> Sheathing Cycle  </th>
+            <th> Sheet Steel Cycle</th>
+            <th> Is Active </th>
+          </tr> 
+        </thead>
+        <tbody>
+          <% @countmaster.each do |count| %>
+          <tr>
+            <td align = 'center'><%= link_to(count.description, controller: "inv_count_master", action: "edit", id: count.id) %></td>
+            <td align = 'center'><%= localize(count.start_date, :format => :long) %></td>
+            <td align = 'center'><%= count.coil_cycle %></td>
+            <td align = 'center'><%= count.misc_cycle %></td>
+            <td align = 'center'><%= count.sheathing_cycle %></td>
+            <td align = 'center'><%= count.sheetsteel_cycle %></td>
+            <td align = 'center'><%= count.is_active %></td>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>  
+      </table>
+  </div>
+</div>

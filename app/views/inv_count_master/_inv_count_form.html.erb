@@ -1,61 +1,58 @@
-
-<table align="center", width="40%" >
-	<tr>
-		<th>
-		<%=	f.label(:description, "Count Name:") %>
-		</th>
-		<td>
-		<%= @countmaster.description%> 	
-		</td>
-	</tr>
-	<tr>
-		<th>
-			<%=	f.label(:start_date, "Count Start Date") %>
-		</th>
-		<td>
-		<%= localize(@countmaster.start_date, :format => :long) %>
-		</td>
-	</tr>
-	<tr>
-		<th>
-			<%=	f.label(:coil_cycle, "Coil Count Cycle") %>
-		</th>
-		<td>
-			<%= f.select(:coil_cycle, options_for_select([["1",1],["2",2],["3",3]], @countmaster.coil_cycle)) %>
-		</td>
-	</tr>
-	<tr>
-		<th>
-			<%=	f.label(:misc_cycle, "Miscellaneous Count Cycle") %>
-		</th>
-		<td>
-			<%= f.select(:misc_cycle, options_for_select([["1",1],["2",2],["3",3]], @countmaster.misc_cycle)) %>
-		</td>
-	</tr>
-	<tr>
-		<th>
-			<%=	f.label(:sheating_cycle, "Sheathing Count Cycle") %>
-		</th>
-		<td>
-		   	<%= f.select(:sheathing_cycle, options_for_select([["1",1],["2",2],["3",3]], @countmaster.sheathing_cycle)) %>
-		</td>
-	</tr>
-	<tr>
-		<th>
-			<%=	f.label(:sheetsteel_cycle, "Sheet Steel Count Cycle") %>
-		</th>
-		<td>
-			<%= f.select(:sheetsteel_cycle, options_for_select([["1",1],["2",2],["3",3]], @countmaster.sheetsteel_cycle)) %>
-		</td>
-	</tr>
-	<tr>
-		<th>
-			<%=	f.label(:is_active, "Count is Active") %>
-		</th>
-		<td>
-			<%= f.check_box(:is_active, :value => @countmaster.is_active) %>
-		   	<%= f.hidden_field(:id, :value => @countmaster.id) %>
-		</td>
-	</tr>
-</table>
+<div class='row'>
+	<div class='small-4 columns'>
+		<label class='prefix center'><%=	f.label(:description, "Count Name:", class: 'prefix') %></label>
+	</div>
+	<div class='small-8 columns'> 
+		<label class='prefix center'><%= @countmaster.description %></label>
+	</div>
+</div>
+<div class='row'>
+	<div class='small-4 columns'>
+		<%=	f.label(:start_date, "Count Start Date", class: 'prefix') %>
+	</div>
+	<div class='small-8 columns'> 
+		<label class='prefix center'><%= localize(@countmaster.start_date, :format => :long )  %></label>
+	</div>
+</div>
+<div class='row'>
+	<div class='small-4 columns'>
+		<%=	f.label(:coil_cycle, "Coil Count Cycle", class: 'prefix') %>
+	</div>
+	<div class='small-8 columns'> 			
+		<%= f.select(:coil_cycle, options_for_select([["1",1],["2",2],["3",3]], @countmaster.coil_cycle)) %>
+	</div>
+</div>
+<div class='row'>
+	<div class='small-4 columns'>
+		<%=	f.label(:misc_cycle, "Miscellaneous Count Cycle", class: 'prefix') %>
+	</div>
+	<div class='small-8 columns'> 
+		<%= f.select(:misc_cycle, options_for_select([["1",1],["2",2],["3",3]], @countmaster.misc_cycle)) %>
+	</div>
+</div>
+<div class='row'>
+	<div class='small-4 columns'>
+		<%=	f.label(:sheating_cycle, "Sheathing Count Cycle", class: 'prefix') %>
+	</div>
+	<div class='small-8 columns'> 
+	   	<%= f.select(:sheathing_cycle, options_for_select([["1",1],["2",2],["3",3]], @countmaster.sheathing_cycle)) %>
+	</div>
+</div>
+<div class='row'>
+	<div class='small-4 columns'>
+		<%=	f.label(:sheetsteel_cycle, "Sheet Steel Count Cycle", class: 'prefix') %>
+	</div>
+	<div class='small-8 columns'> 
+		<%= f.select(:sheetsteel_cycle, options_for_select([["1",1],["2",2],["3",3]], @countmaster.sheetsteel_cycle)) %>
+	</div>
+</div>
+<div class='row'>
+	<div class='small-4 columns'>
+		<%=	f.label(:is_active, "Count is Active", class: 'prefix') %>
+	</div>
+	<div class='small-8 columns'> 
+		&emsp; <%= f.check_box(:is_active, :value => @countmaster.is_active) %>
+	   	<%= f.hidden_field(:id, :value => @countmaster.id) %>
+	</div>
+</div>
  

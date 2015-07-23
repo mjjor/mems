@@ -1,62 +1,18 @@
 <% @page_title = "Administration Menu" %>
-<% @previous_controller = 'mems_login' %>
-<% @previous_action = 'index' %>
+<% @previous_controller = 'mems' %>
+<% @previous_action = 'login' %>
 <% @page_module = "admin" %>
 <% @page_sub_module = "admin_menu" %>
 
-<br />
-<table width="80%" align="center">
-	<tr>
-		<td width="33%" align="center">
 
-	    <td width="33%" align="center">
-
-	    <td width="33%" align="center">
-
-	</tr>
-    <tr>
-    	<td width="33%" align="center">
-    		
-    	</td>
-    	<td width="33%" align="center">
-     		
- 		</td>
- 		<td width="33%" align="center">
-    		
-	    </td>
-	 </tr>
-	    <tr>
-    	<td width="33%" align="center">
-    	</td>
-    	<td width="33%" align="center">
-     		
- 		</td>
- 		<td width="33%" align="center">
-	    </td>
-	 </tr>
-	     <tr>
-    	<td width="33%" align="center">
-    		
-    	</td>
-    	<td width="33%" align="center">
-     		<br />
-            <%= link_to("Inventory Count Management", :controller => 'inv_count_master', :action => 'view', :method => :get) %>
- 		</td>
- 		<td width="33%" align="center">
-	    
-        </td>
-	 </tr> 
-     <tr>
-        <td width="33%" align="center">
-           
-        </td>
-        <td width="33%" align="center">
-            <br />
-            <%= link_to("Inventory Count Review", :controller => 'inventory_count', :action => 'view_count', :method => :get) %> 
-        </td>
-        <td width="33%" align="center">
-        </td>
-     </tr> 
-</table>
-<br />
-<hr>
+<div class='row'>
+    <div class='small-6 small-centered columns'>
+        <div class='small-6 columns', align='center'>
+            <%= link_to("Inventory Count Management", {:controller => 'inv_count_master', :action => 'view', :method => :get}, class: 'button small secondary round') %>
+        </div>
+        <div class='small-6 columns', align='center'>
+            <%= link_to("Inventory Count Review", {:controller => 'inventory_count', :action => 'view_count', :method => :get}, class: 'button small secondary round') %>
+        </div>
+    </div>
+    <hr>
+</div>

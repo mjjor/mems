@@ -1,0 +1,55 @@
+<% @page_module = 'production' %>
+<% @page_sub_module = 'wallpanel' %>
+<% case @trans_code 
+      when "VRS" then @page_access = 'versa' 
+      when "OPA" then @page_access = 'offline_panel'
+      when "NCN" then @page_access = 'nucon' 
+      when "STH" then @page_access = 'sheathing' 
+   end %> 
+
+  <div class='small-8 small-centered columns', align='center'>
+    <div class='row'>
+      <div class='small-7 columns', align='center'>
+        <label class='prefix'>Panels Scanned</label>
+      </div>  
+      <div class='small-5 columns', align='center'>
+        <% case @trans_code when "VRS" then %>
+            <h5 class='subheader'><%= @vrsDayPanelCount %></h5>
+        <% when "OPA" then %>
+            <h5 class='subheader'><%= @opaDayPanelCount %></h5>
+        <% when "STH" then %>
+            <h5 class='subheader'><%= @sthDayPanelCount %></h5>  
+        <% end %>   
+      </div>
+    </div>
+    <div class='row'>
+      <div class='small-7 columns', align='center'>
+        <% case @trans_code when "VRS" then %>
+          <label class='prefix'>Current Footage:</label>
+        <% when "OPA" then %>
+          <label class='prefix'>Current Footage:</label>
+        <% when "STH" then %>
+          <label class='prefix'>Current SqFt:</label>
+         <% end %> 
+      </div>  
+      <div class='small-5 columns', align='center'>
+       <% case @trans_code 
+            when "VRS" then %>
+            <h5 class='subheader'><%= number_with_precision(@vrsDayFootage, precision: 2, delimiter: ',') %></h5>
+        <% when "OPA" then %>
+            <h5 class='subheader'><%= number_with_precision(@opaDayFootage, precision: 2, delimiter: ',') %></h5>
+        <% when "STH" then %>
+            <h5 class='subheader'><%= number_with_precision(@sthDaySqFt, precision: 2, delimiter: ',') %></h5>  
+        <% end %>  
+      </div>
+    </div>
+    <div class='row'>
+      <div class='small-7 columns', align='center'>
+         <label class='prefix'>Total Assembled Feet:</label>
+      </div>  
+      <div class='small-5 columns', align='center'>
+        <h5 class='subheader'><%= number_with_precision(@dayfootage, precision: 2, delimiter: ',') %></h5>  
+      </div>
+    </div>
+  </div>
+

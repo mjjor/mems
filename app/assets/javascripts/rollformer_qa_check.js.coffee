@@ -1,3 +1,5 @@
+() -> $(document).foundation('reflow')
+
 $ ->
   $(document).on 'change', '#headers_select', (evt) ->
     $.ajax 'rollformer_qa_check/update_profiles',
@@ -23,4 +25,11 @@ $ ->
       error: (jqXHR, textStatus, errorThrown) ->
         console.log("AJAX Error: #{textStatus}")
       success: (data, textStatus, jqXHR) ->
-        console.log("Dynamic header select OK!")        
+        console.log("Dynamic header select OK!")
+
+$ ->
+  $(document).SPServices.SPComplexToSimpleDropdown({
+    columnName: "",
+    completefunc: null,
+    debug: true
+    });

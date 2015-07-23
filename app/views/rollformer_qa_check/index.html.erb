@@ -4,26 +4,42 @@
 <% @page_module = 'qa' %>
 <% @page_sub_module = 'rollform_qa' %>
 <% @page_access = 'rollform_qa_edit' %>
-
-<h4> Select Workorder, Profile and Piece Mark </h4> 
-<hr />
- <%= form_for :member, url: {action: "new"}, html: {method: "get"} do |f| %>
-<table align=center summary="Profile QA Check" style = "background-color: #F5F5F5">
-<tr>
-  <td style = "background-color: #F5F5F5"><%= f.label(:pwo_header_id, "Work Order:")%></td>
-    <td>
-  <%= f.select :header_id, options_for_select(@pwo.collect { |workord| [workord.pwo_worderno, workord.id] }, 1), {} , { id: 'headers_select' } %>
-</td>  
- <td style = "background-color: #F5F5F5"><%= f.label(:item_number, "Profile:") %></td>
-    <td>
-  <%= f.select :member_id, options_for_select(@profiles.collect { |pwo_lines| [pwo_lines.item_number] } ,0), {}, { id: 'profiles_select' } %>
- </td>
-  <td style = "background-color: #F5F5F5"><%= f.label(:piecemark,"Piecemark:")%></td>
-    <td> 
-  <%= f.select :pcemark_id, options_for_select(@pcemarks.collect { |pce_marks| [pce_marks.piecemark, pce_marks.id] } ,0), {}, { id: 'pcemarks_select' } %>
-  </td>
-</table>  
-<br />
-<br />
-  <%= f.submit "QA Check Form" %>
+<!--
+<div class='row'>
+  <div class='small-6 small-centered columns', align='center'>
+    <h4 class = "subheader"> Select Workorder, Profile, and Piece Mark </h4> 
+  </div>
+</div>
+-->
+<div class='row'>
+  <div class='small-12 small-centered medium-11 medium-centered large-9 large-centered columns'>
+    <%= form_for :member, url: {action: "new"}, html: {method: "get"} do |f| %>
+      <fieldset>
+        <legend> Select Workorder, Profile, and Piece Mark</legend>
+      <div class='small-2 columns'>
+          <%= f.label(:pwo_header_id, "Work Order:", class: 'prefix')%> 
+      </div>
+      <div class='small-3 columns'>    
+        <%= f.select :header_id, options_for_select(@pwo.collect { |workord| [workord.pwo_worderno, workord.id] }, 1), {:include_blank => 'Select Workorder'}, { id: 'headers_select' } %>
+     </div>
+     <div class='small-1  columns'>
+        <%= f.label(:item_number, "Profile:", class: 'prefix') %>
+    </div>
+    <div class='small-2 columns'>
+      <%= f.select :member_id, options_for_select(@profiles.collect { |pwo_lines| [pwo_lines.item_number] } ,0), {:include_blank => 'Select Profile'}, { id: 'profiles_select' } %>
+    </div>
+    <div class='small-2 columns' >
+         <%= f.label(:piecemark,"Piecemark:", class: 'prefix')%>
+    </div>
+    <div class='small-2 columns'> 
+      <%= f.select :pcemark_id, options_for_select(@pcemarks.collect { |pce_marks| [pce_marks.piecemark, pce_marks.id] } ,0), {:include_blank => 'Select Piecemark'}, { id: 'pcemarks_select' } %>
+    </div>  
+  <div class='row'>
+    <div class='small-10 small-centered medium-9 medium-centered large-9 large-centered columns', align='center'>
+      <%= f.submit "QA Check Form", class: 'button small secondary round' %>
+    </div> 
+  </div>
+    </fieldset>
   <% end %>
+  </div>
+</div>

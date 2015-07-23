@@ -1,40 +1,17 @@
 <% @page_title = "Coil Length Calculator" %>
-<!--
-<table align="center">
-	<tr>	
-		<td><%= image_tag('magest_BlkWht_60x60_Icon.png') %></td>
-  		<th><h3>Coil Length Calculator</h3></th>
-	</tr>
-</table>
-<hr />
--->
-<table bgcolor = "#DCDCDC" align="center">	
-	<tr>	
-		<td width = "120" bgcolor = "#FFFFFF">&nbsp;</td>
-  		<th width = "165" bgcolor = "#FFFFFF"><h4>Coil Dimensions</h4></th>
-	</tr>
-</table>
 
-<%= form_tag('lengthCalc') do |c| %>
-
-<%= render(:partial => 'lengthinputsform', :locals => {:c => c}) %>
-
-<br />
-
-<table width = "285" align="center">
-	<tr>
-		<td width="120">
-		<div>
-			<!--	<%= link_to(image_tag("backtohome2-emboss.png"), {controller: "mems", action: "index", method: :get}) %>
-			-->
-			</div>
-		</td>
-		<td>
-			<div class="form-buttons">
-      			<%= submit_tag("Calculate") %>
-			</div>
-		</td>
-</table>
-<hr>
-
-<% end %>
+<div class='row'>
+	<div class='small-6 small-centered medium-6 medium-centered large-5 large-centered columns'>
+		<%= form_tag('lengthCalc') do |c| %>
+			<fieldset>
+				<legend>Enter Coil Characteristics </legend>
+					<%= render(:partial => 'lengthinputsform', :locals => {:c => c}) %>
+						<div class='row'>
+							<div class='small-4 small-centered columns', align='center'>
+								<%= submit_tag("Calculate", class: "button small secondary round") %>
+							</div>
+						</div>
+			</fieldset>
+		<% end %>
+	</div>
+</div>

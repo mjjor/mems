@@ -8,37 +8,58 @@
 
 <%= error_messages_for(@current_coil) %>
 
-<table width = '25%' align=center style = "background-color: #FFFFFF", border = 1 >
-  <tr>
-      <th width = '33%' style = "background-color: #F5F5F5", align = center>Current Coil</th>
-      <th width = '33%' style = "background-color: #F5F5F5", align = center>Remaining Footage</th>
-      <th width = '33%' style = "background-color: #F5F5F5", align = center>Change Coil</th>
-  <tr> 
-  <tr>
-      <th width = '33%' style = "background-color: #F5F5F5", align = center>
-        <%= @lot.to_s %>
-      </th> 
-      <th width = '33%' style = "background-color: #F5F5F5", align = center>
-        <%= number_with_delimiter(@coilcurrqty) %>
-      </th>
-      <td width = '33%'style = "background-color: #F5F5F5", align = center> 
-        <%= link_to image_tag('change_60.png'), :controller => 'current_coil', :action => 'index' %>
-      </td> 
+<div class='row'>
+  <div class='small-8 small-centered columns', align='center'>
+    <div class='row'>
+      <div class='small-6 columns', align='center'>
+        <label class='prefix'>Coil ID:</label>
+      </div>  
+      <div class='small-6 columns', align='center'>
+        <h5 class='subheader'><%= @lot.to_s %></h5>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='small-6 columns', align='center'>
+        <label class='prefix'>Current Footage:</label>
+      </div>  
+      <div class='small-6 columns', align='center'>
+        <h5 class='subheader'><%= number_with_precision(@coilcurrqty, precicison: 2, delimiter: ',') %></h5>
+      </div>
+    </div>
+    <br />
+    <div class='row'>
+      <div class='small-12 columns', align='center'>
+        <%= link_to 'Change Coil', {:controller => 'current_coil', :action => 'index'}, class: 'button small round secondary' %>
+      </div>
+    </div>
+  </div>
+</div>
 
- </tr>         
-</table>
+
 
 
 <!--
-<script type="text/javascript">
-window.onload = function() {
-  document.getElementById('wallpanel_tracking_panellabel').focus();
-}
-</script>
-{:tabindex => '1'}
--->
-<script type="text/javascript">
-function setFocus(){
-document.getElementById("current_coil_current_coil").focus();
-}
-</script>
+   <table style = "background-color: #FFFFFF", border = 1 >
+      <thead>
+      <tr>
+          <th width = '33%' style = "background-color: #F5F5F5", align = center>Current Coil</th>
+          <th width = '33%' style = "background-color: #F5F5F5", align = center>Remaining Footage</th>
+          <th width = '33%' style = "background-color: #F5F5F5", align = center>Change Coil</th>
+      </tr>
+      </thead>
+      <tbody> 
+      <tr>
+          <th width = '33%' style = "background-color: #F5F5F5", align = center>
+            <%= @lot.to_s %>
+          </th> 
+          <th width = '33%' style = "background-color: #F5F5F5", align = center>
+            <%= number_with_delimiter(@coilcurrqty) %>
+          </th>
+          <td width = '33%'style = "background-color: #F5F5F5", align="center"> 
+            <%= link_to image_tag('change_60.png'), :controller => 'current_coil', :action => 'index' %>
+          </td> 
+     </tr>      
+     </tbody>   
+    </table>
+-->  
+

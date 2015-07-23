@@ -5,67 +5,78 @@
 <% @page_sub_module = 'wallpanel' %>
 <% @page_access = 'panel_tracking' %>
 
+<div class="row">
+  <div class="small-12 small-centered", align="center">
+    <h4 class="subheader">
+        <%= case @trans_code 
+            when 'VRS' then 'Versa Table'
+            when 'OPA' then 'Offline Assembly'
+            when 'STH' then 'Sheathing Prep'   
+        end %>
+    </h4>
+  </div>
+</div>
+
+<div class="row">
+<%= form_for(@panel, :url => {:action => 'create'}) do |f| %>
+  <div class="small-12 columns">
+        <div class="small-5 columns", align="center">
+          <div class="row">
+            <div class="small-12 columns", align="center">
+              <h5 class="subheader">Scan Panel</h5>
+             </div>
+           </div> 
+       <fieldset>
+    <%= render(:partial => "scan_panel", :locals => {:f => f}) %>
+    <br>
+    <div class="row">
+      <div class="small-12", align="center">
+        <%= submit_tag("Submit Panel", class: 'button secondary small round') %>
+      </div>
+    </div>
+   </fieldset> 
+   </div>
+    <div class="small-5 columns small-offset-2">
+        <div class="small-12", align="center">
+          <h5 class="subheader">Today's Panels</h5>
+        </div>
+        <div class="small-12 columns">
+          <fieldset>
+           <%= render(:partial => "dayprod", :locals => {:f => f}) %>
+          </fieldset>
+        </div>
+      </div> 
+</div>
+</div>
 
 
-<!--
+<div class="row">
+  <div class="small-12 columns">
+    <div class="small-4 columns", align="left">
+      <%= link_to('Scanned Panels', {:controller => 'wallpanel_tracking', :action => 'show', :method => 'get', :scanned => 'scanned', :transcode => @trans_code}, class: 'button secondary small round', :target => '_blank') %>
+    </div>
+    <div class="small-4 columns", align="center">
+      <%= link_to('Panels NOT Scanned',  {:controller => 'wallpanel_tracking', :action => 'show', :method => 'get', :scanned => 'notscanned', :transcode => @trans_code}, class: 'button secondary small round', :target => '_blank') %>
+      </div>
+      <div class="small-4 columns", align="right">
+        <%= 
+          if @trans_code == 'VRS' then 
+              link_to("Send Message",  {:controller => 'wallpanel_tracking', :action => 'send_vrs_notification'}, class: 'button secondary small round')
+          elsif @trans_code == 'OPA' then
+              link_to("Send Message", {:controller => 'wallpanel_tracking', :action => 'send_opa_notification'}, class: 'button secondary small round')
+          elsif @trans_code == 'NCN' then
+              link_to("Send Message", {:controller => 'wallpanel_tracking', :action => 'send_ncn_notification'}, class: 'button secondary small round')
+          elsif @trans_code == 'STH' then
+              link_to("Send Message", {:controller => 'wallpanel_tracking', :action => 'send_sth_notification'}, class: 'button secondary small round')
+              end %>
+      </div>
+  <% end %>
+  </div>
+  </div>
+  </div>
+
 <script type="text/javascript">
 window.onload = function() {
   document.getElementById('wallpanel_tracking_panellabel').focus();
 }
 </script>
--->
-
-<table width = "100%"> 
-<tr>
-<td width = "33%" align = "left">
-</td>
-<td width = "33%" align = "center">
-  <h2>Scan Panel</h2>
- </td>
-<td width = "33%" align = "right">
-  <%= if @trans_code == 'STH' then
-        link_to( { :controller => "calc_fractions", :action => "index", :method => :get }, :target => '_blank') do 
-        image_tag("calculator40.png") 
-        end 
-  end %>
-</td>  
-</tr>
-</table>
-<div class="panel tracking new">
-  <%= form_for(@panel, :url => {:action => 'create'}) do |f| %>
-    <%= render(:partial => "scan_panel", :locals => {:f => f}) %>
-    <br>
-    <div class="form-buttons">
-      <%= submit_tag("Submit Panel") %> 
-    </div>
-
-<br />
-  <table width="100%">
-   <tr>
-    <td width="33%" align="left">
-       <%= link_to( {:action => 'show', :method => 'get', :scanned => 'scanned', :transcode => @trans_code}, :target => '_blank') do 
-        image_tag('button_Scanned_Panels.png') 
-        end  %>
-        
-    </td>
-    <td width="33%" align="center">
-     <%= link_to( {:action => 'show', :method => 'get',  :scanned => 'notscanned', :transcode => @trans_code}, :target => '_blank') do 
-          image_tag('panelsNotScanned.png') 
-        end %>
-    </td>
-    <td width="33%" align="right">
-    <%= 
-    if @trans_code == 'VRS' then 
-        link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_vrs_notification'
-    elsif @trans_code == 'OPA' then
-        link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_opa_notification'
-    elsif @trans_code == 'NCN' then
-        link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_ncn_notification'
-    elsif @trans_code == 'STH' then
-        link_to image_tag('button_Send_Message.png'), :controller => 'wallpanel_tracking', :action => 'send_sth_notification'
-        end %>
-  </td>
- </tr> 
-<% end %>
-</table>
-</div>

@@ -5,42 +5,49 @@
 <% @page_sub_module = 'truss_rollformer' %>
 <% @page_access = 'truss_tracking' %>
 
-<% if params[:scanned] == 'scanned' %>
-<h2 align = 'center'> Scanned Trusses Last 7 Days </h2>
-<% else %>
-<h2 align = 'center'> Trusses not Scanned</h2>
-<% end %>
+<div class='row'>
+	<div class='small-12 columns', align='center'>
+		<% if params[:scanned] == 'scanned' %>
+			<h4 class='subheader'>Scanned Trusses Last 7 Days</h4>
+		<% else %>
+			<h4 class='subheader'>Trusses not Scanned</h4>
+		<% end %>
+	</div>
+</div>
 
-<table id="scanned_trusses" class="display" width="90%" align="center">
-<thead>
-	<tr>
-		<th width = '8%'> Truss ID   </th>
-		<th width = '15%'> Truss Label </th>
-		<th width = '8%'> Span      </th>
-		<th width = '8%'> Footage      </th>
-		<th width = '8%'> Weight      </th>
-		<th width = '8%'> Ply      </th> 
-		<th width = '8%'> X of Y      </th>  
-		<th width = '15%'> Updated     </th>
-		<th width = '13%'> Bundle Id      </th>
-		<th width = '15%'> Trans Code  </th> 
-	</tr>	
-</thead>
-<tbody>
-	<% @scannedtoday.each do |truss| %>
-	
-	<tr>
-		<td align = 'center'><%= truss.trussid %></td>
-		<td align = 'center'><%= truss.trusslabel %></td>
-		<td align = 'center'><%= truss.length %></td>
-		<td align = 'center'><%= truss.footage %></td>
-		<td align = 'center'><%= truss.weight %></td>
-		<td align = 'center'><%= truss.ply %></td>
-		<td align = 'center'><%= truss.xofy %></td>
-		<td align = 'center'><%= localize(truss.updated_at, :format => :long) %></td>
-		<td align = 'center'><%= truss.bundle_id %></td>
-		<td align = 'center'><%= truss.status%></td>
-	</tr>
-	<% end %>
-</tbody>	
-	</table>	
+<div class='row'>
+	<div class='small-12 small-centered centered'>
+		<table id='scantrus' class='display responsive'>
+		<thead>
+			<tr>
+				<th width = '8%'> Truss ID   </th>
+				<th width = '15%'> Truss Label </th>
+				<th width = '8%'> Span      </th>
+				<th width = '8%'> Footage      </th>
+				<th width = '8%'> Weight      </th>
+				<th width = '8%'> Ply      </th> 
+				<th width = '8%'> X of Y      </th>  
+				<th width = '15%'> Updated     </th>
+				<th width = '13%'> Bundle Id      </th>
+				<th width = '15%'> Trans Code  </th> 
+			</tr>	
+		</thead>
+		<tbody>
+			<% @scannedtoday.each do |truss| %>
+			<tr>
+				<td align = 'center'><%= truss.trussid %></td>
+				<td align = 'center'><%= truss.trusslabel %></td>
+				<td align = 'center'><%= truss.length %></td>
+				<td align = 'center'><%= truss.footage %></td>
+				<td align = 'center'><%= truss.weight %></td>
+				<td align = 'center'><%= truss.ply %></td>
+				<td align = 'center'><%= truss.xofy %></td>
+				<td align = 'center'><%= localize(truss.updated_at, :format => :long) %></td>
+				<td align = 'center'><%= truss.bundle_id %></td>
+				<td align = 'center'><%= truss.status%></td>
+			</tr>
+			<% end %>	
+		</tbody>
+		</table>
+	</div>
+</div>	

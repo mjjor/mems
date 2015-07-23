@@ -8,7 +8,7 @@ gem 'rails', '4.1.1'
 # Use mysql as the Datavbase for Active Record
 gem 'mysql2'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails', '>= 5.0.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -55,6 +55,8 @@ gem 'will-paginate-i18n'
 gem 'pdfkit'
 
 gem 'best_in_place'
+
+gem 'foundation-rails'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]

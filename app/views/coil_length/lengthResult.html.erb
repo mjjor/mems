@@ -1,26 +1,20 @@
 <% @page_title = "Coil Length Calculator" %>
-<div class="sections new"><!--
 
-	<table align="center">
-	<tr>	
-		<td wwht ><%= image_tag('magest_BlkWht_60x60_Icon.png') %></td>
-		<td><h3> Coil Length Calculator </h3></td>
-	</tr>
-</table>
-<hr />
--->
-<table bgcolor = "#DCDCDC" align="center">
-	<tr>
-		<td width = '160' bgcolor = "#ffffff">&nbsp;</td>	
-  		<th width = '160' bgcolor = "#ffffff"><h3>Coil Dimensions</h3></th>
-	</tr>
-	</table>
+
+<div class='row'>
+	<div class='small-12 small-centered columns'>
+		<div class='small-5 columns'>	 
+			<fieldset>
+				<legend>Coil Specifications</legend>
+					<%= render(:partial => 'lengthresults') %>
+					
+			</fieldset>
+			</div>
+		<div class='small-6 columns'> 
+				<fieldset>
+					<legend>Coil Characteristics Submitted</legend>
+						<%= render(:partial => 'lengthinputformvalues') %>	
+				</fieldset>
+		</div>
+	</div>
 </div>
-
-<%= render(:partial => 'lengthinputformvalues') %>
-
-<hr>
-<hr>
-
-
-<%= render(:partial => 'lengthresults') %>

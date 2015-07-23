@@ -1,0 +1,54 @@
+<html>
+<%= favicon_link_tag 'magest16x16icon.png', rel: 'shortcut icon', type: 'image/png' %>
+
+    <title>MEMS | <%= @page_title %></title>
+    <%= stylesheet_link_tag('application', :media => 'all') %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body onload="setFocus();">
+<div class ="row">
+<hr>
+  <div class="small-12 columns">
+    <div class="panel radius">
+     <h4 class="subheader"> <center><%= image_tag('magest_60x60_Icon.png') %>&emsp;<%= @page_title %></center></h4>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="small-6 small-centered columns"> 
+    <% if !flash[:notice].blank? %>
+      <div id="sysmess" class="alert-box success radius">
+        <center><h5><%= flash[:notice] %></h5></center>
+      </div> 
+    <% end %>
+    <% if !flash[:alert].blank?  %>
+      <div id="sysmess" class="alert-box alert radius">
+        <center><h5><%= flash[:alert] %></h5></center>
+      </div>
+    <% end %>
+  </div>
+  <hr />
+</div>
+        <script type="text/javascript">
+          $(document).ready(function(){
+          setTimeout(function(){
+          $('#sysmess').remove();
+          }, 10000);
+          })
+        </script>
+      <div id="content">
+        <%= yield %>
+      </div>
+    </div>
+<div class='row'>
+  <div class='small-12 columns'>
+    <div class="panel radius">
+     <center> Logged in as: <%= session[:username] %> <br />
+       <%= link_to image_tag('tmgl_logo-4.png'), 'http://magest.com', :target => '_blank' %> <br />
+      &copy; The MAGEST GROUP Ltd. / 2014 / Michael Jordan</center> 
+    </div>
+  </div>
+</div>
+</body>
+</html>

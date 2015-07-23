@@ -1,4 +1,4 @@
-<% @page_title = 'Roll Former QA Check' %>
+<% @page_title = 'Roll Former QA Form' %>
 <% @previous_controller = 'rollformer_qa_check' %>
 <% @previous_action = 'index' %>
 <% @trans_code = 'RLF' %>
@@ -10,89 +10,214 @@
 <% @company = 'MMPL' %>
 <% @warehouse = 10 %>
 
-<table align=center summary="Profile QA Check" style = "background-color: #F5F5F5">
-  <tr>
-  	<td rowspan = '6' align = 'left', style = "background-color: #F5F5F5">O<br>P<br>E<br>R<br>A<br>T<br>O<br>R</td>
-  	<td rowspan = '6'><%= image_tag ("KnockoutImg.png") %></td>
-  	<td rowspan = '6' align = 'right' style = "background-color: #F5F5F5">D<br>R<br>I<br>V<br>E</td>
-  	<td rowspan = '6' width = "2" style = "background-color: #F5F5F5"></td>
-  	<td style = "background-color: #F5F5F5"><%= f.label(:item_number, "Profile:") %></td>
-    <td><%= params[:itemnum] %></td>
-    <td>&nbsp;</td><td>&nbsp;</td>
-    <td style = "background-color: #F5F5F5"><%= f.label(:piecemark,"Piecemark:")%></td>
-    <td><%= params[:pmark] %></td>   
-  </tr>
-  <tr>
-    <td style = "background-color: #F5F5F5"><%= f.label(:coilid, "Coil ID:") %></td>
-    <td><%= f.text_field(:coilid) %></td>
-    <td>&nbsp;</td><td>&nbsp;</td>
-    <td style = "background-color: #F5F5F5"><%= f.label(:thickness, "Coil Thickness:") %></td>
-    <td><%= f.text_field(:thickness) %></td>
-  </tr>  
-  <tr>
-    <td style = "background-color: #F5F5F5"><%= f.label(:hole_center_width_A, "Dimension A:") %></td>
-    <td><%= f.text_field(:hole_center_width_A,) %></td>
-    <td>&nbsp;</td><td>&nbsp;</td>
-    <td style = "background-color: #F5F5F5"><%= f.label(:hole_center_width_B, "Dimension B:") %></td>
-    <td><%= f.text_field(:hole_center_width_B,) %></td> 
-  </tr>
-  <tr>
-  	<td style = "background-color: #F5F5F5"><%= f.label(:flange_C, "Dimension C:") %></td>
-  	<td ><%= f.text_field(:flange_C) %></td>
-    <td>&nbsp;</td><td>&nbsp;</td>
-  	<td style = "background-color: #F5F5F5"><%= f.label(:web_D, "Dimension D:") %></td>
-  	<td><%= f.text_field(:web_D) %></td>
-  </tr>
-  <tr>
-    <td style = "background-color: #F5F5F5"><%= f.label(:flange_E, "Dimension E:") %></td>
-    <td><%= f.text_field(:flange_E) %></td>
-    <td>&nbsp;</td><td>&nbsp;</td>
-    <td>&nbsp;</td><td>&nbsp;</td>
-    <td>&nbsp;</td><td>&nbsp;</td>
- </tr>
-  <tr>  
-  	<td style = "background-color: #F5F5F5"><%= f.label(:return_O, "Return_O:") %></td>
-  	<td><%= f.text_field(:return_O) %></td>
-    <td>&nbsp;</td><td>&nbsp;</td>
-    <td style = "background-color: #F5F5F5"><%= f.label(:return_D, "Return_D:") %></td>
-    <td><%= f.text_field(:return_D) %></td
-  </tr>
-  <tr>
-    <td style = "background-color: #F5F5F5">&nbsp;</td>
-    <td><%= image_tag("StudCrossSection.png") %> </td>
-    <td style = "background-color: #F5F5F5">&nbsp;</td> 
-    <td style = "background-color: #F5F5F5">&nbsp;</td> 
-    <td style = "background-color: #F5F5F5"><%= f.label(:required_length, "Required Length:") %></td>
-    <td><%= params[:reqlength] %></td> 
-    <td>&nbsp;</td><td>&nbsp;</td>
-  	<td style = "background-color: #F5F5F5"><%= f.label(:actual_length, "Actual Length:") %></td>
-  	<td><%= f.text_field(:actual_length) %></td>
-  </tr>	
-  <tr>
-  <td style = "background-color: #F5F5F5">&nbsp;</td>
-  <td style = "background-color: #F5F5F5">&nbsp;</td> 
-  <td style = "background-color: #F5F5F5">&nbsp;</td>
-  <td style = "background-color: #F5F5F5">&nbsp;</td> 
-  <td style = "background-color: #F5F5F5">Visual Checks:</td>
-  <td style = "background-color: #F5F5F5">Bowing, Twisting, Knotching<br>Bending, Crushing, Other</td>
-  <td>&nbsp;</td><td>&nbsp;</td>
-  <td style = "background-color: #F5F5F5"><%= f.label(:piececount, "Piece Count:")%></td>
-  <td> <%= f.text_field(:piececount) %></td> 
-</tr>
-<tr>
-  <td style = "background-color: #F5F5F5">&nbsp;</td>
-  <td style = "background-color: #F5F5F5">&nbsp;</td> 
-  <td style = "background-color: #F5F5F5">&nbsp;</td>
-  <td style = "background-color: #F5F5F5">&nbsp;</td> 
-  <td style = "background-color: #F5F5F5"><%= f.label(:meets_visual, "Meets Visual Spec:")%></td>
-  <td><%= f.check_box(:meets_visual)%></td> 
-  <td>&nbsp;</td><td>&nbsp;</td>
-  <td style = "background-color: #F5F5F5"><%= f.label(:user_notes, "Notes:") %></td>
-  <td><%= f.text_area(:user_notes)%></td>
-  <%= f.hidden_field :trans_code, :value => @trans_code %>
-  <%= f.hidden_field :formid, :value => @formid %>
-  <%= f.hidden_field :company, :value => @company %>
-  <%= f.hidden_field :workstation, :value => @workstation %>
-  <%= f.hidden_field :warehouse, :value => @warehouse %>
-</tr>
-</table>
+<div class='row'>
+  <div class='small-12 columns'>
+    <div class='small-3 columns'>
+      <div class='row small-collapse'>
+        <div class='small-3 columns', align='right'>
+        
+          <br />
+          <br />
+          <br />
+          O<br>P<br>E<br>R<br>A<br>T<br>O<br>R
+        </div>
+        <div class='small-6 columns', align='center'>
+       
+        <br />
+        <br />
+        <br />
+          <%= image_tag ("KnockoutImg.png") %>
+          <div class='row'>
+            <%= image_tag("StudCrossSection.png") %>
+          </div>
+        </div>
+      <div class='small-3 columns', align='left'>  
+      
+        <br />
+        <br />
+        <br />
+        D<br>R<br>I<br>V<br>E
+      </div>
+    </div>
+    </div>
+    <div class='small-9 medium-9 large-9 columns'>
+      <fieldset>
+        <legend>Profile QA Check</legend>
+      <div class='row'>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:item_number, "Profile:", class: 'prefix right') %>
+          </div>
+          <div class='small-8 columns'>
+            <label class='prefix center'><%= params[:itemnum] %></label>
+          </div>
+        </div>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:piecemark,"Piecemark:", class: 'prefix right') %>
+            </div>
+          <div class='small-8 columns'>
+            <label class='prefix center'><%= params[:pmark] %></label>
+          </div> 
+          </div>   
+       </div>
+       <div class='row'>
+        <div class='small-4 columns'>
+            &nbsp;
+            </div>
+          <div class='small-8 columns'>
+            &nbsp;
+          </div> 
+        </div>
+       <div class='row'>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:coilid, "Coil ID:", class: 'prefix right') %>
+          </div>
+          <div class='small-8 columns'>
+            <%= f.text_field(:coilid) %>
+          </div>
+        </div>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:thickness, "Coil Thickness:", class: 'prefix right') %>
+            </div>
+          <div class='small-8 columns'>
+            <%= f.text_field(:thickness) %>
+          </div> 
+          </div>   
+       </div>
+       <div class='row'>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:hole_center_width_A, "Dimension A:", class: 'prefix right') %>
+          </div>
+          <div class='small-8 columns'>
+            <%= f.text_field(:hole_center_width_A) %>
+          </div>
+        </div>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:hole_center_width_B, "Dimension B:", class: 'prefix right') %>
+            </div>
+          <div class='small-8 columns'>
+            <%= f.text_field(:hole_center_width_B) %>
+          </div> 
+          </div>   
+       </div>
+       <div class='row'>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:flange_C, "Dimension C:", class: 'prefix right') %>
+          </div>
+          <div class='small-8 columns'>
+            <%= f.text_field(:flange_C) %>
+          </div>
+        </div>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+           <%= f.label(:web_D, "Dimension D:", class: 'prefix right') %>
+            </div>
+          <div class='small-8 columns'>
+            <%= f.text_field(:web_D) %>
+          </div> 
+          </div>   
+       </div>
+       <div class='row'>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:flange_E, "Dimension E:", class: 'prefix right') %>
+          </div>
+          <div class='small-8 columns'>
+            <%= f.text_field(:flange_E) %>
+          </div>
+        </div>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+           
+            </div>
+          <div class='small-8 columns'>
+           
+          </div> 
+          </div>   
+       </div> 
+       <div class='row'>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:return_O, "Return_O:", class: 'prefix right') %>
+          </div>
+          <div class='small-8 columns'>
+           <%= f.text_field(:return_O) %>
+          </div>
+        </div>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:return_D, "Return_D:", class: 'prefix right') %>
+          </div>
+          <div class='small-8 columns'>
+           <%= f.text_field(:return_D) %>
+          </div> 
+          </div>   
+       </div> 
+        <div class='row'>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:required_length, "Req. Length:", class: 'prefix right') %>
+          </div>
+          <div class='small-8 columns'>
+           <label class='prefix center'><%= params[:reqlength] %></label>
+          </div>
+        </div>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:actual_length, "Actual Length:", class: 'prefix right') %>
+          </div>
+          <div class='small-8 columns'>
+            <%= f.text_field(:actual_length) %>
+          </div> 
+          </div>   
+       </div> 
+       <div class='row'>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <label class='prefix right'>Visual Checks:</label>
+          </div>
+          <div class='small-8 columns'>
+           &nbsp; Bow, Twist, Knotching<br> &nbsp; Bending, Crushing, Other
+          </div>
+        </div>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:piececount, "Piece Count:", class: 'prefix right') %>
+          </div>
+          <div class='small-8 columns'>
+             <%= f.text_field(:piececount) %><br />
+          </div> 
+          </div>   
+       </div>  
+       <div class='row'>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:meets_visual, "Meets Visual:", class: 'prefix right') %>
+          </div>
+          <div class='small-8 columns', padding-top='25em'>
+             &emsp; &emsp;<%= f.check_box(:meets_visual, type: 'radio')%>
+          </div>
+        </div>
+        <div class='small-12 medium-6 large-6 columns'>
+          <div class='small-4 columns'>
+            <%= f.label(:user_notes, "Notes:", class: 'prefix right') %>
+          </div>
+          <div class='small-8 columns'>
+             <%= f.text_area(:user_notes)%>
+          </div> 
+          </div>   
+       </div>
+        <%= f.hidden_field :trans_code, :value => @trans_code %>
+        <%= f.hidden_field :formid, :value => @formid %>
+        <%= f.hidden_field :company, :value => @company %>
+        <%= f.hidden_field :workstation, :value => @workstation %>
+        <%= f.hidden_field :warehouse, :value => @warehouse %> 
+     </fieldset>
+       </div>
+       </div>

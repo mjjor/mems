@@ -2,43 +2,147 @@
 <%= favicon_link_tag 'magest16x16icon.png', rel: 'shortcut icon', type: 'image/png' %>
 
     <title>MEMS | <%= @page_title %></title>
-    <%= stylesheet_link_tag('application', :media => 'all') %>
-    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= stylesheet_link_tag('application', :media => 'all', :cache => false) %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true, :cache => false %>
     <%= csrf_meta_tags %>
-  </head>
   <body onload="setFocus();">
-<hr>
-<div id = "header">
-<table align="center">
-  <tr>
-    <td><%= image_tag('magest_60x60_Icon.png') %></td>
-   <th> <h1>&emsp; <%= @page_title %></h1></th>
-   </tr>
- </table>
- <hr>
-</div>
-    <div id="main">
-      <% if !flash[:notice].blank? %>
-        <div id="sysmess" class="notice">
-          <%= flash[:notice] %>
-          <hr>
-        </div>
-      <% end %>
-        <script type="text/javascript">
+      <script type="text/javascript">
           $(document).ready(function(){
           setTimeout(function(){
           $('#sysmess').remove();
           }, 10000);
           })
-        </script>
-    <div id="content">
-        <%= yield %>
+      </script>
+
+ 
+
+<div class="row">
+<hr />
+  <div class="small-12 small-centered columns", align='center'>
+    <div class="panel radius">
+      <h5 class="subheader">
+        <%=  case @page_sub_module
+          when"wallpanel"
+            image_tag('mbsl_40x40_Icon.png') 
+          when "pod"
+            image_tag('mmsl_logo_40.png')
+          when "rollform"
+           image_tag('mmpl_40x40_Icon.png')
+          when "rollform_qa"
+            image_tag('mmpl_40x40_Icon.png')
+          else
+           image_tag('mbsl_40x40_Icon.png')
+        end %>
+       &emsp;<%= @page_title %>&emsp;
+       <%=  case @page_module
+        when"admin"
+             image_tag('Admin_40.png') 
+        when "ap"
+              image_tag('AP_60.png')
+        when "ar"
+              image_tag('AR_60.png')
+        when "dashboard"
+              image_tag('dashboard2_40.png')      
+        when "gl"
+              image_tag('GL_60.png')
+        when "oe"
+              image_tag('OE_60.png')
+        when "po"
+              image_tag('PO_60.png')                   
+        when "production"
+             image_tag('Production_40.png')
+        when "inventory"
+             image_tag('inventory_Icon_40.png')      
+        else
+             image_tag('mbsl_40x40_Icon.png')
+        end %></h5>
+  </div>
+  </div>
+  </div>
+
+<div class ='row'> 
+  <div class='small-12 columns'>
+    <div class='small-4 columns', align='center'>
+      <div class="icon-bar four-up" align='center'>
+          <span>
+            <a class='item'>
+              <%= link_to image_tag("calculator40.png"), {:controller => "coil_width", :action => "widthNew", :method => :get}, target: "_blank", title: "Coil Width Calculator" %>
+                <span class='label secondary'> Coil Width</span>
+            </a>
+          </span>
+          <span>
+            <a class='item'>
+              <%= link_to image_tag("calculator40.png"), {:controller => "coil_length", :action =>"lengthNew", :method => :get}, target: "_blank", title: "Coil Length Calculator" %>
+                <span class='label secondary'> Coil Length</span>
+            </a>
+          </span>
+          <span>
+            <a class='item'>
+              <%= link_to image_tag("calculator40.png"), {:controller => "calc_fractions", :action => "index", :method => :get }, :target => '_blank', title: "Add Fractions"  %>
+                <span class='label secondary'>Fractions</span>
+            </a>
+          </span>
       </div>
+  </div>
+
+  <div class="small-4 columns", align='center'> <h4> </h4> 
+    <% if !flash[:notice].blank? %>
+      <div id="sysmess" class="alert-box success radius">
+        <h5><%= flash[:notice] %></h5>
+      </div> 
+    <% end %>
+    <% if !flash[:alert].blank?  %>
+      <div id="sysmess" class="alert-box alert radius">
+        <h5><%= flash[:alert] %></h5>
+      </div>
+    <% end %>
+  </div>
+
+  <div class='small-4 columns', align='center'>
+     <div class='icon-bar four-up' role='navigation'>
+      <span data-tooltip data-options="disable-for-touch:true" class="has-tip" title="Back to Main Menu"> 
+        
+      <span class="secondary label">&nbsp;</span>
+      </span>    
+      <span data-tooltip data-options="disable-for-touch:true" class="has-tip" title="Back to Main Menu"> 
+        
+      <span class="secondary label">&nbsp;</span>
+      </span>
+        <span>
+        <a> 
+          <%= link_to image_tag("reportIcon1-trans-30.png"), "http://192.168.0.206:8087/jasperserver/login.html", target: "_blank", title: 'Jasper Reports Server' %>
+            <span class="secondary label">JasperServer</span>  
+        </a>
+      </span>
+      <span>
+        <a>              
+          <%= link_to image_tag("logout_30.png"), {:controller => "mems", :action => "logout", :method => :get}, title: 'Logout' %>
+            <span class="secondary label">Logout</span>  
+        </a>
+      </span> 
     </div>
-    <div id="footer">
-      <h6>Logged in as: <%= session[:username] %></h6>
-       <%= link_to image_tag('tmgl_logo-4.png'), 'http://magest.com', :target => '_blank' %>
-      <p id="copyright">&copy; The MAGEST GROUP Ltd. / 2014 / Michael Jordan</p>
+  </div>
+
+  <hr />
+  
+  </div>
+</div> 
+
+<div id="content">
+  <%= yield %>
+</div>
+
+<div class='row'>
+  <div class='small-12 columns'>
+    <div class="panel radius">
+      <center> Logged in as: <%= session[:username] %> <br />
+        <%= link_to image_tag('tmgl_logo-4.png'), 'http://magest.com', :target => '_blank' %> <br />
+        &copy; The MAGEST GROUP Ltd. / 2014 / Michael Jordan</center> 
     </div>
-  </body>
+  </div>
+</div>
+
+
+<script>$(document).foundation();</script>
+</body>
 </html>

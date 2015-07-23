@@ -4,10 +4,16 @@
 <% @page_module = "production" %>
 <% @page_sub_module = "rollform" %>
 
-<%= link_to 'NuCon Truss Production', {:controller => 'truss_roll_forming', :action => 'index', :trans_code => 'NCN', :workstation => 3}  %>
-<br />
-<br />
-<%= link_to "Profile Quality Check Sheet", :controller => 'rollformer_qa_check', :action => 'index', :trans_code => "RLF", :workstation => 1 %>
+<div class='row'>
+	<div class="small-6 small-centered columns">
+		<div class='small-6 columns', align='center'>
+			<%= link_to 'NuCon Truss Production', {:controller => 'truss_roll_forming', :action => 'index', :trans_code => 'NCN', :workstation => 3}, class: "button small secondary round" %>
+		</div>
+		<div class='small-6 columns', align='center'>
+			<%= link_to "Profile Quality Check Sheet", {:controller => 'rollformer_qa_check', :action => 'index', :trans_code => "RLF", :workstation => 1}, class: "button small secondary round" %>
+		</div>
+	</div>
+</div>
 
 
 <!--

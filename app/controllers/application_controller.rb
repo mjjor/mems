@@ -7,8 +7,8 @@ class ApplicationController < ActionController::Base
 
   def confirm_logged_in
     unless session[:user_id]
-      flash[:notice] = "Please log in."
-      redirect_to(:controller => 'mems_login', :action => 'login')
+      flash[:alert] = "Please log in."
+      redirect_to(:controller => 'mems', :action => 'login')
       return false # halts the before_action
     else
       return true

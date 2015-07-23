@@ -9,31 +9,21 @@
 <% monthsfeet = :monthsfootage %>
 
 <br />
-<table width = "50%" align = "center">
-<tr>
-	<td width = "50%" >
-		<%= link_to 'Sheathing Preparation Production', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'STH'} %>
-    </td>		
-   <td width = "50%" align = "center">
-	<%= link_to 'Versa Table', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'VRS'} %>
-   </td>
-</tr>
-<tr>
-	<td width = "50%" align = "center">
-	 &nbsp;
-	</td>
-	<td width = "50%" align = "center">
-		&nbsp;
-	</td>
-</tr>
-<tr>
-	<td width = "50%" align = "center">
-	</td>
-	<td width = "50%" align = "center">
-	<%= link_to 'OffLine Panel Production', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'OPA'} %>
-    </td>
-</tr>
-</table>
+<div class='row'>
+	<div class='small-8 small-centered columns'>
+		<div class='small-4 columns'>	
+			<center><%= link_to 'Sheathing Preparation', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'STH'}, class: "button small secondary round" %></center>
+		</div>
+		<div class='small-4 columns'>	
+			<center><%= link_to 'Versa Table', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'VRS'}, class: "button small secondary round" %> </center>
+		</div>
+		<div class='small-4 columns'>	
+			<center><%= link_to 'OffLine Panel Assembly', {:controller => 'wallpanel_tracking', :action => 'new', :trans_code => 'OPA'}, class: "button small secondary round" %></center>
+		</div>
+	</div>
+</div>
 <br />
+<!--
 <%= render(partial: "versa_footage" ) %>
+-->
 

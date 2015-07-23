@@ -6,23 +6,20 @@
 
 <%= error_messages_for(@scan_coil) %>
 
-<table align=center > 
-  	<tr>
-    <th><%= f.label(:lotserial, "Coil Label") %></th>
-    <td><%= f.text_field(:lotserial) %> </td>
+
+<div class="row">
+  <div class="small-6 small-centered medium-6 medium-centered large-4 large-centered columns ">
+    <div class="small-4 columns">
+      <%= f.label(:lotserial, "Coil Label", class: "prefix") %>
+    </div>
+    <div class="small-8 columns">
+       <%= f.text_field(:lotserial) %>
         <%= f.hidden_field :company, :value => @company %>
         <%= f.hidden_field :itemcateg, :value => @itemcateg %>
         <%= f.hidden_field :users_id, :value => session[:user_id] %>
-  </tr>
-</table>
-<!--
-<script type="text/javascript">
-window.onload = function() {
-  document.getElementById('wallpanel_tracking_panellabel').focus();
-}
-</script>
-{:tabindex => '1'}
--->
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
 function setFocus(){

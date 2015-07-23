@@ -10,8 +10,8 @@ def confirm_page_access
       found_page_access = UserSecurity.where(:userid => session[:user_id], 
                                              :module => 'production').first
       unless found_page_access
-         flash[:notice] = "You do not have access to the requested page." 
-         redirect_to(:controller => 'mems_login', :action => 'index.html')
+         flash[:alert] = "You do not have access to the requested page." 
+         redirect_to(:controller => 'mems', :action => 'login')
       return false
       else return true
       end

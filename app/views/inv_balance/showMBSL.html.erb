@@ -1,0 +1,105 @@
+<%  if params[:gauge] != nil 
+		@page_title = "#{params[:gauge]}-Gauge-Inventory" 
+	else
+		@page_title = 'Inventory'	
+	end 
+%>
+<% @company = params[:company] %>
+
+<% @previous_controller = 'inventory' %>
+<% if (session[:secgroup].include?('procure') || session[:secgroup].include?('admin') || session[:secgroup].include?('mgmt')) and @company == 'MMPL' %>
+<% @previous_action = 'dashboard' %>
+<% else %>
+<% @previous_action = 'index' %>
+<% end %>
+<% @page_module = 'invbalances' %>
+<% @page_access = 'summary' %>
+
+<div class='row'>
+    <div class='small-1 small-offset-11 columns', align='right'>
+    	<%= link_to image_tag('excel-30.png'), controller: 'inv_balance', action: 'show', format: 'xls', procure: params[:procure], gauge: params[:gauge], company: params[:company] %>
+	</div>
+</div>
+
+<br />
+
+<div class='row'>
+	<div class='small-12 small-centered columns'>
+		<div class='panel secondary', align='center'>
+			<h5 class='subheader', align='center'>Inventory Balances</h5>
+			<% if params[:company] == "MMPL" %> 
+		     <h6 class='subheader', align='center'>Click Item Number to View Active Lots, On Hand to View History, Allocated to View Current Allocations</h6>
+		     <% else %>
+		     <h6 class='subheader', align='center'>Click On Hand to View History, Allocated to View Current Allocations</h6>
+		     <% end %>
+	     </div>
+		<table id="invbals" class="display responsive no-wrap">
+			<thead>
+				<tr>
+					<th> Item Number     </th>
+					<% if params[:company] == "MMPL" %>  
+					<th> On Hand Footage  </th>
+					<% else %>
+					<th> On Hand Quantity  </th>
+					<% end %>
+					<% if params[:company] == "MMPL" %>  
+					<th> On Hand Poundage  </th>
+					<% end %>
+					<% if session[:secgroup].include?('procure') || session[:secgroup].include?('admin') || session[:secgroup].include?('mgmt') %>
+					<th> On Hand Value  </th>
+					<% end %>
+					<% if params[:company] == "MMPL" %>  
+					<th> On Order Footage </th>
+					<% else %>
+					<th> On Order Quantity </th>
+					<% end %>
+					<% if params[:company] == "MMPL" %>  
+					<th> Allocated Footage </th>
+					<% else %>
+					<th> Allocated Quantity </th>
+					<% end %>   
+					<% if params[:company] == "MMPL" %>  
+					<th> Available Footage </th>
+					<% else %>
+					<th> Available Quantity </th>
+					<% end %>
+					<% if params[:company] == "MMPL" %>
+					<th> QA Hold Footage  </th>
+					<th> QA Hold Poundage  </th>
+					<% if session[:secgroup].include?('procure') || session[:secgroup].include?('admin') || session[:secgroup].include?('mgmt') and params[:company] == "MMPL" %>
+					<th> QA Hold Value  </th>
+					<% end %>
+					<% end %>
+				</tr>	
+			</thead>
+			<tbody>
+					<% @invtable.each do |invbal| %>
+				<tr>
+					<% if params[:company] == "MMPL" %>
+					<td align = 'center'><%= link_to(invbal.item_number, controller: "inv_lot", action: "show", item_masters_id: invbal.item_masters_id, item_number: invbal.item_number, company: @company, procure: @procure) %></td>
+					<% else %>
+					<td align = 'center'><%= invbal.item_number %></td>
+					<% end %>
+					<td align = 'center'><%= link_to(number_with_precision(invbal.ohFT, :precision => 2, :delimiter => ","), controller: "item_ledgers", action: "view", item_masters_id: invbal.item_masters_id, item_number: invbal.item_number, company: @company, procure: @procure, callprog: "invbal") %></td>
+					<% if params[:company] == "MMPL" %>
+					<td align = 'center'><%= number_with_precision(invbal.ohLBS, :precision => 2, :delimiter => ",") %></td>
+					<% end %>
+				   <% if session[:secgroup].include?('procure') || session[:secgroup].include?('admin') || session[:secgroup].include?('mgmt') %>
+					<td align = 'center'><%= number_to_currency(invbal.ohVal) %></td>
+					<% end %>
+					<td align = 'center'><%= number_with_precision(invbal.ooFT, :precision => 2, :delimiter => ",") %></td>
+					<td align = 'center'><%= link_to(number_with_precision(invbal.alFT, :precision => 2, :delimiter => ","), controller: "allocations", action: "show", item_masters_id: invbal.item_masters_id, item_number: invbal.item_number, company: @company) %></td>
+					<td align = 'center'><%= number_with_precision(invbal.avFT, :precision => 2, :delimiter => ",") %></td>
+					<% if params[:company] == "MMPL" %>
+					<td align = 'center'><%= number_with_precision(invbal.qaFT, :precision => 2, :delimiter => ",") %></td>
+					<td align = 'center'><%= number_with_precision(invbal.qaLBS, :precision => 2, :delimiter => ",") %></td>
+					<% if session[:secgroup].include?('procure') || session[:secgroup].include?('admin') || session[:secgroup].include?('mgmt') %>
+					<td align = 'center'><%= number_to_currency(invbal.qaVal) %></td>
+					<% end %>
+					<% end %>
+				</tr>
+					<% end %>
+			</tbody>	
+		</table>
+	</div>
+</div> 

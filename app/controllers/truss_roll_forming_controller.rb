@@ -94,11 +94,11 @@ class TrussRollFormingController < ApplicationController
           @prodimport.save
         end
          @truss.touch
-         flash[:notice] = "Truss record created successfully!"
+         flash[:notice] = "Truss processed successfully!"
          redirect_to(:action => 'index', :trans_code => @truss.trans_code, :workstation => 3)
        end
       else
-         flash[:notice] = "TRUSS NOT PROCESSED"
+         flash[:alert] = "Last truss scanned not processed"
         redirect_to(:action => 'index', :trans_code => @truss.trans_code, :workstation => 3)
       end
 	end
@@ -109,18 +109,13 @@ class TrussRollFormingController < ApplicationController
         @scannedtoday = Trusses.where("(trusses.status != 'open' AND trusses.status != ' ')").joins("INNER JOIN `truss_trackings` ON `trusses`.`id` = `truss_trackings`.`trusses_id` AND DATE(truss_trackings.updated_at) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)").lastupdate
       when 'unscanned' then
         @scannedtoday = Trusses.where(:status => 'open').oldestupdate
-   end
+    end
   end
  
-#  def coil_change
-#    @invcoil = InvLot.where(lot: lot_params[:lot]).limit(1).pluck(:id).pluck(:curr_qty)
-#  end
-
-
 private
 
 def truss_params
-    params.require(:truss_tracking).permit(:trusslabel, :trans_code, :users_id, :trusses_id, :workstation)
+    params.require(:truss_tracking).permit(:trusslabel, :trans_code, :users_id, :trusses_id, :workstation, :scanned)
 end
 
 def confirm_page_access
@@ -129,8 +124,8 @@ def confirm_page_access
                                              :sub_module => 'truss_rollformer',
                                              :access_page => 'truss_scan').first
       unless found_page_access
-         flash[:notice] = "You do not have access to the requested page." 
-         redirect_to(:controller => 'mems_login', :action => 'index.html')
+         flash[:alert] = "You do not have access to the requested page." 
+         redirect_to(:controller => 'mems', :action => 'login')
       return false
       else return true
       end

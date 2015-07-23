@@ -1,0 +1,46 @@
+<% @page_title = "Landing Page" %>
+
+<div class="row">
+<div class='small-10 small-centered  columns'>
+<table>
+<thead>
+	<tr>
+	<th>
+		Jasper Reports Server
+	</th>
+	<th>
+		Coil Width Calculator
+	</th>
+	<th>
+		Login
+	</th>
+	<th>
+		Coil Length Calculator
+	</th>
+	<th>
+		Add Fractional Dimensions
+	</th>
+	</tr>
+</thead>
+<tbody>
+<tr>
+<td align = center>
+	<%= link_to image_tag("reportIcon1-trans-120.png"), "http://192.168.0.206:8087/jasperserver/login.html", target: "_blank", class: "button secondary" %>
+</td>	
+<td align = center>
+	<%= link_to image_tag("calculator1.png"), "coil_width/widthNew", :method => :get, target: "_blank", class: "button secondary" %>
+</td>
+<td align = center>
+ 	<%= link_to image_tag("login1.png"), "mems_login/login", :method => :get, target: "_blank", class: "button secondary" %>
+</td>
+<td align = center>
+	<%= link_to image_tag("calculator1.png"), "coil_length/lengthNew", :method => :get, target: "_blank", class: "button secondary" %> 
+</td>
+<td align = center>
+    <%= link_to image_tag("calculator1.png"), "calc_fractions/index", :method => :get, target: "_blank", class: "button secondary" %>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>

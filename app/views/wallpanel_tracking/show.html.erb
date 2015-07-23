@@ -4,39 +4,45 @@
 <% @page_module = 'production' %>
 <% @page_sub_module = 'wallpanel' %>
 <% @page_access = 'panel_tracking' %>
-<% @transcode %>
+<% @transcode = params[:transcode]%>
 
-<% if params[:scanned] == 'scanned' %>
-<h2 align='center'>Scanned Panels Last 7 Days</h2> 
-<% else %>
-<h2 align='center'>Panels Not Scanned</h2>
-<% end %>
+<div class='row'>
+	<div class='small-12 columns', align='center'>
+		<% if params[:scanned] == 'scanned' %>
+		<h4 class="subheader" align='center'>Scanned Panels Last 7 Days</h4> 
+		<% else %>
+		<h4 class="subheader" align='center'>Panels Not Scanned</h4>
+		<% end %>
+	</div>
+</div>
 
-<table id="scanned_panels" class="display" width="65%" align="center">
-<thead>
-	<tr>
-		<th width = '13%'> Wall Mark   </th>
-		<th width = '13%'> Panel Label </th>
-		<th width = '13%'> Length      </th>
-		<th width = '13%'> Height      </th>
-		<th width = '13%'> Weight      </th>   
-		<th width = '25%'> Assembly Date   </th>
-		<th width = '10%'> Trans Code  </th> 
-	</tr>	
-</thead>
-<tbody>
-	<% @scannedtoday.each do |panel| %>
-	
-	<tr>
-		<td align = 'center'><%= panel.panelnumber %></td>
-		<td align = 'center'><%= panel.panellabel %></td>
-		<td align = 'center'><%= panel.length %></td>
-		<td align = 'center'><%= panel.height %></td>
-		<td align = 'center'><%= panel.weight %></td>
-		<td align = 'center'><%= localize(panel.updated_at, :format => :long) %></td>
-		<td align = 'center'><%= panel.status%></td>
-	</tr>
-	<% end %>
-</tbody>	
-	</table>	
-
+<div class='row'>
+	<div class="small-10 small-centered columns", align="center">
+		<table id="scanpan" class="display responsive">
+			<thead>
+				<tr>
+					<th> Wall Mark     </th>
+					<th> Panel Label   </th>
+					<th> Length        </th>
+					<th> Height        </th>
+					<th> Weight        </th>   
+					<th> Assembly Date </th>
+					<th> Trans Code    </th> 
+				</tr>	
+			</thead>
+			<tbody>
+				<% @scannedtoday.each do |panel| %>
+				<tr>
+					<td><%= panel.panelnumber %></td>
+					<td><%= panel.panellabel %></td>
+					<td><%= panel.length %></td>
+					<td><%= panel.height %></td>
+					<td><%= panel.weight %></td>
+					<td><%= localize(panel.updated_at, :format => :long) %></td>
+					<td><%= panel.status %></td>
+				</tr>
+				<% end %>
+			</tbody>	
+		</table>	
+	</div>
+</div>

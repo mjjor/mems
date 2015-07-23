@@ -86,7 +86,7 @@ class CurrentCoilController < ApplicationController
      flash[:notice] = "Coil Changed Successfully!"
          redirect_to(:controller => 'truss_roll_forming', :action => 'index', :trans_code => 'NCN', :workstation => 3)
       else
-         flash[:notice] = "COIL CHANGE FAILED"
+         flash[:alert] = "Coil changed NOT recorded"
         render('index', :trans_code => 'NCN', :workstation => 3)
       end
     @currqty = @invcoil[2]
@@ -106,8 +106,8 @@ def confirm_page_access
                                              :sub_module => 'truss_rollformer',
                                              :access_page => 'change_coil').first
       unless found_page_access
-         flash[:notice] = "You do not have access to the requested page." 
-         redirect_to(:controller => 'mems_login', :action => 'index.html')
+         flash[:alert] = "You do not have access to the requested page." 
+         redirect_to(:controller => 'mems', :action => 'login')
       return false
       else return true
       end

@@ -9,24 +9,15 @@
 
 <%= error_messages_for(@versatable) %>
 
-<table align=center > 
-  	<tr>
-    <th><%= f.label(:panellabel, "Panel Label") %></th>
-    <td><%= f.text_field(:panellabel) %> </td>
+<div class="row">
+  <div class="small-6 small-centered medium-6 medium-centered large-6 large-centered columns ">
+    <div class="small-5 columns">
+      <%= f.label(:panellabel, "Panel Label", class: "prefix") %>
+    </div>
+    <div class="small-7 columns">
+        <%= f.text_field(:panellabel) %>
         <%= f.hidden_field :trans_code, :value => @trans_code %>
         <%= f.hidden_field :users_id, :value => session[:user_id] %>
-  </tr>
-</table>
-<!--
-<script type="text/javascript">
-window.onload = function() {
-  document.getElementById('wallpanel_tracking_panellabel').focus();
-}
-</script>
-{:tabindex => '1'}
--->
-<script type="text/javascript">
-function setFocus(){
-document.getElementById("wallpanel_trackings_panellabel").focus();
-}
-</script>
+    </div>
+  </div>
+</div>

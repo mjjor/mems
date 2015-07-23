@@ -4,53 +4,48 @@
 <% @page_module = 'inv_cost_layers' %>
 <% @page_access = 'inv_cost_layers' %>
 
-<table width="85%" align="center">
-<tr>
-<td width='20%' align='left'>
-</td>
-<td width='60%' align='center'>	
-</td>
-<td width='20%' align='right'>
 
-<%= link_to image_tag('excel-30.png'), controller: 'inv_cost_layer', action: 'show', format: 'xls', procure: params[:procure], gauge: params[:gauge], company: params[:company] %>
-</td>
-</tr>
-	<tr>
-<td width='20%' align='right'>
-</td>
-<td width='60%' align='center'>
-<h3>Item: <%= @itemnumber %></h3>	
-</td>
-<td width='20%' align='left' >
-</td>
-</tr>
-</table>
+<div class='row'>
+	<div class='small-1 small-offset-11 columns', align='right'>
+		<%= link_to image_tag('excel-30.png'), controller: 'inv_cost_layer', action: 'show', format: 'xls', procure: params[:procure], gauge: params[:gauge], company: params[:company] %>
+	</div>
+</div>
 
-<table id="invcosts" class="display" width="80%" align="center">
-<thead>
-	<tr>
-		<th > Lot  </th>
-		<th > Current Qty  </th>
-		<th > Original Qty </th>
-		<th > Unit Cost </th>
-		<th> Current Value </th>
-		<th> UOM </th> 
-		<th > Date Received </th>
-		<th > Active </th>
-	</tr>	
-</thead>
-<tbody>
-	<% @invlayers.each do |invlayer| %>
-	<tr>
-		<td align = 'center'><%= invlayer.lotserial %></td>
-		<td align = 'center'><%= number_with_precision(invlayer.curr_qty, :precision => 2, :delimiter => ",") %></td>
-		<td align = 'center'><%= number_with_precision(invlayer.orig_qty, :precision => 2, :delimiter => ",") %></td>
-		<td align = 'center'><%= number_with_precision(invlayer.curr_cost, :precision => 2, :delimiter => ",") %></td>
-		<td align = 'center'><%= number_with_precision((invlayer.curr_cost * invlayer.curr_qty), :precision => 2, :delimiter => ",") %></td>
-		<td align = 'center'><%= invlayer.uom %></td>
-		<td align = 'center'><%= localize(invlayer.created_at, :format => :long) %></td>
-		<td align = 'center'><%= invlayer.active %></td>
-	</tr>
-	<% end %>
-</tbody>	
-	</table>	
+<br />
+
+<div class='row'>
+	<div class='small-12 small-centered columns', align='center'>
+		<div class='panel secondary'>
+			<h5 class='subheader'>Cost Layer for: <%= @itemnumber %><br /></h5> 
+			<h6 class='subheader'>Lot Number: <%= params[:lot] %></h6>
+		</div>
+		<table id="invcosts" class="display responsive no-wrap">
+			<thead>
+				<tr>
+					<th > Lot           </th>
+					<th > Current Qty   </th>
+					<th > Original Qty  </th>
+					<th > Unit Cost     </th>
+					<th> Current Value  </th>
+					<th> UOM            </th> 
+					<th > Date Received </th>
+					<th > Active        </th>
+				</tr>	
+			</thead>
+			<tbody>
+				<% @invlayers.each do |invlayer| %>
+				<tr>
+					<td align = 'center'><%= invlayer.lotserial %></td>
+					<td align = 'center'><%= number_with_precision(invlayer.curr_qty, :precision => 2, :delimiter => ",") %></td>
+					<td align = 'center'><%= number_with_precision(invlayer.orig_qty, :precision => 2, :delimiter => ",") %></td>
+					<td align = 'center'><%= number_with_precision(invlayer.curr_cost, :precision => 2, :delimiter => ",") %></td>
+					<td align = 'center'><%= number_with_precision((invlayer.curr_cost * invlayer.curr_qty), :precision => 2, :delimiter => ",") %></td>
+					<td align = 'center'><%= invlayer.uom %></td>
+					<td align = 'center'><%= localize(invlayer.created_at, :format => :long) %></td>
+					<td align = 'center'><%= invlayer.active %></td>
+				</tr>
+				<% end %>
+			</tbody>	
+		</table>
+	</div>
+</div>

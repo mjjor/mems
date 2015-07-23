@@ -70,10 +70,10 @@ class InventoryController < ApplicationController
                                       FROM inv_balances IB
                                       INNER JOIN item_coils ICA ON IB.item_masters_id = ICA.item_masters_id 
                                       GROUP BY ICA.gauge")
-    respond_to do |format|
-        format.html
-        format.xls
-      end
+        respond_to do |format|
+            format.html
+            format.xls
+          end
   end 	
 
   def show
@@ -86,8 +86,8 @@ def confirm_page_access
                                              :sub_module => 'dashboard',
                                              :access_page => 'coil').first
       unless found_page_access
-         flash[:notice] = "You do not have access to the requested page." 
-         redirect_to(:controller => 'mems_login', :action => 'index.html')
+         flash[:alert] = "You do not have access to the requested page." 
+         redirect_to(:controller => 'mems', :action => 'login')
       return false
       else return true
       end
